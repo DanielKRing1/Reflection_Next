@@ -69,8 +69,16 @@ const EditableText = (props: EditableTextProps) => {
    *    and to begin displaying prop value
    */
   const handleDoneEditing = () => {
+    if (!isEditing) return;
+
     onCommit(localValue);
     setIsEditing(false);
+  };
+  /**
+   * If pressed 'Enter' key, call handleDoneEditing
+   */
+  const handleEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key == "Enter") handleDoneEditing();
   };
 
   return (
@@ -86,6 +94,7 @@ const EditableText = (props: EditableTextProps) => {
           value={localValue}
           onChange={handleChangeValue}
           onBlur={handleDoneEditing}
+          onKeyUp={handleEnter}
         />
       )}
     </>
