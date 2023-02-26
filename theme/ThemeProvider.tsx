@@ -1,7 +1,7 @@
 // Wrapper for Styled Components global ThemeProvider
 // Also Injects Styled Components GlobalStyles
 
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { ThemeProvider } from "styled-components";
 
 import { ThemeMode, lightTheme, darkTheme, GlobalStyles } from "./themeConfig";

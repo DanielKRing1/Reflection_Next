@@ -1,24 +1,45 @@
-import { createGlobalStyle } from "styled-components";
+import { DefaultTheme, createGlobalStyle } from "styled-components";
 
+// MODES
 export enum ThemeMode {
   light,
   dark,
 }
 
-export const lightTheme = {
+// THEMES
+export const lightTheme: DefaultTheme = {
   body: "#FFF",
   text: "#363537",
-  toggleBorder: "#FFF",
+  border: "#FFF",
   background: "#363537",
+
+  colors: {
+    main: "#f5f2f3",
+    accent: "#b19cd9",
+  },
+  fonts: {
+    main: "sans-serif",
+    fallback: "Roboto",
+  },
 };
 
-export const darkTheme = {
+export const darkTheme: DefaultTheme = {
   body: "#363537",
   text: "#FAFAFA",
-  toggleBorder: "#6B8096",
+  border: "#6B8096",
   background: "#999",
+
+  colors: {
+    main: "#f5f2f3",
+    accent: "#b19cd9",
+  },
+  fonts: {
+    main: "sans-serif",
+    fallback: "Roboto",
+  },
 };
 
+// GLOBAL STYLESHEET
 export const GlobalStyles = createGlobalStyle`
   body {
     background: ${({ theme }) => theme.body};
