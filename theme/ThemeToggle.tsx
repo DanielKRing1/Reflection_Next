@@ -8,7 +8,10 @@ type ThemeToggleContextType = {
   toggleMode: () => void;
 };
 export const ThemeToggleContext: React.Context<ThemeToggleContextType> =
-  createContext<ThemeToggleContextType>(null);
+  createContext<ThemeToggleContextType>({
+    mode: ThemeMode.light,
+    toggleMode: () => {},
+  });
 
 // PROVIDER
 type ThemeToggleProviderProps = {

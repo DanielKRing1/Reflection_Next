@@ -16,10 +16,16 @@ export const lightTheme: DefaultTheme = {
   colors: {
     main: "#f5f2f3",
     accent: "#b19cd9",
+    text: "#000000",
   },
   fonts: {
     main: "sans-serif",
     fallback: "Roboto",
+    xs: "0.5rem",
+    sm: "1rem",
+    md: "1.5rem",
+    lg: "2rem",
+    xl: "2.5rem",
   },
 };
 
@@ -32,10 +38,16 @@ export const darkTheme: DefaultTheme = {
   colors: {
     main: "#f5f2f3",
     accent: "#b19cd9",
+    text: "#ffffff",
   },
   fonts: {
     main: "sans-serif",
     fallback: "Roboto",
+    xs: "0.5rem",
+    sm: "1rem",
+    md: "1.5rem",
+    lg: "2rem",
+    xl: "2.5rem",
   },
 };
 

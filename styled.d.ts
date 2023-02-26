@@ -1,4 +1,5 @@
 import "styled-components";
+import { HexColor } from "./types/global";
 
 declare module "styled-components" {
   export interface DefaultTheme {
@@ -8,12 +9,18 @@ declare module "styled-components" {
     background: HexColor;
 
     colors: {
-      main: string;
-      accent: string;
+      main: HexColor;
+      accent: HexColor;
+      text: HexColor;
     };
     fonts: {
       main: string;
       fallback: string;
+      xs: string;
+      sm: string;
+      md: string;
+      lg: string;
+      xl: string;
     };
   }
 }
