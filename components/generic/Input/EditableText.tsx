@@ -4,6 +4,7 @@ import MyText from "./MyText";
 import MyTextInput from "./MyTextInput";
 
 type EditableTextProps = {
+  autoFocus?: boolean;
   editable?: boolean;
   placeholder?: string;
   value: string;
@@ -13,6 +14,7 @@ type EditableTextProps = {
 
 const EditableText = (props: EditableTextProps) => {
   const {
+    autoFocus = false,
     editable = true,
     placeholder = "",
     value,
@@ -21,7 +23,7 @@ const EditableText = (props: EditableTextProps) => {
   } = props;
 
   // LOCAL STATE
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState(autoFocus);
   const [localValue, setLocalValue] = useState(value);
 
   const ref = useRef<HTMLInputElement>();
