@@ -6,6 +6,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@asianpersonn/time-id": "^1.0.2",
     "@reduxjs/toolkit": "^1.9.3",
     "next": "latest",
     "react": "18.2.0",
