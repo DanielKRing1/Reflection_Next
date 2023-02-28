@@ -32,7 +32,8 @@ export const startNewEntriesAction = createAsyncThunk<
 type AddEntryAction = PayloadAction<DataWId<string>>;
 type EditEntryAction = PayloadAction<{
   index: number;
-  newEntry: DataWId<string>;
+  id?: string;
+  data?: string;
 }>;
 type RmEntryAction = PayloadAction<number>;
 type StartEntriesFulfilled = PayloadAction<boolean>;
@@ -47,8 +48,9 @@ export const NewEntriesSlice = createSlice({
       state.newEntries.push(action.payload);
     },
     editEntry: (state: NewEntriesState, action: EditEntryAction) => {
-      const { index, newEntry } = action.payload;
-      state.newEntries[index] = newEntry;
+      const { index, id, data } = action.payload;
+      if (id !== undefined) state.newEntries[index].id = id;
+      if (id !== undefined) state.newEntries[index].data = data;
     },
     rmEntry: (state: NewEntriesState, action: RmEntryAction) => {
       state.newEntries.splice(action.payload, 1);

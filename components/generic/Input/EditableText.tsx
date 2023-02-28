@@ -3,7 +3,7 @@ import MyButton from "./MyButton";
 import MyText from "./MyText";
 import MyTextInput from "./MyTextInput";
 
-type EditableTextProps = {
+export type EditableTextProps = {
   autoFocus?: boolean;
   editable?: boolean;
   placeholder?: string;
