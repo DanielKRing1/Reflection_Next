@@ -12,6 +12,7 @@ import { editEntry } from "../../../../redux/newEntriesSlice";
 import { AppDispatch, RootState } from "../../../../redux/store";
 import { DataWId } from "../../../../types/data";
 import AddInputButton from "./AddInputButton";
+import FlexCol from "../../../generic/Flex/FlexCol";
 
 type InputListProps = {};
 const InputList = (props: InputListProps) => {
@@ -27,7 +28,7 @@ const InputList = (props: InputListProps) => {
   };
 
   return (
-    <FlexCol>
+    <FlexCol alignItems="center">
       {newEntries.map(({ id, data }: DataWId<string>, i: number) => (
         <InputRow
           key={id}
