@@ -10,7 +10,6 @@ const MyText = styled.p<MyTextProps>`
   padding: 10px 60px;
   border-radius: 5px;
   margin: 10px 0px;
-  cursor: pointer;
 `;
 
 export default MyText;

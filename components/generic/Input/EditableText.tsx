@@ -9,6 +9,7 @@ export type EditableTextProps = {
   placeholder?: string;
   value: string;
   onChange?: (newText: string) => void;
+  onEnter?: (newText: string) => void;
   onCommit: (newText: string) => void;
 };
 
@@ -19,6 +20,7 @@ const EditableText = (props: EditableTextProps) => {
     placeholder = "",
     value,
     onChange = () => {},
+    onEnter = () => {},
     onCommit,
   } = props;
 
@@ -80,13 +82,16 @@ const EditableText = (props: EditableTextProps) => {
    * If pressed 'Enter' key, call handleDoneEditing
    */
   const handleEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key == "Enter") handleDoneEditing();
+    if (e.key == "Enter") {
+      handleDoneEditing();
+      onEnter(localValue);
+    }
   };
 
   return (
     <>
       {!isEditing ? (
-        <MyButton onClick={handleStartEditing}>
+        <MyButton onClick={handleStartEditing} cursor="text">
           <MyText>{value}</MyText>
         </MyButton>
       ) : (
