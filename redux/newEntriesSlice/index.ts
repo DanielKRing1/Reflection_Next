@@ -1,16 +1,20 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { ThunkConfig } from "../types";
-import { DataWId } from "../../types/data";
+import { DataWId, Dict } from "../../types/data";
 
 // INITIAL STATE
 
 export interface NewEntriesState {
+  // [ { id: 'id123', data: 'Hello' }, ... ]
   newEntries: DataWId<string>[];
+  // { id123: true, ... }
+  emptyEntries: Dict<boolean>;
 }
 
 const initialState: NewEntriesState = {
   newEntries: [],
+  emptyEntries: {},
 };
 
 // ASYNC THUNKS
@@ -32,10 +36,10 @@ export const startNewEntriesAction = createAsyncThunk<
 type AddEntryAction = PayloadAction<DataWId<string>>;
 type EditEntryAction = PayloadAction<{
   index: number;
-  id?: string;
-  data?: string;
+  data: string;
 }>;
 type RmEntryAction = PayloadAction<number>;
+type ResetAction = PayloadAction<void>;
 type StartEntriesFulfilled = PayloadAction<boolean>;
 
 // SLICE
@@ -45,15 +49,43 @@ export const NewEntriesSlice = createSlice({
   initialState,
   reducers: {
     addEntry: (state: NewEntriesState, action: AddEntryAction) => {
+      // Add new entry with empty data
       state.newEntries.push(action.payload);
+
+      // Mark new entry as empty
+      const { id } = action.payload;
+      state.emptyEntries[id] = true;
     },
     editEntry: (state: NewEntriesState, action: EditEntryAction) => {
-      const { index, id, data } = action.payload;
-      if (id !== undefined) state.newEntries[index].id = id;
-      if (id !== undefined) state.newEntries[index].data = data;
+      const { index, data } = action.payload;
+      // Out of bounds
+      if (index >= state.newEntries.length) return;
+      const { id } = state.newEntries[index];
+
+      // Edit entry data
+      state.newEntries[index].data = data;
+
+      // Was an empty entry but is no longer
+      if (state.emptyEntries[id] && data !== "") delete state.emptyEntries[id];
+      // Was not an empty entry but is now
+      else if (!state.emptyEntries[id] && data === "")
+        state.emptyEntries[id] = true;
     },
     rmEntry: (state: NewEntriesState, action: RmEntryAction) => {
-      state.newEntries.splice(action.payload, 1);
+      const index: number = action.payload;
+      // Out of bounds
+      if (index >= state.newEntries.length) return;
+      // Cache id before removing entry
+      const { id } = state.newEntries[index];
+
+      // Remove entry
+      state.newEntries.splice(index, 1);
+      // Remove as empty entry
+      delete state.emptyEntries[id];
+    },
+    reset: (state: NewEntriesState, action: ResetAction) => {
+      state.newEntries = [];
+      state.emptyEntries = {};
     },
   },
   extraReducers: (builder) => {
@@ -71,6 +103,6 @@ export const NewEntriesSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { addEntry, rmEntry, editEntry } = NewEntriesSlice.actions;
+export const { addEntry, rmEntry, editEntry, reset } = NewEntriesSlice.actions;
 
 export default NewEntriesSlice.reducer;

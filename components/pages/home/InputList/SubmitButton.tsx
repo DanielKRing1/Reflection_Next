@@ -7,34 +7,35 @@ import genId from "@asianpersonn/time-id";
 import CircleButton from "../../../generic/Button/CircleButton";
 
 // REDUX
-import { addEntry } from "../../../../redux/newEntriesSlice";
+import { addEntry, reset } from "../../../../redux/newEntriesSlice";
 
 // TYPES
 import { AppDispatch, RootState } from "../../../../redux/store";
+import NoWrap from "../../../generic/Container/NoWrap";
 
-type AddInputButtonProps = {};
-const AddInputButton = (props: AddInputButtonProps) => {
+type SubmitButtonProps = {};
+const SubmitButton = (props: SubmitButtonProps) => {
   // REDUX
   const dispatch: AppDispatch = useDispatch();
-  const { emptyEntries } = useSelector(
+  const { newEntries, emptyEntries } = useSelector(
     (state: RootState) => state.newEntriesSlice
   );
 
   // HANDLERS
-  const handleAddEntry = () => {
-    // Cannot add entry if empty entries exist
+  const handleSubmitEntry = () => {
+    // Cannot submit if empty entries exist
     if (Object.keys(emptyEntries).length > 0) return;
 
-    dispatch(addEntry({ id: genId(), data: "" }));
+    dispatch(reset());
   };
 
   return (
     <>
-      <CircleButton onClick={handleAddEntry} radius={5}>
-        +
+      <CircleButton onClick={handleSubmitEntry} radius={5}>
+        <NoWrap>{"->"}</NoWrap>
       </CircleButton>
     </>
   );
 };
 
-export default AddInputButton;
+export default SubmitButton;

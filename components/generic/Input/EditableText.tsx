@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import MyButton from "./MyButton";
-import MyText from "./MyText";
+import MyButton from "../Button/MyButton";
+import MyText from "../Text/MyText";
 import MyTextInput from "./MyTextInput";
 
 export type EditableTextProps = {
@@ -78,6 +78,15 @@ const EditableText = (props: EditableTextProps) => {
     onCommit(localValue);
     setIsEditing(false);
   };
+
+  // KEY HANDLERS
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    handleEnter(e);
+    _preventKeyLoseFocus(e);
+  };
+  const handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    _preventKeyLoseFocus(e);
+  };
   /**
    * If pressed 'Enter' key, call handleDoneEditing
    */
@@ -86,6 +95,12 @@ const EditableText = (props: EditableTextProps) => {
       handleDoneEditing();
       onEnter(localValue);
     }
+  };
+  /**
+   * Prevent losing text input focus when pressing 'alt' or 'tab' keys
+   */
+  const _preventKeyLoseFocus = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    // if (e.key === "Alt" || e.key === "Tab") e.preventDefault();
   };
 
   return (
@@ -101,7 +116,8 @@ const EditableText = (props: EditableTextProps) => {
           value={localValue}
           onChange={handleChangeValue}
           onBlur={handleDoneEditing}
-          onKeyUp={handleEnter}
+          onKeyDown={handleKeyDown}
+          onKeyUp={handleKeyUp}
         />
       )}
     </>

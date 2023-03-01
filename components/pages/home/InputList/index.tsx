@@ -13,6 +13,8 @@ import { AppDispatch, RootState } from "../../../../redux/store";
 import { DataWId } from "../../../../types/data";
 import AddInputButton from "./AddInputButton";
 import FlexCol from "../../../generic/Flex/FlexCol";
+import FlexRow from "../../../generic/Flex/FlexRow";
+import SubmitButton from "./SubmitButton";
 
 type InputListProps = {};
 const InputList = (props: InputListProps) => {
@@ -28,7 +30,7 @@ const InputList = (props: InputListProps) => {
   };
 
   return (
-    <FlexCol alignItems="center">
+    <FlexCol alignItems="stretch">
       {newEntries.map(({ id, data }: DataWId<string>, i: number) => (
         <InputRow
           key={id}
@@ -37,7 +39,10 @@ const InputList = (props: InputListProps) => {
         />
       ))}
 
-      <AddInputButton />
+      <FlexRow justifyContent="space-around">
+        <AddInputButton />
+        <SubmitButton />
+      </FlexRow>
     </FlexCol>
   );
 };
