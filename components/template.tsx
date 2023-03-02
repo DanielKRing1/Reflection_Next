@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 // REDUX
 
 // TYPES
+import { Inkling } from "../db/api/types";
 
 type TemplateProps = {};
 const Template = (props: TemplateProps) => {
@@ -23,7 +24,7 @@ const Template = (props: TemplateProps) => {
 
   return (
     <>
-      {newEntries.map(({ id, data }: DataWId<string>, i: number) => (
+      {newEntries.map(({ id, data }: Inkling, i: number) => (
         <Input
           key={id}
           value={data}

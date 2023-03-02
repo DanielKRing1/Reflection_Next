@@ -1,13 +1,14 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { ThunkConfig } from "../types";
-import { DataWId, Dict } from "../../types/data";
+import { Dict } from "../../types/data";
+import { Inkling, Inklings } from "../../db/api/types";
 
 // INITIAL STATE
 
 export interface NewEntriesState {
   // [ { id: 'id123', data: 'Hello' }, ... ]
-  newEntries: DataWId<string>[];
+  newEntries: Inklings;
   // { id123: true, ... }
   emptyEntries: Dict<boolean>;
 }
@@ -33,7 +34,7 @@ export const startNewEntriesAction = createAsyncThunk<
 
 // ACTION TYPES
 
-type AddEntryAction = PayloadAction<DataWId<string>>;
+type AddEntryAction = PayloadAction<Inkling>;
 type EditEntryAction = PayloadAction<{
   index: number;
   data: string;
