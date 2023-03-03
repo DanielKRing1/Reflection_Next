@@ -5,23 +5,23 @@ import { ThunkConfig } from "../types";
 
 // INITIAL STATE
 
-export interface SelectedEntriesState {
+export interface NewJournalEntryState {
   selectedThoughtIds: Dict<boolean>;
   selectedInklingIds: Dict<boolean>;
 }
 
-const initialState: SelectedEntriesState = {
+const initialState: NewJournalEntryState = {
   selectedThoughtIds: {},
   selectedInklingIds: {},
 };
 
 // ASYNC THUNKS
 
-export const startSelectedEntriesAction = createAsyncThunk<
+export const startNewJournalEntryAction = createAsyncThunk<
   boolean,
   undefined,
   ThunkConfig
->("template/startSelectedEntriesAction", async (undef, thunkAPI) => {
+>("template/startNewJournalEntryAction", async (undef, thunkAPI) => {
   // const {} = thunkAPI.getState().slice;
 
   // thunkAPI.dispatch(something());
@@ -33,36 +33,36 @@ export const startSelectedEntriesAction = createAsyncThunk<
 
 type AddIdAction = PayloadAction<string>;
 type RmIdAction = PayloadAction<string>;
-type StartSelectedEntriesFulfilled = PayloadAction<boolean>;
+type StartNewJournalEntryFulfilled = PayloadAction<boolean>;
 
 // SLICE
 
-export const SelectedEntriesSlice = createSlice({
-  name: "selectedEntries",
+export const NewJournalEntrySlice = createSlice({
+  name: "newJournalEntry",
   initialState,
   reducers: {
-    addId: (state: SelectedEntriesState, action: AddIdAction) => {
+    addId: (state: NewJournalEntryState, action: AddIdAction) => {
       state.selectedIds[action.payload] = true;
     },
-    rmId: (state: SelectedEntriesState, action: RmIdAction) => {
+    rmId: (state: NewJournalEntryState, action: RmIdAction) => {
       delete state.selectedIds[action.payload];
     },
   },
   extraReducers: (builder) => {
     // Add reducers for additional action types here, and handle loading state as needed
     builder.addCase(
-      startSelectedEntriesAction.fulfilled,
-      (state, action: StartSelectedEntriesFulfilled) => {
+      startNewJournalEntryAction.fulfilled,
+      (state, action: StartNewJournalEntryFulfilled) => {
         // Add user to the state array
       }
     );
-    builder.addCase(startSelectedEntriesAction.rejected, (state, action) => {
+    builder.addCase(startNewJournalEntryAction.rejected, (state, action) => {
       console.log(action.error.message);
     });
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { addId, rmId } = SelectedEntriesSlice.actions;
+export const { addId, rmId } = NewJournalEntrySlice.actions;
 
-export default SelectedEntriesSlice.reducer;
+export default NewJournalEntrySlice.reducer;

@@ -1,9 +1,9 @@
 import { combineReducers } from "redux";
 
 import newInklingsSlice from "./newInklingsSlice";
-import selectedEntriesSlice from "./selectedThoughtsSlice";
+import newJournalEntrySlice from "./newJournalEntrySlice";
 
 export default combineReducers({
   newInklingsSlice,
-  selectedEntriesSlice,
+  newJournalEntrySlice,
 });
