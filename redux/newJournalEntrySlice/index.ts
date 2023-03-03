@@ -7,6 +7,8 @@ import { Inkling } from "../../db/api/types";
 
 // TYPES
 import { Dict } from "../../types/data";
+import { setJournalingPhase } from "../journalingPhaseSlice";
+import { JournalingPhase } from "../journalingPhaseSlice/types";
 import { clearInklings } from "../newInklingsSlice";
 import { ThunkConfig } from "../types";
 
@@ -58,6 +60,9 @@ export const startAddJournalEntry = createAsyncThunk<
 
   // 4. Clear new Inklings from Redux (They were already cleared from Db when adding the new Journal Entry)
   thunkAPI.dispatch(clearInklings());
+
+  // 5. Manually set Journaling Phase to Inkling
+  thunkAPI.dispatch(setJournalingPhase(JournalingPhase.Inkling));
 
   return true;
 });
