@@ -6,12 +6,15 @@ import MyThemeProvider from "../theme/ThemeProvider";
 
 // REDUX
 import store from "../redux/store";
+import OnStartUpWrapper from "../components/startUp";
 
 export default function MyApp({ Component, pageProps }) {
   return (
     <ReduxProvider store={store}>
       <MyThemeProvider>
-        <Component {...pageProps} />
+        <OnStartUpWrapper>
+          <Component {...pageProps} />
+        </OnStartUpWrapper>
       </MyThemeProvider>
     </ReduxProvider>
   );
