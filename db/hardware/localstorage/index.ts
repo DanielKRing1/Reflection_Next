@@ -21,7 +21,7 @@ const LocalStorageDriver: DbHardwareType = {
   // INKLINGS
   getInklings: async function (journalId: string): Promise<Inklings> {
     try {
-      return JSON.parse(localStorage.getItem(genInklingKey(journalId)));
+      return JSON.parse(localStorage.getItem(genInklingKey(journalId))) || [];
     } catch (err) {
       // No Inklings
       return [];
@@ -102,7 +102,7 @@ const LocalStorageDriver: DbHardwareType = {
   },
   getJournal: async function (journalId: string): Promise<Journal> {
     try {
-      return JSON.parse(localStorage.getItem(genJournalKey(journalId)));
+      return JSON.parse(localStorage.getItem(genJournalKey(journalId))) || [];
     } catch (err) {
       // No Journal
       return [];
@@ -110,7 +110,7 @@ const LocalStorageDriver: DbHardwareType = {
   },
   getJournalIds: async function (): Promise<string[]> {
     try {
-      return JSON.parse(localStorage.getItem(genJournalIdsKey()));
+      return JSON.parse(localStorage.getItem(genJournalIdsKey())) || [];
     } catch (err) {
       // No Journal ids
       return [];
@@ -120,7 +120,7 @@ const LocalStorageDriver: DbHardwareType = {
     let lastUsedJournalId = localStorage.getItem(genLastUsedJournalKey());
 
     // 1. Get last used
-    if (lastUsedJournalId !== undefined) return lastUsedJournalId;
+    if (lastUsedJournalId !== null) return lastUsedJournalId;
 
     // 2. Else return any id or undefined if none
     const allIds: string[] = await LocalStorageDriver.getJournalIds();
