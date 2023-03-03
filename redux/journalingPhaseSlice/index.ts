@@ -33,7 +33,7 @@ export const startDetermineJournalingPhase = createAsyncThunk<
 >(
   "journalingPhase/startDetermineJournalingPhase",
   // The journalId that is currently being dispatched
-  async (journalId: string | undefined, thunkAPI) => {
+  async (journalId: string | undefined = undefined, thunkAPI) => {
     // 1. Provided journalId is undefined, so no journals exist
     if (journalId === undefined)
       thunkAPI.dispatch(setJournalingPhase(JournalingPhase.Create_Journal));

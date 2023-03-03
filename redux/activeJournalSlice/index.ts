@@ -37,7 +37,7 @@ export const startSetActiveJournalId = createAsyncThunk<
   ThunkConfig
 >(
   "journalingPhase/startSetActiveJournalId",
-  async (journalId: string | undefined, thunkAPI) => {
+  async (journalId: string | undefined = undefined, thunkAPI) => {
     // 1. No Journal id provided, must be StartUp
     // Get last used Journal id
     if (journalId === undefined)
