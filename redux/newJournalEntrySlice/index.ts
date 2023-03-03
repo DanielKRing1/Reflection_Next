@@ -41,11 +41,17 @@ export const NewJournalEntrySlice = createSlice({
   name: "newJournalEntry",
   initialState,
   reducers: {
-    addId: (state: NewJournalEntryState, action: AddIdAction) => {
-      state.selectedIds[action.payload] = true;
+    addThoughtId: (state: NewJournalEntryState, action: AddIdAction) => {
+      state.selectedThoughtIds[action.payload] = true;
     },
-    rmId: (state: NewJournalEntryState, action: RmIdAction) => {
-      delete state.selectedIds[action.payload];
+    addInklingId: (state: NewJournalEntryState, action: AddIdAction) => {
+      state.selectedInklingIds[action.payload] = true;
+    },
+    rmThoughtId: (state: NewJournalEntryState, action: RmIdAction) => {
+      delete state.selectedThoughtIds[action.payload];
+    },
+    rmInklingId: (state: NewJournalEntryState, action: RmIdAction) => {
+      delete state.selectedInklingIds[action.payload];
     },
   },
   extraReducers: (builder) => {
@@ -63,6 +69,7 @@ export const NewJournalEntrySlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { addId, rmId } = NewJournalEntrySlice.actions;
+export const { addThoughtId, addInklingId, rmThoughtId, rmInklingId } =
+  NewJournalEntrySlice.actions;
 
 export default NewJournalEntrySlice.reducer;

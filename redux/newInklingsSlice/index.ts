@@ -104,12 +104,12 @@ export const NewInklingsSlice = createSlice({
   extraReducers: (builder) => {
     // Add reducers for additional action types here, and handle loading state as needed
     builder.addCase(
-      startNewInklingsAction.fulfilled,
+      startCommitNewInklings.fulfilled,
       (state, action: StartEntriesFulfilled) => {
         // Add user to the state array
       }
     );
-    builder.addCase(startNewInklingsAction.rejected, (state, action) => {
+    builder.addCase(startCommitNewInklings.rejected, (state, action) => {
       console.log(action.error.message);
     });
   },
