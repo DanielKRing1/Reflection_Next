@@ -7,7 +7,7 @@ import genId from "@asianpersonn/time-id";
 import CircleButton from "../../../generic/Button/CircleButton";
 
 // REDUX
-import { addEntry, reset } from "../../../../redux/newInklingsSlice";
+import { addInkling } from "../../../../redux/newInklingsSlice";
 
 // TYPES
 import { AppDispatch, RootState } from "../../../../redux/store";
@@ -26,7 +26,7 @@ const SubmitButton = (props: SubmitButtonProps) => {
     // Cannot submit if empty entries exist
     if (Object.keys(emptyEntries).length > 0) return;
 
-    dispatch(reset());
+    // dispatch(reset());
   };
 
   return (

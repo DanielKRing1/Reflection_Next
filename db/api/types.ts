@@ -60,11 +60,10 @@ export type DbDriverType = {
     inklingIdsKept: string[],
     inklingIdsDiscarded: string[]
   ) => Promise<void>;
-  getLastEntryKept: (journalId: string) => Promise<string[]>;
+  getCurrentIdentityIds: (journalId: string) => Promise<string[]>;
   getJournal: (journalId: string) => Promise<Journal>;
 
   // THOUGHTS
-  commitThoughts: (journalId: string, thoughts: Thought[]) => Promise<void>;
   getThoughts: (journalId: string, thoughtIds: string[]) => Promise<Thought[]>;
   getThoughtsDict: (journalId: string) => Promise<ThoughtsDict>;
 };
@@ -72,4 +71,7 @@ export type DbDriverType = {
 export type DbHardwareType = DbDriverType & {
   // THOUGHTS
   _convertInklingsToThoughts: (journalId: string) => Promise<void>;
+  // User will never need to manually commit Inklings
+  // Inklings will be committed once a Journal Reflection is complete
+  _commitThoughts: (journalId: string, thoughts: Thought[]) => Promise<void>;
 };

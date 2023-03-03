@@ -11,6 +11,13 @@ const dbDriver: DbDriverType = {
   clearInklings: DbHardware.clearInklings,
 
   // REFLECTIONS, ENTRIES, JOURNAL
+
+  /**
+   * 1. Converts Inklings to Thoughts,
+   * 2. Saves them to ThoughtsDict,
+   * 3. Adds a new JournalEntry,
+   * 4. Then deletes old Inklings
+   */
   addJournalEntry: async function (
     journalId: string,
     thoughtIdsDiscarded: string[],
@@ -18,10 +25,11 @@ const dbDriver: DbDriverType = {
     inklingIdsKept: string[],
     inklingIdsDiscarded: string[]
   ): Promise<void> {
-    // Save Inklings as Thoughts before deleting Inklings cache, so they can still be referenced
+    // 1. Save Inklings as Thoughts in Db
+    // Save them before deleting Inklings cache, so they can still be referenced by Journal Entries
     await DbHardware._convertInklingsToThoughts(journalId);
 
-    // Add JournalEntry
+    // 2. Save JournalEntry
     await DbHardware.addJournalEntry(
       journalId,
       thoughtIdsDiscarded,
@@ -30,14 +38,13 @@ const dbDriver: DbDriverType = {
       inklingIdsDiscarded
     );
 
-    //
+    // 3. Delete Inklings
     await DbHardware.clearInklings(journalId);
   },
-  getLastEntryKept: DbHardware.getLastEntryKept,
+  getCurrentIdentityIds: DbHardware.getCurrentIdentityIds,
   getJournal: DbHardware.getJournal,
 
   // THOUGHTS
-  commitThoughts: DbHardware.commitThoughts,
   getThoughts: DbHardware.getThoughts,
   getThoughtsDict: DbHardware.getThoughtsDict,
 };

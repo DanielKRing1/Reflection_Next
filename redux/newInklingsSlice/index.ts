@@ -1,8 +1,13 @@
+// THIRD PARTY
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
+// DB
+
+// TYPES
 import { ThunkConfig } from "../types";
 import { Dict } from "../../types/data";
 import { Inkling, Inklings } from "../../db/api/types";
+import dbDriver from "../../db/api";
 
 // INITIAL STATE
 
@@ -20,38 +25,47 @@ const initialState: NewInklingsState = {
 
 // ASYNC THUNKS
 
-export const startCommitNewInklings = createAsyncThunk<
+// Call this when starting the app
+export const startHydrateNewInklings = createAsyncThunk<
   boolean,
   undefined,
   ThunkConfig
->("template/startCommitNewInklings", async (undef, thunkAPI) => {
-  const { newInklings } = thunkAPI.getState().newInklingsSlice;
+>("newInklingsSlice/startHydrateNewInklings", async (undef, thunkAPI) => {
+  const { activeJournalId } = thunkAPI.getState().activeJournalSlice;
+  const inklings: Inklings = await dbDriver.getInklings(activeJournalId);
 
-  thunkAPI.dispatch(reset());
+  // 1. Add each Inkling
+  // Add individually, so 'addInkling' action can check for empty Inklings
+  inklings.forEach((inkling: Inkling) =>
+    thunkAPI.dispatch(addInkling(inkling))
+  );
 
   return true;
 });
 
-export const startClearIdeas = createAsyncThunk<
+export const startCommitNewInklings = createAsyncThunk<
   boolean,
   undefined,
   ThunkConfig
->("template/startClearIdeas", async (undef, thunkAPI) => {
+>("newInklingsSlice/startCommitNewInklings", async (undef, thunkAPI) => {
+  const { activeJournalId } = thunkAPI.getState().activeJournalSlice;
   const { newInklings } = thunkAPI.getState().newInklingsSlice;
 
-  thunkAPI.dispatch(reset());
+  // 1. Cache Inklings for Reflection
+  // Keep Inklings in Redux, so they can be used during Reflection and to create a new Journal Entry
+  await dbDriver.commitInklings(activeJournalId, newInklings);
 
   return true;
 });
 
 // ACTION TYPES
 
-type AddEntryAction = PayloadAction<Inkling>;
-type EditEntryAction = PayloadAction<{
+type AddInklingAction = PayloadAction<Inkling>;
+type EditInklingAction = PayloadAction<{
   index: number;
   data: string;
 }>;
-type RmEntryAction = PayloadAction<number>;
+type RmInklingAction = PayloadAction<number>;
 type ResetAction = PayloadAction<void>;
 type StartEntriesFulfilled = PayloadAction<boolean>;
 
@@ -61,42 +75,43 @@ export const NewInklingsSlice = createSlice({
   name: "newInklings",
   initialState,
   reducers: {
-    addEntry: (state: NewInklingsState, action: AddEntryAction) => {
-      // Add new entry with empty data
+    addInkling: (state: NewInklingsState, action: AddInklingAction) => {
+      // Add new Inkling with empty data
       state.newInklings.push(action.payload);
 
-      // Mark new entry as empty
-      const { id } = action.payload;
-      state.emptyEntries[id] = true;
+      // Check if new Inkling is empty
+      const { id, data } = action.payload;
+      if (data === "") state.emptyEntries[id] = true;
     },
-    editEntry: (state: NewInklingsState, action: EditEntryAction) => {
+    editInkling: (state: NewInklingsState, action: EditInklingAction) => {
       const { index, data } = action.payload;
       // Out of bounds
       if (index >= state.newInklings.length) return;
-      const { id } = state.newInklings[index];
 
-      // Edit entry data
+      // 1. Edit Inkling data
+      const { id } = state.newInklings[index];
       state.newInklings[index].data = data;
 
-      // Was an empty entry but is no longer
+      // Was an empty Inkling but is no longer
       if (state.emptyEntries[id] && data !== "") delete state.emptyEntries[id];
-      // Was not an empty entry but is now
+      // Was not an empty Inkling but is now
       else if (!state.emptyEntries[id] && data === "")
         state.emptyEntries[id] = true;
     },
-    rmEntry: (state: NewInklingsState, action: RmEntryAction) => {
+    rmInkling: (state: NewInklingsState, action: RmInklingAction) => {
       const index: number = action.payload;
       // Out of bounds
       if (index >= state.newInklings.length) return;
-      // Cache id before removing entry
+
+      // 1. Cache id before removing Inkling
       const { id } = state.newInklings[index];
 
-      // Remove entry
+      // 2. Remove Inkling
       state.newInklings.splice(index, 1);
-      // Remove as empty entry
+      // Remove as empty Inkling
       delete state.emptyEntries[id];
     },
-    reset: (state: NewInklingsState, action: ResetAction) => {
+    clearInklings: (state: NewInklingsState, action: ResetAction) => {
       state.newInklings = [];
       state.emptyEntries = {};
     },
@@ -116,6 +131,7 @@ export const NewInklingsSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { addEntry, rmEntry, editEntry, reset } = NewInklingsSlice.actions;
+export const { addInkling, rmInkling, editInkling, clearInklings } =
+  NewInklingsSlice.actions;
 
 export default NewInklingsSlice.reducer;

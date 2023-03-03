@@ -1,6 +1,13 @@
+// THIRD PARTY
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Dict } from "../../types/data";
 
+// DB
+import dbDriver from "../../db/api";
+import { Inkling } from "../../db/api/types";
+
+// TYPES
+import { Dict } from "../../types/data";
+import { clearInklings } from "../newInklingsSlice";
 import { ThunkConfig } from "../types";
 
 // INITIAL STATE
@@ -17,14 +24,40 @@ const initialState: NewJournalEntryState = {
 
 // ASYNC THUNKS
 
-export const startNewJournalEntryAction = createAsyncThunk<
+export const startAddJournalEntry = createAsyncThunk<
   boolean,
   undefined,
   ThunkConfig
->("template/startNewJournalEntryAction", async (undef, thunkAPI) => {
-  // const {} = thunkAPI.getState().slice;
+>("newJournalEntrySlice/startAddJournalEntry", async (undef, thunkAPI) => {
+  const { activeJournalId } = thunkAPI.getState().activeJournalSlice;
+  const { newInklings } = thunkAPI.getState().newInklingsSlice;
+  const { selectedThoughtIds, selectedInklingIds } =
+    thunkAPI.getState().newJournalEntrySlice;
 
-  // thunkAPI.dispatch(something());
+  // 1. Get discarded Thoughts
+  const currentIdentityIds: string[] = await dbDriver.getCurrentIdentityIds(
+    activeJournalId
+  );
+  const discardedThoughtIds: string[] = currentIdentityIds.filter(
+    (id) => !selectedThoughtIds[id]
+  );
+
+  // 2. Get discarded Inklings
+  const discardedInklingIds: string[] = newInklings
+    .filter(({ id }: Inkling) => !selectedInklingIds[id])
+    .map(({ id }: Inkling) => id);
+
+  // 3. Add Journal Entry
+  await dbDriver.addJournalEntry(
+    activeJournalId,
+    discardedThoughtIds,
+    Object.keys(selectedThoughtIds),
+    Object.keys(selectedInklingIds),
+    discardedInklingIds
+  );
+
+  // 4. Clear new Inklings
+  thunkAPI.dispatch(clearInklings());
 
   return true;
 });
@@ -57,12 +90,12 @@ export const NewJournalEntrySlice = createSlice({
   extraReducers: (builder) => {
     // Add reducers for additional action types here, and handle loading state as needed
     builder.addCase(
-      startNewJournalEntryAction.fulfilled,
+      startAddJournalEntry.fulfilled,
       (state, action: StartNewJournalEntryFulfilled) => {
         // Add user to the state array
       }
     );
-    builder.addCase(startNewJournalEntryAction.rejected, (state, action) => {
+    builder.addCase(startAddJournalEntry.rejected, (state, action) => {
       console.log(action.error.message);
     });
   },

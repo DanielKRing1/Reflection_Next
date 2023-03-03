@@ -74,11 +74,12 @@ const LocalStorageDriver: DbHardwareType = {
     journal.push(newEntry);
     localStorage.setItem(genJournalKey(journalId), JSON.stringify(journal));
   },
-  getLastEntryKept: async function (journalId: string): Promise<string[]> {
+  getCurrentIdentityIds: async function (journalId: string): Promise<string[]> {
     const journal: Journal = await LocalStorageDriver.getJournal(journalId);
 
     const lastReflections: Reflection[] =
       journal.length > 0 ? journal[journal.length - 1].reflections : [];
+
     return lastReflections
       .filter(({ data }: Reflection) => data === ReflectionDecision.Keep)
       .map(({ id }: Reflection) => id);
@@ -100,12 +101,9 @@ const LocalStorageDriver: DbHardwareType = {
     }));
 
     // 3. Save new Thoughts in ThoughtsDict
-    LocalStorageDriver.commitThoughts(journalId, newThoughts);
-
-    // 4. Delete Inklings
-    LocalStorageDriver.clearInklings(journalId);
+    LocalStorageDriver._commitThoughts(journalId, newThoughts);
   },
-  commitThoughts: async function (journalId: string, thoughts: Thought[]) {
+  _commitThoughts: async function (journalId: string, thoughts: Thought[]) {
     // 0. Get ThoughtsDict
     const thoughtsDict: ThoughtsDict = await LocalStorageDriver.getThoughtsDict(
       journalId

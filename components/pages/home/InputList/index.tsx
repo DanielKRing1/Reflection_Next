@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import InputRow from "./InputRow";
 
 // REDUX
-import { editEntry } from "../../../../redux/newInklingsSlice";
+import { editInkling } from "../../../../redux/newInklingsSlice";
 
 // TYPES
 import { AppDispatch, RootState } from "../../../../redux/store";
@@ -26,7 +26,7 @@ const InputList = (props: InputListProps) => {
 
   // HANDLERS
   const handleEditEntry = (index: number, newEntry: string) => {
-    dispatch(editEntry({ index, data: newEntry }));
+    dispatch(editInkling({ index, data: newEntry }));
   };
 
   return (

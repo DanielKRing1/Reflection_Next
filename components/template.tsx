@@ -19,7 +19,7 @@ const Template = (props: TemplateProps) => {
 
   // HANDLERS
   const handleEditEntry = (index: number, newEntry: string) => {
-    dispatch(editEntry({ index, data: newEntry }));
+    dispatch(editInkling({ index, data: newEntry }));
   };
 
   return (
