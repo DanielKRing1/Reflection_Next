@@ -25,23 +25,29 @@ const initialState: NewInklingsState = {
 
 // ASYNC THUNKS
 
-// Call this when starting the app
+// This is called from 'startDetermineJournalingPhase' when starting the app
 export const startHydrateNewInklings = createAsyncThunk<
   boolean,
-  undefined,
+  Inklings | undefined,
   ThunkConfig
->("newInklingsSlice/startHydrateNewInklings", async (undef, thunkAPI) => {
-  const { activeJournalId } = thunkAPI.getState().activeJournalSlice;
-  const inklings: Inklings = await dbDriver.getInklings(activeJournalId);
+>(
+  "newInklingsSlice/startHydrateNewInklings",
+  async (inklings: Inklings | undefined, thunkAPI) => {
+    // 1. No Inklings provided, check for them in Db
+    if (inklings === undefined) {
+      const { activeJournalId } = thunkAPI.getState().activeJournalSlice;
+      inklings = await dbDriver.getInklings(activeJournalId);
+    }
 
-  // 1. Add each Inkling
-  // Add individually, so 'addInkling' action can check for empty Inklings
-  inklings.forEach((inkling: Inkling) =>
-    thunkAPI.dispatch(addInkling(inkling))
-  );
+    // 2. Add each Inkling
+    // Add individually, so 'addInkling' action can check for empty Inklings
+    inklings.forEach((inkling: Inkling) =>
+      thunkAPI.dispatch(addInkling(inkling))
+    );
 
-  return true;
-});
+    return true;
+  }
+);
 
 export const startCommitNewInklings = createAsyncThunk<
   boolean,

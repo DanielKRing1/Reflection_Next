@@ -1,4 +1,4 @@
-const DELIM = "_";
+const DELIM = "-";
 
 // LOCALSTORAGE KEY GENERATORS
 
@@ -13,3 +13,10 @@ export const genThoughtsDictKey = (journalId: string) =>
 const JOURNAL_SUFFIX = "JOURNAL";
 export const genJournalKey = (journalId: string) =>
   `${journalId}${DELIM}${JOURNAL_SUFFIX}`;
+
+const JOURNAL_IDS_SUFFIX = "JOURNAL_IDS";
+export const genJournalIdsKey = () => `${LAST_USED_JOURNAL_SUFFIX}`;
+
+const LAST_USED_JOURNAL_SUFFIX = "LAST_USED_JOURNAL";
+export const genLastUsedJournalKey = () =>
+  `${DELIM}${LAST_USED_JOURNAL_SUFFIX}`;

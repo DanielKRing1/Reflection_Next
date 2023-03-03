@@ -43,6 +43,8 @@ const dbDriver: DbDriverType = {
   },
   getCurrentIdentityIds: DbHardware.getCurrentIdentityIds,
   getJournal: DbHardware.getJournal,
+  getJournalIds: DbHardware.getJournalIds,
+  getLastUsedJournalId: DbHardware.getLastUsedJournalId,
 
   // THOUGHTS
   getThoughts: DbHardware.getThoughts,

@@ -62,6 +62,8 @@ export type DbDriverType = {
   ) => Promise<void>;
   getCurrentIdentityIds: (journalId: string) => Promise<string[]>;
   getJournal: (journalId: string) => Promise<Journal>;
+  getJournalIds: () => Promise<string[]>;
+  getLastUsedJournalId: () => Promise<string | undefined>;
 
   // THOUGHTS
   getThoughts: (journalId: string, thoughtIds: string[]) => Promise<Thought[]>;

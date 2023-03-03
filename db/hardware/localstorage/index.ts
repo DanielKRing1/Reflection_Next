@@ -9,12 +9,23 @@ import {
   Thought,
   ThoughtsDict,
 } from "../../api/types";
-import { genInklingKey, genJournalKey, genThoughtsDictKey } from "./keyGen";
+import {
+  genInklingKey,
+  genJournalIdsKey,
+  genJournalKey,
+  genLastUsedJournalKey,
+  genThoughtsDictKey,
+} from "./keyGen";
 
 const LocalStorageDriver: DbHardwareType = {
   // INKLINGS
   getInklings: async function (journalId: string): Promise<Inklings> {
-    return JSON.parse(localStorage.getItem(genInklingKey(journalId)));
+    try {
+      return JSON.parse(localStorage.getItem(genInklingKey(journalId)));
+    } catch (err) {
+      // No Inklings
+      return [];
+    }
   },
   commitInklings: async function (
     journalId: string,
@@ -75,17 +86,45 @@ const LocalStorageDriver: DbHardwareType = {
     localStorage.setItem(genJournalKey(journalId), JSON.stringify(journal));
   },
   getCurrentIdentityIds: async function (journalId: string): Promise<string[]> {
-    const journal: Journal = await LocalStorageDriver.getJournal(journalId);
+    try {
+      const journal: Journal = await LocalStorageDriver.getJournal(journalId);
 
-    const lastReflections: Reflection[] =
-      journal.length > 0 ? journal[journal.length - 1].reflections : [];
+      const lastReflections: Reflection[] =
+        journal.length > 0 ? journal[journal.length - 1].reflections : [];
 
-    return lastReflections
-      .filter(({ data }: Reflection) => data === ReflectionDecision.Keep)
-      .map(({ id }: Reflection) => id);
+      return lastReflections
+        .filter(({ data }: Reflection) => data === ReflectionDecision.Keep)
+        .map(({ id }: Reflection) => id);
+    } catch (err) {
+      // No current Identity
+      return [];
+    }
   },
-  getJournal: function (journalId: string): Promise<Journal> {
-    return JSON.parse(localStorage.getItem(genJournalKey(journalId)));
+  getJournal: async function (journalId: string): Promise<Journal> {
+    try {
+      return JSON.parse(localStorage.getItem(genJournalKey(journalId)));
+    } catch (err) {
+      // No Journal
+      return [];
+    }
+  },
+  getJournalIds: async function (): Promise<string[]> {
+    try {
+      return JSON.parse(localStorage.getItem(genJournalIdsKey()));
+    } catch (err) {
+      // No Journal ids
+      return [];
+    }
+  },
+  getLastUsedJournalId: async function (): Promise<string | undefined> {
+    let lastUsedJournalId = localStorage.getItem(genLastUsedJournalKey());
+
+    // 1. Get last used
+    if (lastUsedJournalId !== undefined) return lastUsedJournalId;
+
+    // 2. Else return any id or undefined if none
+    const allIds: string[] = await LocalStorageDriver.getJournalIds();
+    return allIds.length > 0 ? allIds[0] : undefined;
   },
 
   // THOUGHTS

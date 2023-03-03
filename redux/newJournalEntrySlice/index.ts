@@ -56,7 +56,7 @@ export const startAddJournalEntry = createAsyncThunk<
     discardedInklingIds
   );
 
-  // 4. Clear new Inklings
+  // 4. Clear new Inklings from Redux (They were already cleared from Db when adding the new Journal Entry)
   thunkAPI.dispatch(clearInklings());
 
   return true;
