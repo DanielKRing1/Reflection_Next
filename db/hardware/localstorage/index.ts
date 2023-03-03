@@ -100,18 +100,23 @@ const LocalStorageDriver: DbHardwareType = {
     }));
 
     // 3. Save new Thoughts in ThoughtsDict
+    LocalStorageDriver.commitThoughts(journalId, newThoughts);
 
     // 4. Delete Inklings
-    throw new Error("Function not implemented.");
+    LocalStorageDriver.clearInklings(journalId);
   },
   commitThoughts: async function (journalId: string, thoughts: Thought[]) {
+    // 0. Get ThoughtsDict
     const thoughtsDict: ThoughtsDict = await LocalStorageDriver.getThoughtsDict(
       journalId
     );
 
+    // 1. Add Thoughts to ThoughtsDict
     thoughts.forEach(
       (thought: Thought) => (thoughtsDict[thought.id] = thought)
     );
+
+    // 2. Save updated ThoughtsDict
     localStorage.setItem(
       genThoughtsDictKey(journalId),
       JSON.stringify(thoughtsDict)
@@ -121,10 +126,12 @@ const LocalStorageDriver: DbHardwareType = {
     journalId: string,
     thoughtIds: string[]
   ): Promise<Thought[]> {
+    // 0. Get ThoughtsDict
     const thoughtsDict: ThoughtsDict = await LocalStorageDriver.getThoughtsDict(
       journalId
     );
 
+    // 1. Map Thought ids to Thoughts list
     return thoughtIds.map((id: string) => thoughtsDict[id]);
   },
   getThoughtsDict: async function (journalId: string): Promise<ThoughtsDict> {
