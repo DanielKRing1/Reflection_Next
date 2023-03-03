@@ -1,13 +1,18 @@
 import Head from "next/head";
 import Link from "next/link";
 import { useState } from "react";
-import EditableText from "../components/generic/Input/EditableText";
+import { useSelector } from "react-redux";
+import MyText from "../components/generic/Text/MyText";
 import InputList from "../components/pages/home/InputList";
+import { JournalingPhase } from "../redux/journalingPhaseSlice/types";
+import { RootState } from "../redux/store";
 
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
-  const [value, setValue] = useState("");
+  const { journalingPhase } = useSelector(
+    (state: RootState) => state.journalingPhaseSlice
+  );
 
   return (
     <div className={styles.container}>
@@ -17,7 +22,17 @@ export default function Home() {
       </Head>
 
       <main>
-        <InputList />
+        <Link href="./history">Go to History</Link>
+        {journalingPhase === JournalingPhase.StartUp ||
+        journalingPhase === JournalingPhase.Create_Journal ? (
+          <MyText>Create Journal</MyText>
+        ) : journalingPhase === JournalingPhase.Inkling ? (
+          <InputList />
+        ) : journalingPhase === JournalingPhase.Reflecting ? (
+          <MyText>Reflecting</MyText>
+        ) : (
+          <MyText>Idk</MyText>
+        )}
       </main>
 
       <footer>
