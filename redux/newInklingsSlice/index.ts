@@ -6,28 +6,40 @@ import { Inkling, Inklings } from "../../db/api/types";
 
 // INITIAL STATE
 
-export interface NewEntriesState {
+export interface NewInklingsState {
   // [ { id: 'id123', data: 'Hello' }, ... ]
-  newEntries: Inklings;
+  newInklings: Inklings;
   // { id123: true, ... }
   emptyEntries: Dict<boolean>;
 }
 
-const initialState: NewEntriesState = {
-  newEntries: [],
+const initialState: NewInklingsState = {
+  newInklings: [],
   emptyEntries: {},
 };
 
 // ASYNC THUNKS
 
-export const startNewEntriesAction = createAsyncThunk<
+export const startCommitNewInklings = createAsyncThunk<
   boolean,
   undefined,
   ThunkConfig
->("template/startNewEntriesAction", async (undef, thunkAPI) => {
-  // const {} = thunkAPI.getState().slice;
+>("template/startCommitNewInklings", async (undef, thunkAPI) => {
+  const { newInklings } = thunkAPI.getState().newInklingsSlice;
 
-  // thunkAPI.dispatch(something());
+  thunkAPI.dispatch(reset());
+
+  return true;
+});
+
+export const startClearIdeas = createAsyncThunk<
+  boolean,
+  undefined,
+  ThunkConfig
+>("template/startClearIdeas", async (undef, thunkAPI) => {
+  const { newInklings } = thunkAPI.getState().newInklingsSlice;
+
+  thunkAPI.dispatch(reset());
 
   return true;
 });
@@ -45,26 +57,26 @@ type StartEntriesFulfilled = PayloadAction<boolean>;
 
 // SLICE
 
-export const NewEntriesSlice = createSlice({
-  name: "newEntries",
+export const NewInklingsSlice = createSlice({
+  name: "newInklings",
   initialState,
   reducers: {
-    addEntry: (state: NewEntriesState, action: AddEntryAction) => {
+    addEntry: (state: NewInklingsState, action: AddEntryAction) => {
       // Add new entry with empty data
-      state.newEntries.push(action.payload);
+      state.newInklings.push(action.payload);
 
       // Mark new entry as empty
       const { id } = action.payload;
       state.emptyEntries[id] = true;
     },
-    editEntry: (state: NewEntriesState, action: EditEntryAction) => {
+    editEntry: (state: NewInklingsState, action: EditEntryAction) => {
       const { index, data } = action.payload;
       // Out of bounds
-      if (index >= state.newEntries.length) return;
-      const { id } = state.newEntries[index];
+      if (index >= state.newInklings.length) return;
+      const { id } = state.newInklings[index];
 
       // Edit entry data
-      state.newEntries[index].data = data;
+      state.newInklings[index].data = data;
 
       // Was an empty entry but is no longer
       if (state.emptyEntries[id] && data !== "") delete state.emptyEntries[id];
@@ -72,38 +84,38 @@ export const NewEntriesSlice = createSlice({
       else if (!state.emptyEntries[id] && data === "")
         state.emptyEntries[id] = true;
     },
-    rmEntry: (state: NewEntriesState, action: RmEntryAction) => {
+    rmEntry: (state: NewInklingsState, action: RmEntryAction) => {
       const index: number = action.payload;
       // Out of bounds
-      if (index >= state.newEntries.length) return;
+      if (index >= state.newInklings.length) return;
       // Cache id before removing entry
-      const { id } = state.newEntries[index];
+      const { id } = state.newInklings[index];
 
       // Remove entry
-      state.newEntries.splice(index, 1);
+      state.newInklings.splice(index, 1);
       // Remove as empty entry
       delete state.emptyEntries[id];
     },
-    reset: (state: NewEntriesState, action: ResetAction) => {
-      state.newEntries = [];
+    reset: (state: NewInklingsState, action: ResetAction) => {
+      state.newInklings = [];
       state.emptyEntries = {};
     },
   },
   extraReducers: (builder) => {
     // Add reducers for additional action types here, and handle loading state as needed
     builder.addCase(
-      startNewEntriesAction.fulfilled,
+      startNewInklingsAction.fulfilled,
       (state, action: StartEntriesFulfilled) => {
         // Add user to the state array
       }
     );
-    builder.addCase(startNewEntriesAction.rejected, (state, action) => {
+    builder.addCase(startNewInklingsAction.rejected, (state, action) => {
       console.log(action.error.message);
     });
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { addEntry, rmEntry, editEntry, reset } = NewEntriesSlice.actions;
+export const { addEntry, rmEntry, editEntry, reset } = NewInklingsSlice.actions;
 
-export default NewEntriesSlice.reducer;
+export default NewInklingsSlice.reducer;

@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import InputRow from "./InputRow";
 
 // REDUX
-import { editEntry } from "../../../../redux/newEntriesSlice";
+import { editEntry } from "../../../../redux/newInklingsSlice";
 
 // TYPES
 import { AppDispatch, RootState } from "../../../../redux/store";
@@ -20,8 +20,8 @@ type InputListProps = {};
 const InputList = (props: InputListProps) => {
   // REDUX
   const dispatch: AppDispatch = useDispatch();
-  const { newEntries } = useSelector(
-    (state: RootState) => state.newEntriesSlice
+  const { newInklings } = useSelector(
+    (state: RootState) => state.newInklingsSlice
   );
 
   // HANDLERS
@@ -31,7 +31,7 @@ const InputList = (props: InputListProps) => {
 
   return (
     <FlexCol alignItems="stretch">
-      {newEntries.map(({ id, data }: Inkling, i: number) => (
+      {newInklings.map(({ id, data }: Inkling, i: number) => (
         <InputRow
           key={id}
           value={data}

@@ -7,7 +7,7 @@ import genId from "@asianpersonn/time-id";
 import CircleButton from "../../../generic/Button/CircleButton";
 
 // REDUX
-import { addEntry } from "../../../../redux/newEntriesSlice";
+import { addEntry } from "../../../../redux/newInklingsSlice";
 
 // TYPES
 import { AppDispatch, RootState } from "../../../../redux/store";
@@ -17,7 +17,7 @@ const AddInputButton = (props: AddInputButtonProps) => {
   // REDUX
   const dispatch: AppDispatch = useDispatch();
   const { emptyEntries } = useSelector(
-    (state: RootState) => state.newEntriesSlice
+    (state: RootState) => state.newInklingsSlice
   );
 
   // HANDLERS

@@ -6,11 +6,13 @@ import { ThunkConfig } from "../types";
 // INITIAL STATE
 
 export interface SelectedEntriesState {
-  selectedIds: Dict<boolean>;
+  selectedThoughtIds: Dict<boolean>;
+  selectedInklingIds: Dict<boolean>;
 }
 
 const initialState: SelectedEntriesState = {
-  selectedIds: {},
+  selectedThoughtIds: {},
+  selectedInklingIds: {},
 };
 
 // ASYNC THUNKS

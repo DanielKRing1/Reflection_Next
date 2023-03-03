@@ -13,8 +13,8 @@ type TemplateProps = {};
 const Template = (props: TemplateProps) => {
   // REDUX
   const dispatch: AppDispatch = useDispatch();
-  const { newEntries } = useSelector(
-    (state: RootState) => state.newEntriesSlice
+  const { newInklings } = useSelector(
+    (state: RootState) => state.newInklingsSlice
   );
 
   // HANDLERS
@@ -24,7 +24,7 @@ const Template = (props: TemplateProps) => {
 
   return (
     <>
-      {newEntries.map(({ id, data }: Inkling, i: number) => (
+      {newInklings.map(({ id, data }: Inkling, i: number) => (
         <Input
           key={id}
           value={data}
