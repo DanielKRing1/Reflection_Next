@@ -8,6 +8,8 @@ import { ThunkConfig } from "../types";
 import { Dict } from "../../types/data";
 import { Inkling, Inklings } from "../../db/api/types";
 import dbDriver from "../../db/api";
+import { setJournalingPhase } from "../journalingPhaseSlice";
+import { JournalingPhase } from "../journalingPhaseSlice/types";
 
 // INITIAL STATE
 
@@ -60,6 +62,9 @@ export const startCommitNewInklings = createAsyncThunk<
   // 1. Cache Inklings for Reflection
   // Keep Inklings in Redux, so they can be used during Reflection and to create a new Journal Entry
   await dbDriver.commitInklings(activeJournalId, newInklings);
+
+  // 2. Manually set Journaling Phase to Reflecting
+  thunkAPI.dispatch(setJournalingPhase(JournalingPhase.Reflecting));
 
   return true;
 });
