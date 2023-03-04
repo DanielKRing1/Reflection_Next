@@ -3,11 +3,14 @@ import React from "react";
 
 // GENERIC COMPONENTS
 import MyText from "../../../generic/Text/MyText";
+import InputForm from "./InputForm";
 
 const CreateJournal = () => {
   return (
     <>
-      <MyText>Reflecting</MyText>
+      <MyText>Create Journal</MyText>
+
+      <InputForm />
     </>
   );
 };

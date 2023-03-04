@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import MyText from "../components/generic/Text/MyText";
 import CreateJournal from "../components/pages/home/CreateJournal";
 import Inkling from "../components/pages/home/Inkling";
-import InputList from "../components/pages/home/Inkling/InputList";
+import InputList from "../components/pages/home/Inkling/InputForm";
 import Reflecting from "../components/pages/home/Reflecting";
 import { JournalingPhase } from "../redux/journalingPhaseSlice/types";
 import { RootState } from "../redux/store";

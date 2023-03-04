@@ -5,14 +5,14 @@ import React from "react";
 import MyText from "../../../generic/Text/MyText";
 
 // PAGE-SPECIFIC COMPONENTS
-import InputList from "../Inkling/InputList";
+import InputForm from "./InputForm";
 
 const Inkling = () => {
   return (
     <>
       <MyText>Create Journal</MyText>
 
-      <InputList />
+      <InputForm />
     </>
   );
 };
