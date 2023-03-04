@@ -31,6 +31,26 @@ const initialState: ActiveJournalState = {
 
 // THUNKS
 
+export const startCreateJournal = createAsyncThunk<
+  boolean,
+  string,
+  ThunkConfig
+>("journalingPhase/startCreateJournal", async (journalId: string, thunkAPI) => {
+  // Short-circuit if no journalId
+  if (journalId === "") return;
+
+  // 1. Create Journal in Db
+  await dbDriver.createJournal(journalId);
+
+  // 2. Switch active Journal
+  thunkAPI.dispatch(startSetActiveJournalId(journalId));
+
+  return true;
+});
+
+/**
+ * Pass 'journalId' as undefined to
+ */
 export const startSetActiveJournalId = createAsyncThunk<
   boolean,
   string | undefined,
@@ -47,7 +67,10 @@ export const startSetActiveJournalId = createAsyncThunk<
     if (journalId !== undefined)
       thunkAPI.dispatch(setActiveJournalId(journalId));
 
-    // 3. Set Journaling Phase
+    // 3. Set lastUsedJournalId
+    await dbDriver.setLastUsedJournalId(journalId);
+
+    // 4. Set Journaling Phase
     thunkAPI.dispatch(startDetermineJournalingPhase(journalId));
 
     return true;
