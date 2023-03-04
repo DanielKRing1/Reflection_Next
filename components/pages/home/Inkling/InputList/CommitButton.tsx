@@ -7,7 +7,10 @@ import genId from "@asianpersonn/time-id";
 import CircleButton from "../../../../generic/Button/CircleButton";
 
 // REDUX
-import { addInkling } from "../../../../../redux/newInklingsSlice";
+import {
+  addInkling,
+  startCommitNewInklings,
+} from "../../../../../redux/newInklingsSlice";
 
 // TYPES
 import { AppDispatch, RootState } from "../../../../../redux/store";
@@ -22,16 +25,16 @@ const SubmitButton = (props: SubmitButtonProps) => {
   );
 
   // HANDLERS
-  const handleSubmitEntry = () => {
+  const handleCommitNewInklings = () => {
     // Cannot submit if empty entries exist
     if (Object.keys(emptyEntries).length > 0) return;
 
-    // dispatch(reset());
+    dispatch(startCommitNewInklings());
   };
 
   return (
     <>
-      <CircleButton onClick={handleSubmitEntry} radius={5}>
+      <CircleButton onClick={handleCommitNewInklings} radius={5}>
         <NoWrap>{"->"}</NoWrap>
       </CircleButton>
     </>
