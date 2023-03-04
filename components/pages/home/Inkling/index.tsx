@@ -10,7 +10,7 @@ import InputForm from "./InputForm";
 const Inkling = () => {
   return (
     <>
-      <MyText>Create Journal</MyText>
+      <MyText>Inkling</MyText>
 
       <InputForm />
     </>
