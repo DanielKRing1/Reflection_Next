@@ -13,7 +13,7 @@ import { AppDispatch, RootState } from "../../../../../redux/store";
 import AddInputButton from "./AddInputButton";
 import FlexCol from "../../../../generic/Flex/FlexCol";
 import FlexRow from "../../../../generic/Flex/FlexRow";
-import SubmitButton from "./SubmitButton";
+import CommitButton from "./CommitButton";
 import { Inkling } from "../../../../../db/api/types";
 
 type InputListProps = {};
@@ -41,7 +41,7 @@ const InputList = (props: InputListProps) => {
 
       <FlexRow justifyContent="space-around">
         <AddInputButton />
-        <SubmitButton />
+        <CommitButton />
       </FlexRow>
     </FlexCol>
   );
