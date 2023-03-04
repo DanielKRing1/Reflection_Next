@@ -61,8 +61,10 @@ export type DbDriverType = {
     inklingIdsDiscarded: string[]
   ) => Promise<void>;
   getCurrentIdentityIds: (journalId: string) => Promise<string[]>;
+  createJournal: (journalId: string) => Promise<void>;
   getJournal: (journalId: string) => Promise<Journal>;
   getJournalIds: () => Promise<string[]>;
+  setLastUsedJournalId: (journalId: string) => Promise<void>;
   getLastUsedJournalId: () => Promise<string | undefined>;
 
   // THOUGHTS

@@ -6,15 +6,15 @@ import { useSelector, useDispatch } from "react-redux";
 import InputRow from "./InputRow";
 
 // REDUX
-import { editInkling } from "../../../../redux/newInklingsSlice";
+import { editInkling } from "../../../../../redux/newInklingsSlice";
 
 // TYPES
-import { AppDispatch, RootState } from "../../../../redux/store";
+import { AppDispatch, RootState } from "../../../../../redux/store";
 import AddInputButton from "./AddInputButton";
-import FlexCol from "../../../generic/Flex/FlexCol";
-import FlexRow from "../../../generic/Flex/FlexRow";
+import FlexCol from "../../../../generic/Flex/FlexCol";
+import FlexRow from "../../../../generic/Flex/FlexRow";
 import SubmitButton from "./SubmitButton";
-import { Inkling } from "../../../../db/api/types";
+import { Inkling } from "../../../../../db/api/types";
 
 type InputListProps = {};
 const InputList = (props: InputListProps) => {

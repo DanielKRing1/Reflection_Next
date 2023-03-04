@@ -3,7 +3,10 @@ import Link from "next/link";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import MyText from "../components/generic/Text/MyText";
-import InputList from "../components/pages/home/InputList";
+import CreateJournal from "../components/pages/home/CreateJournal";
+import Inkling from "../components/pages/home/Inkling";
+import InputList from "../components/pages/home/Inkling/InputList";
+import Reflecting from "../components/pages/home/Reflecting";
 import { JournalingPhase } from "../redux/journalingPhaseSlice/types";
 import { RootState } from "../redux/store";
 
@@ -25,11 +28,11 @@ export default function Home() {
         <Link href="./history">Go to History</Link>
         {journalingPhase === JournalingPhase.StartUp ||
         journalingPhase === JournalingPhase.Create_Journal ? (
-          <MyText>Create Journal</MyText>
+          <CreateJournal />
         ) : journalingPhase === JournalingPhase.Inkling ? (
-          <InputList />
+          <Inkling />
         ) : journalingPhase === JournalingPhase.Reflecting ? (
-          <MyText>Reflecting</MyText>
+          <Reflecting />
         ) : (
           <MyText>Idk</MyText>
         )}

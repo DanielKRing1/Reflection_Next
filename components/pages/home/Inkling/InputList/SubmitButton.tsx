@@ -4,14 +4,14 @@ import { useDispatch, useSelector } from "react-redux";
 import genId from "@asianpersonn/time-id";
 
 // MY COMPONENTS
-import CircleButton from "../../../generic/Button/CircleButton";
+import CircleButton from "../../../../generic/Button/CircleButton";
 
 // REDUX
-import { addInkling } from "../../../../redux/newInklingsSlice";
+import { addInkling } from "../../../../../redux/newInklingsSlice";
 
 // TYPES
-import { AppDispatch, RootState } from "../../../../redux/store";
-import NoWrap from "../../../generic/Container/NoWrap";
+import { AppDispatch, RootState } from "../../../../../redux/store";
+import NoWrap from "../../../../generic/Container/NoWrap";
 
 type SubmitButtonProps = {};
 const SubmitButton = (props: SubmitButtonProps) => {

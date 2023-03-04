@@ -4,7 +4,7 @@ import React from "react";
 // COMPONENTS
 import EditableText, {
   EditableTextProps,
-} from "../../../generic/Input/EditableText";
+} from "../../../../generic/Input/EditableText";
 
 type InputRowProps = {} & EditableTextProps;
 const InputRow = (props: InputRowProps) => {

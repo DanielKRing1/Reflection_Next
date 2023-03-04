@@ -42,8 +42,10 @@ const dbDriver: DbDriverType = {
     await DbHardware.clearInklings(journalId);
   },
   getCurrentIdentityIds: DbHardware.getCurrentIdentityIds,
+  createJournal: DbHardware.createJournal,
   getJournal: DbHardware.getJournal,
   getJournalIds: DbHardware.getJournalIds,
+  setLastUsedJournalId: DbHardware.setLastUsedJournalId,
   getLastUsedJournalId: DbHardware.getLastUsedJournalId,
 
   // THOUGHTS
