@@ -7,8 +7,8 @@ import { RootState } from "../../../../../redux/store";
 // MY COMPONENTS
 import MyTextInput from "../../../../generic/Input/MyTextInput";
 
-type InputListProps = {};
-const InputList = (props: InputListProps) => {
+type InputProps = {};
+const Input = (props: InputProps) => {
   4;
   // REDUX
   const dispatch = useDispatch();
@@ -32,4 +32,4 @@ const InputList = (props: InputListProps) => {
   );
 };
 
-export default InputList;
+export default Input;
