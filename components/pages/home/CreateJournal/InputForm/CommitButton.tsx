@@ -12,7 +12,7 @@ import { AppDispatch } from "../../../../../redux/store";
 import MyButton from "../../../../generic/Button/MyButton";
 
 type CommitButtonProps = {};
-const SubmitButton = (props: CommitButtonProps) => {
+const CommitButton = (props: CommitButtonProps) => {
   // REDUX
   const dispatch: AppDispatch = useDispatch();
 
@@ -28,4 +28,4 @@ const SubmitButton = (props: CommitButtonProps) => {
   );
 };
 
-export default SubmitButton;
+export default CommitButton;

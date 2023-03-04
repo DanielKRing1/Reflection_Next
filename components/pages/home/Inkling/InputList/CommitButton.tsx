@@ -17,7 +17,7 @@ import { AppDispatch, RootState } from "../../../../../redux/store";
 import NoWrap from "../../../../generic/Container/NoWrap";
 
 type CommitSubmitButtonProps = {};
-const SubmitButton = (props: CommitSubmitButtonProps) => {
+const CommitButton = (props: CommitSubmitButtonProps) => {
   // REDUX
   const dispatch: AppDispatch = useDispatch();
   const { newInklings, emptyEntries } = useSelector(
@@ -44,4 +44,4 @@ const SubmitButton = (props: CommitSubmitButtonProps) => {
   );
 };
 
-export default SubmitButton;
+export default CommitButton;
