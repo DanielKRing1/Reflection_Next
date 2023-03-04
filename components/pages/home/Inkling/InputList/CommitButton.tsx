@@ -16,8 +16,8 @@ import {
 import { AppDispatch, RootState } from "../../../../../redux/store";
 import NoWrap from "../../../../generic/Container/NoWrap";
 
-type SubmitButtonProps = {};
-const SubmitButton = (props: SubmitButtonProps) => {
+type CommitSubmitButtonProps = {};
+const SubmitButton = (props: CommitSubmitButtonProps) => {
   // REDUX
   const dispatch: AppDispatch = useDispatch();
   const { newInklings, emptyEntries } = useSelector(
@@ -26,6 +26,9 @@ const SubmitButton = (props: SubmitButtonProps) => {
 
   // HANDLERS
   const handleCommitNewInklings = () => {
+    // TODO Handle this in Redux:
+    //    Reject Thunk, set error + timeout to clear error
+
     // Cannot submit if empty entries exist
     if (Object.keys(emptyEntries).length > 0) return;
 
