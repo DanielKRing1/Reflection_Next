@@ -15,7 +15,7 @@ export const genJournalKey = (journalId: string) =>
   `${journalId}${DELIM}${JOURNAL_SUFFIX}`;
 
 const JOURNAL_IDS_SUFFIX = "JOURNAL_IDS";
-export const genJournalIdsKey = () => `${LAST_USED_JOURNAL_SUFFIX}`;
+export const genJournalIdsKey = () => `${JOURNAL_IDS_SUFFIX}`;
 
 const LAST_USED_JOURNAL_SUFFIX = "LAST_USED_JOURNAL";
 export const genLastUsedJournalKey = () => `${LAST_USED_JOURNAL_SUFFIX}`;

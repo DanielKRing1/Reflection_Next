@@ -53,6 +53,14 @@ export type DbDriverType = {
   clearInklings: (journalId: string) => Promise<void>;
 
   // REFLECTIONS, ENTRIES, JOURNAL
+  createJournal: (journalId: string) => Promise<void>;
+  getJournal: (journalId: string) => Promise<Journal>;
+  deleteJournal: (journalId: string) => Promise<void>;
+
+  getJournalIds: () => Promise<string[]>;
+  setLastUsedJournalId: (journalId: string) => Promise<void>;
+  getLastUsedJournalId: () => Promise<string | undefined>;
+
   addJournalEntry: (
     journalId: string,
     thoughtIdsDiscarded: string[],
@@ -61,11 +69,6 @@ export type DbDriverType = {
     inklingIdsDiscarded: string[]
   ) => Promise<void>;
   getCurrentIdentityIds: (journalId: string) => Promise<string[]>;
-  createJournal: (journalId: string) => Promise<void>;
-  getJournal: (journalId: string) => Promise<Journal>;
-  getJournalIds: () => Promise<string[]>;
-  setLastUsedJournalId: (journalId: string) => Promise<void>;
-  getLastUsedJournalId: () => Promise<string | undefined>;
 
   // THOUGHTS
   getThoughts: (journalId: string, thoughtIds: string[]) => Promise<Thought[]>;

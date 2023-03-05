@@ -19,6 +19,8 @@ const JournalEntry = (props: JournalEntryProps) => {
         // TODO 1 Implement this method
         // TODO 2 Create a dict of { Journal name -> Journal id } in LocalStorage
         // TODO 3 Manage this dict in LocalStorageDriver and accept 'journalName' in Create Journal method (this method also creates the corresponding 'journalId')
+        // TODO 4 Save journal metadata somewhere
+        // TODO 5 Create Delete Journal methods
         getThoughtById(reflection.id)
       ),
     [journalEntry]

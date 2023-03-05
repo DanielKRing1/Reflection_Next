@@ -1,3 +1,13 @@
+// UTILS
+import {
+  genInklingKey,
+  genThoughtsDictKey,
+  genJournalKey,
+  genJournalIdsKey,
+  genLastUsedJournalKey,
+} from "./keyGen";
+
+// TYPES
 import {
   DbHardwareType,
   Inkling,
@@ -9,13 +19,6 @@ import {
   Thought,
   ThoughtsDict,
 } from "../../api/types";
-import {
-  genInklingKey,
-  genJournalIdsKey,
-  genJournalKey,
-  genLastUsedJournalKey,
-  genThoughtsDictKey,
-} from "./keyGen";
 
 const LocalStorageDriver: DbHardwareType = {
   // INKLINGS
@@ -38,6 +41,69 @@ const LocalStorageDriver: DbHardwareType = {
   },
 
   // REFLECTIONS, ENTRIES, JOURNAL
+  createJournal: async function (journalId: string): Promise<void> {
+    const journalIds: string[] = await LocalStorageDriver.getJournalIds();
+
+    // 1. Add journal id
+    journalIds.push(journalId);
+
+    // 2. Save journal ids
+    localStorage.setItem(genJournalIdsKey(), JSON.stringify(journalIds));
+  },
+  getJournal: async function (journalId: string): Promise<Journal> {
+    try {
+      return JSON.parse(localStorage.getItem(genJournalKey(journalId))) || [];
+    } catch (err) {
+      // No Journal
+      return [];
+    }
+  },
+  deleteJournal: async function (journalId: string): Promise<void> {
+    // 1. Remove Inklings
+    await LocalStorageDriver.clearInklings(journalId);
+
+    // 2. Remove ThoughtsDict
+    localStorage.removeItem(genThoughtsDictKey(journalId));
+
+    // 3. Remove Journal
+    localStorage.removeItem(genJournalKey(journalId));
+
+    // 4. Remove from JournalIds
+    const journalIdsToKeep: string[] = (
+      await LocalStorageDriver.getJournalIds()
+    ).filter((id: string) => id !== journalId);
+    // Stringify array
+    localStorage.setItem(genJournalIdsKey(), JSON.stringify(journalIdsToKeep));
+
+    // 5. Remove if last used JournalId
+    if (journalId === (await LocalStorageDriver.getLastUsedJournalId()))
+      // By replacing with null
+      localStorage.setItem(genLastUsedJournalKey(), null);
+  },
+
+  getJournalIds: async function (): Promise<string[]> {
+    try {
+      return JSON.parse(localStorage.getItem(genJournalIdsKey())) || [];
+    } catch (err) {
+      // No Journal ids
+      return [];
+    }
+  },
+  setLastUsedJournalId: async function (journalId: string): Promise<void> {
+    localStorage.setItem(genLastUsedJournalKey(), journalId);
+  },
+  getLastUsedJournalId: async function (): Promise<string | undefined> {
+    let lastUsedJournalId = JSON.parse(
+      localStorage.getItem(genLastUsedJournalKey())
+    );
+
+    // 1. Get last used
+    if (lastUsedJournalId !== null) return lastUsedJournalId;
+
+    // 2. Else return any id or undefined if none
+    const allIds: string[] = await LocalStorageDriver.getJournalIds();
+    return allIds.length > 0 ? allIds[0] : undefined;
+  },
   addJournalEntry: async function (
     journalId: string,
     thoughtIdsDiscarded: string[],
@@ -99,44 +165,6 @@ const LocalStorageDriver: DbHardwareType = {
       // No current Identity
       return [];
     }
-  },
-  createJournal: async function (journalId: string): Promise<void> {
-    const journalIds: string[] = await LocalStorageDriver.getJournalIds();
-
-    // 1. Add journal id
-    journalIds.push(journalId);
-
-    // 2. Save journal ids
-    localStorage.setItem(genJournalIdsKey(), JSON.stringify(journalIds));
-  },
-  getJournal: async function (journalId: string): Promise<Journal> {
-    try {
-      return JSON.parse(localStorage.getItem(genJournalKey(journalId))) || [];
-    } catch (err) {
-      // No Journal
-      return [];
-    }
-  },
-  getJournalIds: async function (): Promise<string[]> {
-    try {
-      return JSON.parse(localStorage.getItem(genJournalIdsKey())) || [];
-    } catch (err) {
-      // No Journal ids
-      return [];
-    }
-  },
-  setLastUsedJournalId: async function (journalId: string): Promise<void> {
-    localStorage.setItem(genLastUsedJournalKey(), journalId);
-  },
-  getLastUsedJournalId: async function (): Promise<string | undefined> {
-    let lastUsedJournalId = localStorage.getItem(genLastUsedJournalKey());
-
-    // 1. Get last used
-    if (lastUsedJournalId !== null) return lastUsedJournalId;
-
-    // 2. Else return any id or undefined if none
-    const allIds: string[] = await LocalStorageDriver.getJournalIds();
-    return allIds.length > 0 ? allIds[0] : undefined;
   },
 
   // THOUGHTS
