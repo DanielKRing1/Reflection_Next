@@ -46,14 +46,15 @@ export const startSetActiveJournalId = createAsyncThunk<
     if (journalId === undefined)
       journalId = await dbDriver.getLastUsedJournalId();
 
-    // 2. Set activeJournalId
-    if (journalId !== undefined)
+    if (journalId !== undefined) {
+      // 2. Set activeJournalId
       thunkAPI.dispatch(setActiveJournalId(journalId));
-
-    // 3. Set lastUsedJournalId
-    await dbDriver.setLastUsedJournalId(journalId);
+      // 3. Set lastUsedJournalId
+      await dbDriver.setLastUsedJournalId(journalId);
+    }
 
     // 4. Set Journaling Phase
+    // undefined journalId (bcus no 'lastUsedJournalId' and therefore no existing journals) will prompt CreateJournal phase
     thunkAPI.dispatch(startDetermineJournalingPhase(journalId));
 
     return true;
