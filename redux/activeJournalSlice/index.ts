@@ -10,7 +10,7 @@ import {
   JournalMetadata,
   Thought,
 } from "../../db/api/types";
-import { startHydrateIdentityThoughts } from "../identityThoughtsSlice";
+import { startHydrateIdentityThoughtIds } from "../identityThoughtsSlice";
 
 // REDUX
 import { startDetermineJournalingPhase } from "../journalingPhaseSlice";
@@ -91,9 +91,9 @@ export const startSetActiveJournalId = createAsyncThunk<
     thunkAPI.dispatch(startHydrateJournal(journal));
 
     // 10. Get Journal from Db
-    const identityThoughts: Thought[] | undefined = isNew ? [] : undefined;
+    const identityThoughtIds: string[] | undefined = isNew ? [] : undefined;
     // 11. Hydrate committed Inklings if any
-    thunkAPI.dispatch(startHydrateIdentityThoughts(identityThoughts));
+    thunkAPI.dispatch(startHydrateIdentityThoughtIds(identityThoughtIds));
 
     // 12. Set Journaling Phase
     // - 'null' journalId (bcus no 'lastUsedJournalId' and therefore no existing journals) will prompt CreateJournal phase

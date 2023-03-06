@@ -3,7 +3,6 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 // DB
 import dbDriver from "../../db/api";
-import { Thought } from "../../db/api/types";
 
 // TYPES
 import { ThunkConfig } from "../types";
@@ -11,40 +10,39 @@ import { ThunkConfig } from "../types";
 // INITIAL STATE
 
 export interface IdentityThoughtsState {
-  identityThoughts: Thought[];
+  identityThoughtIds: string[];
 }
 
 const initialState: IdentityThoughtsState = {
-  identityThoughts: [],
+  identityThoughtIds: [],
 };
 
 // ASYNC THUNKS
 
-export const startHydrateIdentityThoughts = createAsyncThunk<
+export const startHydrateIdentityThoughtIds = createAsyncThunk<
   boolean,
-  Thought[] | undefined,
+  string[] | undefined,
   ThunkConfig
 >(
-  "identityThoughtsSlice/startHydrateIdentityThoughts",
-  async (identityThoughts: Thought[] | undefined, thunkAPI) => {
+  "identityThoughtsSlice/startHydrateIdentityThoughtIds",
+  async (identityThoughtIds: string[] | undefined, thunkAPI) => {
     // 1. No Journal Metadata provided, hydrate from Db
-    if (identityThoughts === undefined) {
+    if (identityThoughtIds === undefined) {
       const { activeJournalId } = thunkAPI.getState().activeJournalSlice;
-      const { thoughtsDict } = thunkAPI.getState().journalThoughtsDictSlice;
-      identityThoughts = (
-        await dbDriver.getCurrentIdentityIds(activeJournalId)
-      ).map((id: string) => thoughtsDict[id]);
+      identityThoughtIds = await dbDriver.getCurrentIdentityIds(
+        activeJournalId
+      );
     }
 
     // 2. Set Journal Metadata
-    thunkAPI.dispatch(setIdentityThoughts(identityThoughts));
+    thunkAPI.dispatch(setIdentityThoughtIds(identityThoughtIds));
 
     return true;
   }
 );
 // ACTION TYPES
 
-type SetIdentityThoughtsAction = PayloadAction<Thought[]>;
+type SetIdentityThoughtIdsAction = PayloadAction<string[]>;
 type StartIdentityThoughtsFulfilled = PayloadAction<boolean>;
 
 // SLICE
@@ -53,28 +51,31 @@ export const IdentityThoughtsSlice = createSlice({
   name: "identityThoughts",
   initialState,
   reducers: {
-    setIdentityThoughts: (
+    setIdentityThoughtIds: (
       state: IdentityThoughtsState,
-      action: SetIdentityThoughtsAction
+      action: SetIdentityThoughtIdsAction
     ) => {
-      state.identityThoughts = action.payload;
+      state.identityThoughtIds = action.payload;
     },
   },
   extraReducers: (builder) => {
     // Add reducers for additional action types here, and handle loading state as needed
     builder.addCase(
-      startHydrateIdentityThoughts.fulfilled,
+      startHydrateIdentityThoughtIds.fulfilled,
       (state, action: StartIdentityThoughtsFulfilled) => {
         // Add user to the state array
       }
     );
-    builder.addCase(startHydrateIdentityThoughts.rejected, (state, action) => {
-      console.log(action.error.message);
-    });
+    builder.addCase(
+      startHydrateIdentityThoughtIds.rejected,
+      (state, action) => {
+        console.log(action.error.message);
+      }
+    );
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setIdentityThoughts } = IdentityThoughtsSlice.actions;
+export const { setIdentityThoughtIds } = IdentityThoughtsSlice.actions;
 
 export default IdentityThoughtsSlice.reducer;
