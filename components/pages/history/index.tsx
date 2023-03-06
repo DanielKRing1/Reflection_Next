@@ -1,11 +1,17 @@
 // THIRD PARTY
 import React, { useMemo } from "react";
+import { useSelector } from "react-redux";
 
 // PAGE-SPECIFIC COMPONENTS
 import JournalEntryThought from "./JournalEntry/JournalEntryThought";
 
 // TYPES
 import { JournalEntry, Reflection, Thought } from "../../../db/api/types";
+import { RootState } from "../../../redux/store";
+
+// UTILS
+import { getThought } from "../../../redux/journalThoughtsDictSlice/utils/getThoughts";
+import useOnHover from "../../../hooks/useOnHover";
 
 type JournalEntryProps = {
   journalEntry: JournalEntry;
@@ -13,25 +19,34 @@ type JournalEntryProps = {
 const JournalEntry = (props: JournalEntryProps) => {
   const { journalEntry } = props;
 
+  // HOOKS
+  const { isHovered, onMouseEnter, onMouseLeave } = useOnHover();
+
+  // REDUX
+  const { thoughtsDict } = useSelector(
+    (state: RootState) => state.journalThoughtsDictSlice
+  );
+
+  // MEMO
   const thoughts = useMemo(
     () =>
-      journalEntry.reflections.map((reflection: Reflection) =>
-        // TODO 1 Implement this method
-        // TODO 2 Create a dict of { Journal name -> Journal id } in LocalStorage
-        // TODO 3 Manage this dict in LocalStorageDriver and accept 'journalName' in Create Journal method (this method also creates the corresponding 'journalId')
-        // TODO 4 Save journal metadata somewhere
-        // TODO 5 Create Delete Journal methods
-        getThoughtById(reflection.id)
-      ),
+      journalEntry.reflections.map(({ id, data }: Reflection) => ({
+        thought: getThought(id, thoughtsDict),
+        reflectionDecision: data,
+      })),
     [journalEntry]
   );
 
   return (
-    <>
-      {thoughts.map((t: Thought) => (
-        <JournalEntryThought thought={t} />
+    <div onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+      {thoughts.map(({ thought, reflectionDecision }) => (
+        <JournalEntryThought
+          isHovered={isHovered}
+          thought={thought}
+          reflectionDecision={reflectionDecision}
+        />
       ))}
-    </>
+    </div>
   );
 };
 
