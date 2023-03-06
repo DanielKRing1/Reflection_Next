@@ -9,7 +9,7 @@ import journalThoughtsDictSlice from "./journalThoughtsDictSlice";
 import journalEntriesSlice from "./journalEntriesSlice";
 
 import newInklingsSlice from "./newInklingsSlice";
-import newJournalEntrySlice from "./newJournalEntrySlice";
+import createJournalEntrySlice from "./createJournalEntrySlice";
 
 export default combineReducers({
   journalingPhaseSlice,
@@ -21,5 +21,5 @@ export default combineReducers({
   journalEntriesSlice,
 
   newInklingsSlice,
-  newJournalEntrySlice,
+  createJournalEntrySlice,
 });

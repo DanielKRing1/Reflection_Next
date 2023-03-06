@@ -30,11 +30,11 @@ export const startAddJournalEntry = createAsyncThunk<
   boolean,
   undefined,
   ThunkConfig
->("newJournalEntrySlice/startAddJournalEntry", async (undef, thunkAPI) => {
+>("createJournalEntrySlice/startAddJournalEntry", async (undef, thunkAPI) => {
   const { activeJournalId } = thunkAPI.getState().activeJournalSlice;
   const { newInklings } = thunkAPI.getState().newInklingsSlice;
   const { selectedThoughtIds, selectedInklingIds } =
-    thunkAPI.getState().newJournalEntrySlice;
+    thunkAPI.getState().createJournalEntrySlice;
 
   // 1. Get discarded Thoughts
   const currentIdentityIds: string[] = await dbDriver.getCurrentIdentityIds(
