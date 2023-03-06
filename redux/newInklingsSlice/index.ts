@@ -63,7 +63,7 @@ export const startCommitNewInklings = createAsyncThunk<
   const { activeJournalId } = thunkAPI.getState().activeJournalSlice;
   const { newInklings } = thunkAPI.getState().newInklingsSlice;
 
-  // 1. Cache Inklings for Reflection
+  // 1. Cache Inklings for Reflection phase
   // Keep Inklings in Redux, so they can be used during Reflection and to create a new Journal Entry
   await dbDriver.commitInklings(activeJournalId, newInklings);
 
