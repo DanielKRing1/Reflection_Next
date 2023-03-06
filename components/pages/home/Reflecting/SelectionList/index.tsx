@@ -1,15 +1,11 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
-import dbDriver from "../../../../../db/api";
-import { Inkling, Thought } from "../../../../../db/api/types";
+import { Inkling } from "../../../../../db/api/types";
 import { RootState } from "../../../../../redux/store";
 import SelectionItem from "./SelectionItem";
 
 const SelectionList = () => {
   // REDUX
-  const { activeJournalId } = useSelector(
-    (state: RootState) => state.activeJournalSlice
-  );
   const { newInklings } = useSelector(
     (state: RootState) => state.newInklingsSlice
   );
