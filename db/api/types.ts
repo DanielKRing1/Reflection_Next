@@ -33,6 +33,15 @@ export type JournalEntry = {
 };
 // All journaling sessions
 export type Journal = JournalEntry[];
+// Information abt the Journal
+export type JournalMetadata = {
+  name: string;
+  keepMax: number;
+};
+export const DEFAULT_JOURNAL_METADATA: JournalMetadata = {
+  name: "",
+  keepMax: 5,
+};
 
 // IDEAS REFLECTED ON AND COMMITTED TO THE JOURNAL
 
@@ -53,9 +62,17 @@ export type DbDriverType = {
   clearInklings: (journalId: string) => Promise<void>;
 
   // REFLECTIONS, ENTRIES, JOURNAL
-  createJournal: (journalId: string) => Promise<void>;
+  createJournal: (
+    journalName: string
+  ) => Promise<{ id: string; metadata: JournalMetadata }>;
   getJournal: (journalId: string) => Promise<Journal>;
   deleteJournal: (journalId: string) => Promise<void>;
+
+  getJournalMetadata: (journalId: string) => Promise<JournalMetadata | null>;
+  addJournalMetadata: (
+    journalId: string,
+    additionalMetadata: Partial<JournalMetadata>
+  ) => Promise<void>;
 
   getJournalIds: () => Promise<string[]>;
   setLastUsedJournalId: (journalId: string) => Promise<void>;

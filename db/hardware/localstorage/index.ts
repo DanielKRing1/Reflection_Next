@@ -1,3 +1,6 @@
+// THIRD PARTY
+import genId from "@asianpersonn/time-id";
+
 // UTILS
 import {
   genInklingKey,
@@ -5,15 +8,18 @@ import {
   genJournalKey,
   genJournalIdsKey,
   genLastUsedJournalKey,
+  genJournalMetadataKey,
 } from "./keyGen";
 
 // TYPES
 import {
   DbHardwareType,
+  DEFAULT_JOURNAL_METADATA,
   Inkling,
   Inklings,
   Journal,
   JournalEntry,
+  JournalMetadata,
   Reflection,
   ReflectionDecision,
   Thought,
@@ -41,14 +47,32 @@ const LocalStorageDriver: DbHardwareType = {
   },
 
   // REFLECTIONS, ENTRIES, JOURNAL
-  createJournal: async function (journalId: string): Promise<void> {
+  // Journal
+  createJournal: async function (
+    journalName: string
+  ): Promise<{ id: string; metadata: JournalMetadata }> {
     const journalIds: string[] = await LocalStorageDriver.getJournalIds();
 
-    // 1. Add journal id
+    // 1. Create journal id
+    const journalId: string = genId();
+    // 2. Add journal id
     journalIds.push(journalId);
-
-    // 2. Save journal ids
+    // 3. Save journal ids
     localStorage.setItem(genJournalIdsKey(), JSON.stringify(journalIds));
+
+    // 4. Create Journal metadata
+    const metadata: JournalMetadata = {
+      ...DEFAULT_JOURNAL_METADATA,
+      name: journalName,
+    };
+    // 5. Add Journal metadata
+    localStorage.setItem(
+      genJournalMetadataKey(journalId),
+      JSON.stringify(metadata)
+    );
+
+    // 6. Return Journal metadata
+    return { id: journalId, metadata };
   },
   getJournal: async function (journalId: string): Promise<Journal> {
     try {
@@ -68,19 +92,56 @@ const LocalStorageDriver: DbHardwareType = {
     // 3. Remove Journal
     localStorage.removeItem(genJournalKey(journalId));
 
-    // 4. Remove from JournalIds
+    // 4. Remove Journal metadata
+    localStorage.removeItem(genJournalMetadataKey(journalId));
+
+    // 5. Remove from JournalIds
     const journalIdsToKeep: string[] = (
       await LocalStorageDriver.getJournalIds()
     ).filter((id: string) => id !== journalId);
     // Stringify array
     localStorage.setItem(genJournalIdsKey(), JSON.stringify(journalIdsToKeep));
 
-    // 5. Remove if last used JournalId
+    // 6. Remove if last used JournalId
     if (journalId === (await LocalStorageDriver.getLastUsedJournalId()))
       // By replacing with null
       localStorage.setItem(genLastUsedJournalKey(), null);
   },
 
+  // Metadata
+  getJournalMetadata: async function (
+    journalId: string
+  ): Promise<JournalMetadata | null> {
+    try {
+      return JSON.parse(localStorage.getItem(genJournalMetadataKey(journalId)));
+    } catch (err) {
+      return null;
+    }
+  },
+  addJournalMetadata: async function (
+    journalId: string,
+    additionalMetadata: Partial<JournalMetadata>
+  ): Promise<void> {
+    // 1. Get existing Journal metadata
+    let journalMetadata: JournalMetadata | null =
+      await LocalStorageDriver.getJournalMetadata(journalId);
+    // 2. Return if metadata does not exist
+    if (journalMetadata === null) return;
+
+    // 3. Add new additional metadata
+    journalMetadata = {
+      ...journalMetadata,
+      ...additionalMetadata,
+    };
+
+    // 4. Save new full metadata object
+    localStorage.setItem(
+      genJournalMetadataKey(journalId),
+      JSON.stringify(journalMetadata)
+    );
+  },
+
+  // Ids
   getJournalIds: async function (): Promise<string[]> {
     try {
       return JSON.parse(localStorage.getItem(genJournalIdsKey())) || [];
@@ -106,6 +167,8 @@ const LocalStorageDriver: DbHardwareType = {
     const allIds: string[] = await LocalStorageDriver.getJournalIds();
     return allIds.length > 0 ? allIds[0] : null;
   },
+
+  // Journal Entries
   addJournalEntry: async function (
     journalId: string,
     thoughtIdsDiscarded: string[],

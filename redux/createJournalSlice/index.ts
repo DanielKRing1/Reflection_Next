@@ -3,6 +3,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 // DB
 import dbDriver from "../../db/api";
+import { JournalMetadata } from "../../db/api/types";
 
 // REDUX
 import { startSetActiveJournalId } from "../activeJournalSlice";
@@ -13,11 +14,11 @@ import { ThunkConfig } from "../types";
 // INITIAL STATE
 
 export interface CreateJournalState {
-  newJournalId: string;
+  newJournalName: string;
 }
 
 const initialState: CreateJournalState = {
-  newJournalId: "",
+  newJournalName: "",
 };
 
 // ASYNC THUNKS
@@ -27,19 +28,19 @@ export const startCreateJournal = createAsyncThunk<
   undefined,
   ThunkConfig
 >("createJournal/startCreateJournal", async (undef, thunkAPI) => {
-  const { newJournalId } = thunkAPI.getState().createJournalSlice;
+  const { newJournalName } = thunkAPI.getState().createJournalSlice;
 
-  // Short-circuit if no newJournalId
-  if (newJournalId === "") return;
+  // Short-circuit if no newJournalName
+  if (newJournalName === "") return;
 
   // 1. Create Journal in Db
-  await dbDriver.createJournal(newJournalId);
+  const { id, metadata } = await dbDriver.createJournal(newJournalName);
 
   // 2. Switch active Journal
-  thunkAPI.dispatch(startSetActiveJournalId(newJournalId));
+  thunkAPI.dispatch(startSetActiveJournalId({ journalId: id, metadata }));
 
-  // 3. Clear newJournalId
-  thunkAPI.dispatch(clearNewJournalId());
+  // 3. Clear newJournalName
+  thunkAPI.dispatch(clearNewJournalName());
 
   return true;
 });
@@ -59,10 +60,10 @@ export const CreateJournalSlice = createSlice({
       state: CreateJournalState,
       action: SetNewJournalIdAction
     ) => {
-      state.newJournalId = action.payload;
+      state.newJournalName = action.payload;
     },
-    clearNewJournalId: (state: CreateJournalState) => {
-      state.newJournalId = "";
+    clearNewJournalName: (state: CreateJournalState) => {
+      state.newJournalName = "";
     },
   },
   extraReducers: (builder) => {
@@ -80,7 +81,7 @@ export const CreateJournalSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-const { clearNewJournalId } = CreateJournalSlice.actions;
+const { clearNewJournalName } = CreateJournalSlice.actions;
 export const { setNewJournalId } = CreateJournalSlice.actions;
 
 export default CreateJournalSlice.reducer;

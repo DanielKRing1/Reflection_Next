@@ -3,9 +3,11 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 // DB
 import dbDriver from "../../db/api";
+import { JournalMetadata } from "../../db/api/types";
 
 // REDUX
 import { startDetermineJournalingPhase } from "../journalingPhaseSlice";
+import { setJournalMetadata } from "../journalMetadataSlice";
 
 // TYPES
 import { ThunkConfig } from "../types";
@@ -33,26 +35,40 @@ const initialState: ActiveJournalState = {
 
 /**
  * Pass 'journalId' as null to initiate app with 'lastUsedJournalId'
+ * Fetches metadata from Db if not provided
+ *
+ * Sets 'activeJournalId'
+ * Sets 'journalMetadata'
+ * Initiates determining Journaling Phase
  */
+type StartSetActiveJournalIdArgs = {
+  journalId: string | null;
+  metadata?: JournalMetadata;
+};
 export const startSetActiveJournalId = createAsyncThunk<
   boolean,
-  string | null,
+  StartSetActiveJournalIdArgs,
   ThunkConfig
 >(
   "journalingPhase/startSetActiveJournalId",
-  async (journalId: string | null = null, thunkAPI) => {
+  async ({ journalId = null, metadata }, thunkAPI) => {
     // 1. No Journal id provided, must be StartUp
     // Get last used Journal id
     if (journalId === null) journalId = await dbDriver.getLastUsedJournalId();
 
     if (journalId !== null) {
-      // 2. Set activeJournalId
+      // 2. Set activeJournalId in Redux
       thunkAPI.dispatch(setActiveJournalId(journalId));
-      // 3. Set lastUsedJournalId
+      // 3. Set lastUsedJournalId in Db
       await dbDriver.setLastUsedJournalId(journalId);
+
+      // 4. Get Journal metadata if not provided
+      if (!metadata) metadata = await dbDriver.getJournalMetadata(journalId);
+      // 5. Get Journal metadata in Redux
+      thunkAPI.dispatch(setJournalMetadata(metadata));
     }
 
-    // 4. Set Journaling Phase
+    // 6. Set Journaling Phase
     // null journalId (bcus no 'lastUsedJournalId' and therefore no existing journals) will prompt CreateJournal phase
     thunkAPI.dispatch(startDetermineJournalingPhase(journalId));
 

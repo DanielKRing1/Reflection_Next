@@ -1,5 +1,6 @@
 // HARDWARE
 import DbHardware from "../hardware";
+import LocalStorageDriver from "../hardware/localstorage";
 
 // TYPES
 import { DbDriverType } from "./types";
@@ -11,11 +12,16 @@ const dbDriver: DbDriverType = {
   clearInklings: DbHardware.clearInklings,
 
   // REFLECTIONS, ENTRIES, JOURNAL
-
+  // Journal
   createJournal: DbHardware.createJournal,
   getJournal: DbHardware.getJournal,
   deleteJournal: DbHardware.deleteJournal,
 
+  // Journal metadata
+  getJournalMetadata: LocalStorageDriver.getJournalMetadata,
+  addJournalMetadata: LocalStorageDriver.addJournalMetadata,
+
+  // Journal ids
   getJournalIds: DbHardware.getJournalIds,
   setLastUsedJournalId: DbHardware.setLastUsedJournalId,
   getLastUsedJournalId: DbHardware.getLastUsedJournalId,
