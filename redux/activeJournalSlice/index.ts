@@ -8,7 +8,9 @@ import {
   Inklings,
   Journal,
   JournalMetadata,
+  Thought,
 } from "../../db/api/types";
+import { startHydrateIdentityThoughts } from "../identityThoughtsSlice";
 
 // REDUX
 import { startDetermineJournalingPhase } from "../journalingPhaseSlice";
@@ -70,9 +72,9 @@ export const startSetActiveJournalId = createAsyncThunk<
     await dbDriver.setLastUsedJournalId(journalId);
 
     // 4. Get Journal metadata if not provided (default Journal Metadata might be provided if Journal was just created)
-    const metadata: JournalMetadata = isNew
+    const metadata: JournalMetadata | undefined = isNew
       ? DEFAULT_JOURNAL_METADATA
-      : await dbDriver.getJournalMetadata(journalId);
+      : undefined;
     // 5. Set Journal metadata in Redux
     thunkAPI.dispatch(startHydrateJournalMetadata(metadata));
 
@@ -81,15 +83,19 @@ export const startSetActiveJournalId = createAsyncThunk<
       ? []
       : await dbDriver.getInklings(journalId);
     // 7. Hydrate committed Inklings if any
-    if (committedInklings.length > 0)
-      thunkAPI.dispatch(startHydrateNewInklings(committedInklings));
+    thunkAPI.dispatch(startHydrateNewInklings(committedInklings));
 
-    // 8. Get committed Inklings from Db
-    const journal: Journal = isNew ? [] : await dbDriver.getJournal(journalId);
+    // 8. Get Journal from Db
+    const journal: Journal | undefined = isNew ? [] : undefined;
     // 9. Hydrate committed Inklings if any
-    if (journal.length > 0) thunkAPI.dispatch(startHydrateJournal(journal));
+    thunkAPI.dispatch(startHydrateJournal(journal));
 
-    // 10. Set Journaling Phase
+    // 10. Get Journal from Db
+    const identityThoughts: Thought[] | undefined = isNew ? [] : undefined;
+    // 11. Hydrate committed Inklings if any
+    thunkAPI.dispatch(startHydrateIdentityThoughts(identityThoughts));
+
+    // 12. Set Journaling Phase
     // - 'null' journalId (bcus no 'lastUsedJournalId' and therefore no existing journals) will prompt CreateJournal phase
     // - Having committedInklings will prompt Reflecting phase, else Inkling phase
     thunkAPI.dispatch(
