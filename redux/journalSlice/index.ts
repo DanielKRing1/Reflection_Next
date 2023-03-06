@@ -16,15 +16,21 @@ const initialState: JournalState = {
 
 // ASYNC THUNKS
 
+// This is called from 'startDetermineJournalingPhase' when starting the app
+/**
+ * Pass Journal to hydrate with
+ *    or 'undefined' to hydrate from Db
+ */
 export const startHydrateJournal = createAsyncThunk<
   boolean,
-  undefined,
+  Journal | undefined,
   ThunkConfig
->("journalSlice/startHydrateJournal", async (undef, thunkAPI) => {
-  const { activeJournalId } = thunkAPI.getState().activeJournalSlice;
-
-  // 1. Get Journal Entries from Db
-  const journal: Journal = await dbDriver.getJournal(activeJournalId);
+>("journalSlice/startHydrateJournal", async (journal, thunkAPI) => {
+  // 1. No Journal provided, hydrate from Db
+  if (journal === undefined) {
+    const { activeJournalId } = thunkAPI.getState().activeJournalSlice;
+    journal = await dbDriver.getJournal(activeJournalId);
+  }
 
   // 2. Set Journal Entries in Redux
   thunkAPI.dispatch(setJournal(journal));

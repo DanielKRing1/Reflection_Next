@@ -6,12 +6,14 @@ import dbDriver from "../../db/api";
 import {
   DEFAULT_JOURNAL_METADATA,
   Inklings,
+  Journal,
   JournalMetadata,
 } from "../../db/api/types";
 
 // REDUX
 import { startDetermineJournalingPhase } from "../journalingPhaseSlice";
 import { startHydrateJournalMetadata } from "../journalMetadataSlice";
+import { startHydrateJournal } from "../journalSlice";
 import { startHydrateNewInklings } from "../newInklingsSlice";
 
 // TYPES
@@ -82,7 +84,12 @@ export const startSetActiveJournalId = createAsyncThunk<
     if (committedInklings.length > 0)
       thunkAPI.dispatch(startHydrateNewInklings(committedInklings));
 
-    // 8. Set Journaling Phase
+    // 8. Get committed Inklings from Db
+    const journal: Journal = isNew ? [] : await dbDriver.getJournal(journalId);
+    // 9. Hydrate committed Inklings if any
+    if (journal.length > 0) thunkAPI.dispatch(startHydrateJournal(journal));
+
+    // 10. Set Journaling Phase
     // - 'null' journalId (bcus no 'lastUsedJournalId' and therefore no existing journals) will prompt CreateJournal phase
     // - Having committedInklings will prompt Reflecting phase, else Inkling phase
     thunkAPI.dispatch(
