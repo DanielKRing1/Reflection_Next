@@ -156,9 +156,7 @@ const LocalStorageDriver: DbHardwareType = {
     localStorage.setItem(genLastUsedJournalKey(), journalId);
   },
   getLastUsedJournalId: async function (): Promise<string | null> {
-    let lastUsedJournalId = JSON.parse(
-      localStorage.getItem(genLastUsedJournalKey())
-    );
+    let lastUsedJournalId = localStorage.getItem(genLastUsedJournalKey());
 
     // 1. Get last used
     if (lastUsedJournalId !== null) return lastUsedJournalId;
