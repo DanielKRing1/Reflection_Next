@@ -32,21 +32,20 @@ const initialState: ActiveJournalState = {
 // THUNKS
 
 /**
- * Pass 'journalId' as undefined to
+ * Pass 'journalId' as null to initiate app with 'lastUsedJournalId'
  */
 export const startSetActiveJournalId = createAsyncThunk<
   boolean,
-  string | undefined,
+  string | null,
   ThunkConfig
 >(
   "journalingPhase/startSetActiveJournalId",
-  async (journalId: string | undefined = undefined, thunkAPI) => {
+  async (journalId: string | null = null, thunkAPI) => {
     // 1. No Journal id provided, must be StartUp
     // Get last used Journal id
-    if (journalId === undefined)
-      journalId = await dbDriver.getLastUsedJournalId();
+    if (journalId === null) journalId = await dbDriver.getLastUsedJournalId();
 
-    if (journalId !== undefined) {
+    if (journalId !== null) {
       // 2. Set activeJournalId
       thunkAPI.dispatch(setActiveJournalId(journalId));
       // 3. Set lastUsedJournalId
@@ -54,7 +53,7 @@ export const startSetActiveJournalId = createAsyncThunk<
     }
 
     // 4. Set Journaling Phase
-    // undefined journalId (bcus no 'lastUsedJournalId' and therefore no existing journals) will prompt CreateJournal phase
+    // null journalId (bcus no 'lastUsedJournalId' and therefore no existing journals) will prompt CreateJournal phase
     thunkAPI.dispatch(startDetermineJournalingPhase(journalId));
 
     return true;
@@ -93,6 +92,7 @@ export const ActiveJournalSlice = createSlice({
   },
 });
 
+// Only callable from 'startSetActiveJournalId'
 const { setActiveJournalId } = ActiveJournalSlice.actions;
 
 export default ActiveJournalSlice.reducer;

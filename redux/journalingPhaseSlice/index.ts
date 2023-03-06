@@ -28,14 +28,14 @@ const initialState: JournalingPhaseState = {
 // This method is called in response to the active Journal changing
 export const startDetermineJournalingPhase = createAsyncThunk<
   boolean,
-  string | undefined,
+  string | null,
   ThunkConfig
 >(
   "journalingPhase/startDetermineJournalingPhase",
   // The journalId that is currently being dispatched
-  async (journalId: string | undefined = undefined, thunkAPI) => {
-    // 1. Provided journalId is undefined, so no journals exist
-    if (journalId === undefined)
+  async (journalId: string | null = null, thunkAPI) => {
+    // 1. Provided journalId is null, so no journals exist
+    if (journalId === null)
       thunkAPI.dispatch(setJournalingPhase(JournalingPhase.Create_Journal));
     // 2. Journal exists
     else {

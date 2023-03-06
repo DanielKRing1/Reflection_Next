@@ -15,7 +15,7 @@ const SetJournalIdOnStartUp = ({ children }: Props) => {
   const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(startSetActiveJournalId(undefined));
+    dispatch(startSetActiveJournalId(null));
     console.log("hi!");
   }, []);
 

@@ -89,10 +89,12 @@ const LocalStorageDriver: DbHardwareType = {
       return [];
     }
   },
-  setLastUsedJournalId: async function (journalId: string): Promise<void> {
+  setLastUsedJournalId: async function (
+    journalId: string | null
+  ): Promise<void> {
     localStorage.setItem(genLastUsedJournalKey(), journalId);
   },
-  getLastUsedJournalId: async function (): Promise<string | undefined> {
+  getLastUsedJournalId: async function (): Promise<string | null> {
     let lastUsedJournalId = JSON.parse(
       localStorage.getItem(genLastUsedJournalKey())
     );
@@ -100,9 +102,9 @@ const LocalStorageDriver: DbHardwareType = {
     // 1. Get last used
     if (lastUsedJournalId !== null) return lastUsedJournalId;
 
-    // 2. Else return any id or undefined if none
+    // 2. Else return any id or null if none
     const allIds: string[] = await LocalStorageDriver.getJournalIds();
-    return allIds.length > 0 ? allIds[0] : undefined;
+    return allIds.length > 0 ? allIds[0] : null;
   },
   addJournalEntry: async function (
     journalId: string,
