@@ -14,6 +14,30 @@ const initialState: JournalMetadataState = {
   metadata: DEFAULT_JOURNAL_METADATA,
 };
 
+// THUNKS
+
+export const startEditJournalMetadata = createAsyncThunk<
+  boolean,
+  Partial<JournalMetadata>,
+  ThunkConfig
+>(
+  "journalMetadataSlice/startEditJournalMetadata",
+  async (additionalMetadata, thunkAPI) => {
+    const { metadata } = thunkAPI.getState().journalMetadataSlice;
+    const { activeJournalId } = thunkAPI.getState().activeJournalSlice;
+
+    // 1. Add Journal metadata to Db
+    await dbDriver.addJournalMetadata(activeJournalId, additionalMetadata);
+
+    // 2. Add Journal metadata to Redux
+    thunkAPI.dispatch(
+      setJournalMetadata({ ...metadata, ...additionalMetadata })
+    );
+
+    return true;
+  }
+);
+
 // ACTION TYPES
 
 type SetJournalMetadata = PayloadAction<JournalMetadata>;
