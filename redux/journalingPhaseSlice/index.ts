@@ -28,25 +28,21 @@ const initialState: JournalingPhaseState = {
 // This method is called in response to the active Journal changing
 export const startDetermineJournalingPhase = createAsyncThunk<
   boolean,
-  string | null,
+  { journalId: string | null; hasCommittedInklings?: boolean },
   ThunkConfig
 >(
   "journalingPhase/startDetermineJournalingPhase",
   // The journalId that is currently being dispatched
-  async (journalId: string | null = null, thunkAPI) => {
+  async ({ journalId = null, hasCommittedInklings = false }, thunkAPI) => {
     // 1. Provided journalId is null, so no journals exist
     if (journalId === null)
       thunkAPI.dispatch(setJournalingPhase(JournalingPhase.Create_Journal));
     // 2. Journal exists
     else {
-      // 2.1. Hydrate committed Inklings
-      const committedInklings: Inklings = await dbDriver.getInklings(journalId);
-      thunkAPI.dispatch(startHydrateNewInklings(committedInklings));
-
-      // 2.2. If no committed Inklings, then still Inkling phase
-      if (committedInklings.length === 0)
+      // 2.1. If no committed Inklings, then still Inkling phase
+      if (!hasCommittedInklings)
         thunkAPI.dispatch(setJournalingPhase(JournalingPhase.Inkling));
-      // 2.3. Else Reflecting phase
+      // 2.2. Else Reflecting phase
       else thunkAPI.dispatch(setJournalingPhase(JournalingPhase.Reflecting));
     }
 
