@@ -6,7 +6,7 @@ import createJournalSlice from "./createJournalSlice";
 import activeJournalSlice from "./activeJournalSlice";
 import journalMetadataSlice from "./journalMetadataSlice";
 import journalThoughtsDictSlice from "./journalThoughtsDictSlice";
-import journalEntriesSlice from "./journalEntriesSlice";
+import journalSlice from "./journalSlice";
 
 import newInklingsSlice from "./newInklingsSlice";
 import createJournalEntrySlice from "./createJournalEntrySlice";
@@ -18,7 +18,7 @@ export default combineReducers({
   activeJournalSlice,
   journalMetadataSlice,
   journalThoughtsDictSlice,
-  journalEntriesSlice,
+  journalSlice,
 
   newInklingsSlice,
   createJournalEntrySlice,
