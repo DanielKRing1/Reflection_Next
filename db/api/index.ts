@@ -12,6 +12,14 @@ const dbDriver: DbDriverType = {
 
   // REFLECTIONS, ENTRIES, JOURNAL
 
+  createJournal: DbHardware.createJournal,
+  getJournal: DbHardware.getJournal,
+  deleteJournal: DbHardware.deleteJournal,
+
+  getJournalIds: DbHardware.getJournalIds,
+  setLastUsedJournalId: DbHardware.setLastUsedJournalId,
+  getLastUsedJournalId: DbHardware.getLastUsedJournalId,
+
   /**
    * 1. Converts Inklings to Thoughts,
    * 2. Saves them to ThoughtsDict,
@@ -42,11 +50,6 @@ const dbDriver: DbDriverType = {
     await DbHardware.clearInklings(journalId);
   },
   getCurrentIdentityIds: DbHardware.getCurrentIdentityIds,
-  createJournal: DbHardware.createJournal,
-  getJournal: DbHardware.getJournal,
-  getJournalIds: DbHardware.getJournalIds,
-  setLastUsedJournalId: DbHardware.setLastUsedJournalId,
-  getLastUsedJournalId: DbHardware.getLastUsedJournalId,
 
   // THOUGHTS
   getThoughts: DbHardware.getThoughts,
