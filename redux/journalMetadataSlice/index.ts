@@ -16,10 +16,10 @@ const initialState: JournalMetadataState = {
 
 // THUNKS
 
-// This is called from 'startDetermineJournalingPhase' when starting the app
+// This is called from 'startSetActiveJournalId'
 /**
- * Pass inklings to hydrate with
- *    of 'undefined' to hydrate from Db
+ * Pass Metadata to hydrate with
+ *    or 'undefined' to hydrate from Db
  */
 export const startHydrateJournalMetadata = createAsyncThunk<
   boolean,

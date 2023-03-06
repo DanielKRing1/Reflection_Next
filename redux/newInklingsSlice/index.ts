@@ -27,10 +27,10 @@ const initialState: NewInklingsState = {
 
 // ASYNC THUNKS
 
-// This is called from 'startDetermineJournalingPhase' when starting the app
+// This is called from 'startSetActiveJournalId'
 /**
- * Pass inklings to hydrate with
- *    of 'undefined' to hydrate from Db
+ * Pass Inklings to hydrate with
+ *    or 'undefined' to hydrate from Db
  */
 export const startHydrateNewInklings = createAsyncThunk<
   boolean,
