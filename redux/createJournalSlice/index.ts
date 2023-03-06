@@ -37,7 +37,7 @@ export const startCreateJournal = createAsyncThunk<
   const { id, metadata } = await dbDriver.createJournal(newJournalName);
 
   // 2. Switch active Journal
-  thunkAPI.dispatch(startSetActiveJournalId({ journalId: id, metadata }));
+  thunkAPI.dispatch(startSetActiveJournalId({ journalId: id, isNew: true }));
 
   // 3. Clear newJournalName
   thunkAPI.dispatch(clearNewJournalName());

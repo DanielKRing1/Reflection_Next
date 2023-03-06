@@ -3,11 +3,15 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 // DB
 import dbDriver from "../../db/api";
-import { Inklings, JournalMetadata } from "../../db/api/types";
+import {
+  DEFAULT_JOURNAL_METADATA,
+  Inklings,
+  JournalMetadata,
+} from "../../db/api/types";
 
 // REDUX
 import { startDetermineJournalingPhase } from "../journalingPhaseSlice";
-import { setJournalMetadata } from "../journalMetadataSlice";
+import { startHydrateJournalMetadata } from "../journalMetadataSlice";
 import { startHydrateNewInklings } from "../newInklingsSlice";
 
 // TYPES
@@ -44,7 +48,7 @@ const initialState: ActiveJournalState = {
  */
 type StartSetActiveJournalIdArgs = {
   journalId: string | null;
-  metadata?: JournalMetadata;
+  isNew?: boolean;
 };
 export const startSetActiveJournalId = createAsyncThunk<
   boolean,
@@ -52,25 +56,28 @@ export const startSetActiveJournalId = createAsyncThunk<
   ThunkConfig
 >(
   "journalingPhase/startSetActiveJournalId",
-  async ({ journalId = null, metadata }, thunkAPI) => {
+  async ({ journalId = null, isNew = false }, thunkAPI) => {
     // 1. No Journal id provided, must be StartUp
     // Get last used Journal id
     if (journalId === null) journalId = await dbDriver.getLastUsedJournalId();
+    if (journalId === null) return false;
 
-    if (journalId !== null) {
-      // 2. Set activeJournalId in Redux
-      thunkAPI.dispatch(setActiveJournalId(journalId));
-      // 3. Set lastUsedJournalId in Db
-      await dbDriver.setLastUsedJournalId(journalId);
+    // 2. Set activeJournalId in Redux
+    thunkAPI.dispatch(setActiveJournalId(journalId));
+    // 3. Set lastUsedJournalId in Db
+    await dbDriver.setLastUsedJournalId(journalId);
 
-      // 4. Get Journal metadata if not provided
-      if (!metadata) metadata = await dbDriver.getJournalMetadata(journalId);
-      // 5. Set Journal metadata in Redux
-      thunkAPI.dispatch(setJournalMetadata(metadata));
-    }
+    // 4. Get Journal metadata if not provided (default Journal Metadata might be provided if Journal was just created)
+    const metadata: JournalMetadata = isNew
+      ? DEFAULT_JOURNAL_METADATA
+      : await dbDriver.getJournalMetadata(journalId);
+    // 5. Set Journal metadata in Redux
+    thunkAPI.dispatch(startHydrateJournalMetadata(metadata));
 
     // 6. Get committed Inklings from Db
-    const committedInklings: Inklings = await dbDriver.getInklings(journalId);
+    const committedInklings: Inklings = isNew
+      ? []
+      : await dbDriver.getInklings(journalId);
     // 7. Hydrate committed Inklings if any
     if (committedInklings.length > 0)
       thunkAPI.dispatch(startHydrateNewInklings(committedInklings));

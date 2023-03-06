@@ -16,6 +16,31 @@ const initialState: JournalMetadataState = {
 
 // THUNKS
 
+// This is called from 'startDetermineJournalingPhase' when starting the app
+/**
+ * Pass inklings to hydrate with
+ *    of 'undefined' to hydrate from Db
+ */
+export const startHydrateJournalMetadata = createAsyncThunk<
+  boolean,
+  JournalMetadata | undefined,
+  ThunkConfig
+>(
+  "journalMetadataSlice/startHydrateJournalMetadata",
+  async (metadata: JournalMetadata | undefined, thunkAPI) => {
+    // 1. No Journal Metadata provided, hydrate from Db
+    if (metadata === undefined) {
+      const { activeJournalId } = thunkAPI.getState().activeJournalSlice;
+      metadata = await dbDriver.getJournalMetadata(activeJournalId);
+    }
+
+    // 2. Set Journal Metadata
+    thunkAPI.dispatch(setJournalMetadata(metadata));
+
+    return true;
+  }
+);
+
 export const startEditJournalMetadata = createAsyncThunk<
   boolean,
   Partial<JournalMetadata>,
