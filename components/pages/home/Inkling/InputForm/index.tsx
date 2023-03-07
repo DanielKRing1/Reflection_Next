@@ -21,14 +21,14 @@ import { AppDispatch, RootState } from "../../../../../redux/store";
 const InputForm = () => {
   // REDUX
   const dispatch: AppDispatch = useDispatch();
-  const { emptyEntries } = useSelector(
+  const { emptyInklings } = useSelector(
     (state: RootState) => state.newInklingsSlice
   );
 
   // HANDLERS
   const handleAddEntry = () => {
     // Cannot add entry if empty entries exist
-    if (Object.keys(emptyEntries).length > 0) return;
+    if (Object.keys(emptyInklings).length > 0) return;
 
     dispatch(addInkling({ id: genId(), data: "" }));
   };

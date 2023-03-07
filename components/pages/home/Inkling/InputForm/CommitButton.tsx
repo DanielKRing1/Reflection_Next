@@ -20,7 +20,7 @@ type CommitSubmitButtonProps = {};
 const CommitButton = (props: CommitSubmitButtonProps) => {
   // REDUX
   const dispatch: AppDispatch = useDispatch();
-  const { newInklings, emptyEntries } = useSelector(
+  const { newInklings, emptyInklings } = useSelector(
     (state: RootState) => state.newInklingsSlice
   );
 
@@ -30,7 +30,7 @@ const CommitButton = (props: CommitSubmitButtonProps) => {
     //    Reject Thunk, set error + timeout to clear error
 
     // Cannot submit if empty entries exist
-    if (Object.keys(emptyEntries).length > 0) return;
+    if (Object.keys(emptyInklings).length > 0) return;
 
     dispatch(startCommitNewInklings());
   };

@@ -17,12 +17,12 @@ export interface NewInklingsState {
   // [ { id: 'id123', data: 'Hello' }, ... ]
   newInklings: Inklings;
   // { id123: true, ... }
-  emptyEntries: Dict<boolean>;
+  emptyInklings: Dict<boolean>;
 }
 
 const initialState: NewInklingsState = {
   newInklings: [],
-  emptyEntries: {},
+  emptyInklings: {},
 };
 
 // ASYNC THUNKS
@@ -96,7 +96,7 @@ export const NewInklingsSlice = createSlice({
 
       // Check if new Inkling is empty
       const { id, data } = action.payload;
-      if (data === "") state.emptyEntries[id] = true;
+      if (data === "") state.emptyInklings[id] = true;
     },
     editInkling: (state: NewInklingsState, action: EditInklingAction) => {
       const { index, data } = action.payload;
@@ -108,10 +108,11 @@ export const NewInklingsSlice = createSlice({
       state.newInklings[index].data = data;
 
       // Was an empty Inkling but is no longer
-      if (state.emptyEntries[id] && data !== "") delete state.emptyEntries[id];
+      if (state.emptyInklings[id] && data !== "")
+        delete state.emptyInklings[id];
       // Was not an empty Inkling but is now
-      else if (!state.emptyEntries[id] && data === "")
-        state.emptyEntries[id] = true;
+      else if (!state.emptyInklings[id] && data === "")
+        state.emptyInklings[id] = true;
     },
     rmInkling: (state: NewInklingsState, action: RmInklingAction) => {
       const index: number = action.payload;
@@ -124,11 +125,11 @@ export const NewInklingsSlice = createSlice({
       // 2. Remove Inkling
       state.newInklings.splice(index, 1);
       // Remove as empty Inkling
-      delete state.emptyEntries[id];
+      delete state.emptyInklings[id];
     },
     clearInklings: (state: NewInklingsState, action: ResetAction) => {
       state.newInklings = [];
-      state.emptyEntries = {};
+      state.emptyInklings = {};
     },
   },
   extraReducers: (builder) => {
