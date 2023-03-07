@@ -16,7 +16,6 @@ import MyTextInput from "../../../../generic/Input/MyTextInput";
 
 type InputProps = {};
 const Input = (props: InputProps) => {
-  4;
   // REDUX
   const dispatch: AppDispatch = useDispatch();
   const { newJournalName } = useSelector(
