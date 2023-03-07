@@ -98,12 +98,15 @@ export const NewInklingsSlice = createSlice({
   initialState,
   reducers: {
     addInkling: (state: NewInklingsState, action: AddInklingAction) => {
-      // Add new Inkling with empty data
+      // 1. Add new Inkling with empty data
       state.newInklings.push(action.payload);
 
-      // Check if new Inkling is empty
+      // 2. Check if new Inkling is empty
       const { id, data } = action.payload;
       if (data === "") state.emptyInklings[id] = true;
+
+      // 3. Focus new Inkling
+      state.focusedInklingIndex = state.newInklings.length - 1;
     },
     editInkling: (state: NewInklingsState, action: EditInklingAction) => {
       const { index, data } = action.payload;
@@ -133,6 +136,9 @@ export const NewInklingsSlice = createSlice({
       state.newInklings.splice(index, 1);
       // Remove as empty Inkling
       delete state.emptyInklings[id];
+
+      // 3. Unfocus Inkling if was focused
+      if (index === state.focusedInklingIndex) state.focusedInklingIndex = -1;
     },
     clearInklings: (state: NewInklingsState, action: ResetAction) => {
       state.newInklings = [];
