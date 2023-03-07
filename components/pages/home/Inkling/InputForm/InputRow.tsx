@@ -8,15 +8,7 @@ import EditableText, {
 
 type InputRowProps = {} & EditableTextProps;
 const InputRow = (props: InputRowProps) => {
-  const { value } = props;
-
-  return (
-    <EditableText
-      // Autofocus empty inputs (empty inputs are deleted unless they were just added)
-      autoFocus={value === ""}
-      {...props}
-    />
-  );
+  return <EditableText {...props} />;
 };
 
 export default InputRow;

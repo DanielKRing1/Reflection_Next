@@ -1,5 +1,5 @@
 // THIRD PARTY
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 // GENERIC COMPONENTS
@@ -9,7 +9,11 @@ import FlexCol from "../../../../generic/Flex/FlexCol";
 import InputRow from "./InputRow";
 
 // REDUX
-import { editInkling } from "../../../../../redux/newInklingsSlice";
+import {
+  editInkling,
+  rmFocusedInkling,
+  setFocusedInkling,
+} from "../../../../../redux/newInklingsSlice";
 
 // UTILS
 import { nothingFocused } from "../../../../../utils/focus";
@@ -19,17 +23,67 @@ import { AppDispatch, RootState } from "../../../../../redux/store";
 import { Inkling } from "../../../../../db/api/types";
 
 type InputListProps = {
-  handleAddEntry: () => void;
+  onAddEntry: () => void;
 };
 const InputList = (props: InputListProps) => {
-  const { handleAddEntry } = props;
+  const { onAddEntry } = props;
+
+  // REDUX
+  const dispatch: AppDispatch = useDispatch();
+  const { newInklings, emptyInklings, focusedInklingIndex } = useSelector(
+    (state: RootState) => state.newInklingsSlice
+  );
+
+  useEffect(() => {
+    console.log(focusedInklingIndex);
+  }, [focusedInklingIndex]);
+
+  // HANDLERS
+  const handleAddInkling = useCallback(() => {
+    onAddEntry();
+  }, [onAddEntry]);
+  const handleCommitInkling = (index: number, newEntry: string) => {
+    dispatch(editInkling({ index, data: newEntry }));
+  };
+
+  const handleFocusInkling = useCallback(
+    (index: number) => {
+      dispatch(setFocusedInkling(index));
+    },
+    [dispatch, setFocusedInkling]
+  );
+  const handleBlurInkling = useCallback(() => {
+    // if (nothingFocused()) dispatch(rmFocusedInkling());
+    dispatch(rmFocusedInkling());
+  }, [dispatch, rmFocusedInkling]);
 
   // HANDLE KEYBOARD PRESS ENTER
   useEffect(() => {
     // 1. Defined key down handler
     const keydownHandler = (e: KeyboardEvent) => {
-      console.log("a");
-      if (nothingFocused() && e.key === "Enter") handleAddEntry();
+      // Only handle 'Enter' key events
+      if (e.key !== "Enter") return;
+      console.log("asdasd");
+      console.log(focusedInklingIndex);
+      if (focusedInklingIndex > -1) {
+        console.log("in");
+        handleBlurInkling();
+        return;
+      }
+
+      // 1. Look for empty Inkling
+      const pivotIndex = focusedInklingIndex > -1 ? focusedInklingIndex : 0;
+      for (let i = 0; i < newInklings.length; i++) {
+        const shiftedIndex = (pivotIndex + i) % newInklings.length;
+        const { data, id } = newInklings[shiftedIndex];
+
+        // 2. Found next empty Inkling, focus it
+        if (data === "") return handleFocusInkling(shiftedIndex);
+      }
+
+      // 3. No empty Inklings, add new input
+      handleFocusInkling(newInklings.length);
+      handleAddInkling();
     };
 
     // 2. Add key down handler
@@ -37,18 +91,7 @@ const InputList = (props: InputListProps) => {
 
     // 3. Remove key down handler
     return () => document.removeEventListener("keydown", keydownHandler);
-  }, [handleAddEntry]);
-
-  // REDUX
-  const dispatch: AppDispatch = useDispatch();
-  const { newInklings } = useSelector(
-    (state: RootState) => state.newInklingsSlice
-  );
-
-  // HANDLERS
-  const handleEditEntry = (index: number, newEntry: string) => {
-    dispatch(editInkling({ index, data: newEntry }));
-  };
+  }, [handleFocusInkling, handleBlurInkling, handleAddInkling]);
 
   return (
     <FlexCol alignItems="stretch">
@@ -56,7 +99,10 @@ const InputList = (props: InputListProps) => {
         <InputRow
           key={id}
           value={data}
-          onCommit={(newEntry: string) => handleEditEntry(i, newEntry)}
+          onCommit={(newEntry: string) => handleCommitInkling(i, newEntry)}
+          isFocused={i === focusedInklingIndex}
+          onFocus={() => handleFocusInkling(i)}
+          onBlur={() => handleBlurInkling()}
         />
       ))}
     </FlexCol>

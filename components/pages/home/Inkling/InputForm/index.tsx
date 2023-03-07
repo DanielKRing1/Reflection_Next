@@ -35,7 +35,7 @@ const InputForm = () => {
 
   return (
     <FlexCol alignItems="stretch">
-      <InputList handleAddEntry={handleAddEntry} />
+      <InputList onAddEntry={handleAddEntry} />
 
       <FlexRow justifyContent="space-around">
         <AddInputButton handleAddEntry={handleAddEntry} />

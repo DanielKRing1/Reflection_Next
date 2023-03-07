@@ -18,11 +18,16 @@ export interface NewInklingsState {
   newInklings: Inklings;
   // { id123: true, ... }
   emptyInklings: Dict<boolean>;
+
+  // index
+  focusedInklingIndex: number;
 }
 
 const initialState: NewInklingsState = {
   newInklings: [],
   emptyInklings: {},
+
+  focusedInklingIndex: -1,
 };
 
 // ASYNC THUNKS
@@ -82,6 +87,8 @@ type EditInklingAction = PayloadAction<{
 }>;
 type RmInklingAction = PayloadAction<number>;
 type ResetAction = PayloadAction<void>;
+type SetFocusedInklingAction = PayloadAction<number>;
+type RmFocusedInklingAction = PayloadAction<void>;
 type StartEntriesFulfilled = PayloadAction<boolean>;
 
 // SLICE
@@ -130,6 +137,19 @@ export const NewInklingsSlice = createSlice({
     clearInklings: (state: NewInklingsState, action: ResetAction) => {
       state.newInklings = [];
       state.emptyInklings = {};
+      state.focusedInklingIndex = -1;
+    },
+    setFocusedInkling: (
+      state: NewInklingsState,
+      action: SetFocusedInklingAction
+    ) => {
+      state.focusedInklingIndex = action.payload;
+    },
+    rmFocusedInkling: (
+      state: NewInklingsState,
+      action: RmFocusedInklingAction
+    ) => {
+      state.focusedInklingIndex = -1;
     },
   },
   extraReducers: (builder) => {
@@ -147,7 +167,13 @@ export const NewInklingsSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { addInkling, rmInkling, editInkling, clearInklings } =
-  NewInklingsSlice.actions;
+export const {
+  addInkling,
+  rmInkling,
+  editInkling,
+  clearInklings,
+  setFocusedInkling,
+  rmFocusedInkling,
+} = NewInklingsSlice.actions;
 
 export default NewInklingsSlice.reducer;

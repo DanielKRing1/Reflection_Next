@@ -4,26 +4,32 @@ import MyText from "../Text/MyText";
 import MyTextInput from "./MyTextInput";
 
 export type EditableTextProps = {
-  autoFocus?: boolean;
+  isFocused?: boolean;
   editable?: boolean;
   placeholder?: string;
   value: string;
+  // Only provide this to 'listen' to the value change
+  // Value will be stored locally in this component until it is 'committed' on blur/enter
   onChange?: (newText: string) => void;
   onCommit: (newText: string) => void;
+  onFocus?: () => void;
+  onBlur?: () => void;
 };
 
 const EditableText = (props: EditableTextProps) => {
   const {
-    autoFocus = false,
+    isFocused = false,
     editable = true,
     placeholder = "",
     value,
     onChange = () => {},
     onCommit,
+    onFocus = () => {},
+    onBlur = () => {},
   } = props;
 
   // LOCAL STATE
-  const [isEditing, setIsEditing] = useState(autoFocus);
+  const [isEditing, setIsEditing] = useState(isFocused);
   const [localValue, setLocalValue] = useState(value);
 
   const ref = useRef<HTMLInputElement>();
@@ -39,6 +45,13 @@ const EditableText = (props: EditableTextProps) => {
   useEffect(() => {
     if (isEditing && ref.current) ref.current.focus();
   }, [isEditing]);
+  useEffect(() => {
+    if (isFocused) setIsEditing(true);
+    else {
+      if (ref.current) ref.current.blur();
+      setIsEditing(false);
+    }
+  }, [isFocused]);
 
   // HANDLERS
 
@@ -63,24 +76,30 @@ const EditableText = (props: EditableTextProps) => {
     setLocalValue(newValue);
   };
 
+  const handleFocus = () => {
+    // Props
+    onFocus();
+  };
+
   /**
-   * Called on blur
+   * Called on blur and on 'enter'
    * Tells EditableText to commit localValue
    *    and to begin displaying prop value
    */
-  const handleDoneEditing = () => {
+  const handleBlur = () => {
     if (!isEditing) return;
 
-    onCommit(localValue);
+    // Local
     setIsEditing(false);
+
+    // Props
+    onCommit(localValue);
+    onBlur();
   };
 
-  /**
-   * If pressed 'Enter' key, call handleDoneEditing
-   */
-  const handleEnter = () => {
-    handleDoneEditing();
-  };
+  // const handleEnter = () => {
+  //   if (ref.current) ref.current.blur();
+  // };
 
   return (
     <>
@@ -91,11 +110,12 @@ const EditableText = (props: EditableTextProps) => {
       ) : (
         <MyTextInput
           ref={ref}
-          onEnter={handleEnter}
+          // onEnter={handleEnter}
           placeholder={placeholder}
           value={localValue}
           onChange={handleChangeValue}
-          onBlur={handleDoneEditing}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
         />
       )}
     </>
