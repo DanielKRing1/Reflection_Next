@@ -9,7 +9,6 @@ export type EditableTextProps = {
   placeholder?: string;
   value: string;
   onChange?: (newText: string) => void;
-  onEnter?: (newText: string) => void;
   onCommit: (newText: string) => void;
 };
 
@@ -20,7 +19,6 @@ const EditableText = (props: EditableTextProps) => {
     placeholder = "",
     value,
     onChange = () => {},
-    onEnter = () => {},
     onCommit,
   } = props;
 
@@ -57,9 +55,7 @@ const EditableText = (props: EditableTextProps) => {
    * Called every keystroke
    * Updates local value
    */
-  const handleChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue: string = e.target.value;
-
+  const handleChangeValue = (newValue: string) => {
     // Prop
     onChange(newValue);
 
@@ -79,28 +75,11 @@ const EditableText = (props: EditableTextProps) => {
     setIsEditing(false);
   };
 
-  // KEY HANDLERS
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    handleEnter(e);
-    _preventKeyLoseFocus(e);
-  };
-  const handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    _preventKeyLoseFocus(e);
-  };
   /**
    * If pressed 'Enter' key, call handleDoneEditing
    */
-  const handleEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key == "Enter") {
-      handleDoneEditing();
-      onEnter(localValue);
-    }
-  };
-  /**
-   * Prevent losing text input focus when pressing 'alt' or 'tab' keys
-   */
-  const _preventKeyLoseFocus = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    // if (e.key === "Alt" || e.key === "Tab") e.preventDefault();
+  const handleEnter = () => {
+    handleDoneEditing();
   };
 
   return (
@@ -112,12 +91,11 @@ const EditableText = (props: EditableTextProps) => {
       ) : (
         <MyTextInput
           ref={ref}
+          onEnter={handleEnter}
           placeholder={placeholder}
           value={localValue}
           onChange={handleChangeValue}
           onBlur={handleDoneEditing}
-          onKeyDown={handleKeyDown}
-          onKeyUp={handleKeyUp}
         />
       )}
     </>

@@ -1,9 +1,72 @@
+import React, { forwardRef, HTMLProps } from "react";
 import styled from "styled-components";
 
 type MyTextInputProps = {
+  onChange: (newText: string) => void;
+  onEnter?: () => void;
+  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  onKeyUp?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+
   color?: string;
-};
-const MyTextInput = styled.input<MyTextInputProps>`
+} & Omit<HTMLProps<HTMLInputElement>, "onChange">;
+const MyTextInput = forwardRef<HTMLInputElement, MyTextInputProps>(
+  (props, ref) => {
+    const {
+      onChange,
+      onEnter = () => {},
+      onKeyDown = () => {},
+      onKeyUp = () => {},
+    } = props;
+
+    /**
+     * Called every keystroke
+     * Updates local value
+     */
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const newValue: string = e.target.value;
+
+      // Prop
+      onChange(newValue);
+    };
+
+    // KEY HANDLERS
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+      _handleEnter(e);
+      _preventKeyLoseFocus(e);
+
+      onKeyDown(e);
+    };
+    const handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
+      _preventKeyLoseFocus(e);
+
+      onKeyUp(e);
+    };
+    /**
+     * If pressed 'Enter' key, call handleDoneEditing
+     */
+    const _handleEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e.key == "Enter") onEnter();
+    };
+    /**
+     * Prevent losing text input focus when pressing 'alt' or 'tab' keys
+     */
+    const _preventKeyLoseFocus = (e: React.KeyboardEvent<HTMLInputElement>) => {
+      // if (e.key === "Alt" || e.key === "Tab") e.preventDefault();
+    };
+
+    return (
+      <StyledInput
+        {...props}
+        as={StyledInput}
+        ref={ref}
+        onChange={handleChange}
+        onKeyDown={handleKeyDown}
+        onKeyUp={handleKeyUp}
+      />
+    );
+  }
+);
+const StyledInput = styled.input<React.HTMLProps<HTMLInputElement>>`
   background-color: ${({ theme, color }) => color || theme.colors.main};
   color: ${({ theme }) => theme.colors.text};
   font-size: ${({ theme }) => theme.fonts.md};
