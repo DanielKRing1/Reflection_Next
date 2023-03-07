@@ -54,9 +54,10 @@ const MyTextInput = forwardRef<HTMLInputElement, MyTextInputProps>(
       // if (e.key === "Alt" || e.key === "Tab") e.preventDefault();
     };
 
+    const { onEnter: _1, onChange: _2, ...drillProps } = props;
     return (
       <StyledInput
-        {...props}
+        {...drillProps}
         as={StyledInput}
         ref={ref}
         onChange={handleChange}
