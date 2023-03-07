@@ -98,7 +98,6 @@ const InputList = (props: InputListProps) => {
         <InputRow
           key={id}
           value={data}
-          onCommit={() => {}}
           onChange={(newEntry: string) => handleEditInkling(i, newEntry)}
           isFocused={i === focusedInklingIndex}
           onFocus={() => handleFocusInkling(i)}

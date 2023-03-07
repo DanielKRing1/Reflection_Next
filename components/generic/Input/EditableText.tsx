@@ -11,7 +11,7 @@ export type EditableTextProps = {
   // Only provide this to 'listen' to the value change
   // Value will be stored locally in this component until it is 'committed' on blur/enter
   onChange?: (newText: string) => void;
-  onCommit: (newText: string) => void;
+  onCommit?: (newText: string) => void;
   onFocus?: () => void;
   onBlur?: () => void;
 };
@@ -23,7 +23,7 @@ const EditableText = (props: EditableTextProps) => {
     placeholder = "",
     value,
     onChange = () => {},
-    onCommit,
+    onCommit = () => {},
     onFocus = () => {},
     onBlur = () => {},
   } = props;
