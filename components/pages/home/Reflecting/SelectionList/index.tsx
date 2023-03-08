@@ -49,8 +49,6 @@ const SelectionList = () => {
     else dispatch(rmInklingId(id));
   };
 
-  console.log(thoughtsDict);
-
   return (
     <>
       <FlexCol>
