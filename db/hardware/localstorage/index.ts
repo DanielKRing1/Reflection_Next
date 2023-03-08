@@ -272,7 +272,9 @@ const LocalStorageDriver: DbHardwareType = {
     );
 
     // 1. Map Thought ids to Thoughts list
-    return thoughtIds.map((id: string) => thoughtsDict[id]);
+    return thoughtIds
+      .map((id: string) => thoughtsDict[id])
+      .filter((thought) => thought !== undefined);
   },
   getThoughtsDict: async function (journalId: string): Promise<ThoughtsDict> {
     return JSON.parse(localStorage.getItem(genThoughtsDictKey(journalId)));
