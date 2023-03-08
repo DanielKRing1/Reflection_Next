@@ -9,6 +9,7 @@ import {
   Journal,
   JournalMetadata,
   Thought,
+  ThoughtsDict,
 } from "../../db/api/types";
 import { startHydrateIdentityThoughtIds } from "../identityThoughtsSlice";
 
@@ -16,6 +17,7 @@ import { startHydrateIdentityThoughtIds } from "../identityThoughtsSlice";
 import { startDetermineJournalingPhase } from "../journalingPhaseSlice";
 import { startHydrateJournalMetadata } from "../journalMetadataSlice";
 import { startHydrateJournal } from "../journalSlice";
+import { startHydrateThoughtsDict } from "../journalThoughtsDictSlice";
 import { startHydrateNewInklings } from "../newInklingsSlice";
 
 // TYPES
@@ -85,15 +87,17 @@ export const startSetActiveJournalId = createAsyncThunk<
     // 7. Hydrate committed Inklings if any
     thunkAPI.dispatch(startHydrateNewInklings(committedInklings));
 
-    // 8. Get Journal from Db
+    // 8. Hydrate committed Inklings if any
     const journal: Journal | undefined = isNew ? [] : undefined;
-    // 9. Hydrate committed Inklings if any
     thunkAPI.dispatch(startHydrateJournal(journal));
 
-    // 10. Get Journal from Db
+    // 9. Hydrate committed Inklings if any
     const identityThoughtIds: string[] | undefined = isNew ? [] : undefined;
-    // 11. Hydrate committed Inklings if any
     thunkAPI.dispatch(startHydrateIdentityThoughtIds(identityThoughtIds));
+
+    // 10. Hydrate ThoughtsDict if any
+    const thoughtsDict: ThoughtsDict | undefined = isNew ? {} : undefined;
+    thunkAPI.dispatch(startHydrateThoughtsDict(thoughtsDict));
 
     // 12. Set Journaling Phase
     // - 'null' journalId (bcus no 'lastUsedJournalId' and therefore no existing journals) will prompt CreateJournal phase
