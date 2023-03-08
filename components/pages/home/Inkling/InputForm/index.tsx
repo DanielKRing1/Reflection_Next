@@ -26,7 +26,14 @@ const InputForm = () => {
   );
 
   // HANDLERS
-  const handleAddEntry = () => {
+  const handleAddInkling = () => {
+    // Cannot add entry if empty entries exist
+    if (Object.keys(emptyInklings).length > 0) return;
+
+    dispatch(addInkling({ id: genId(), data: "" }));
+  };
+
+  const handleAddInkling = () => {
     // Cannot add entry if empty entries exist
     if (Object.keys(emptyInklings).length > 0) return;
 
@@ -35,10 +42,10 @@ const InputForm = () => {
 
   return (
     <FlexCol alignItems="stretch">
-      <InputList onAddEntry={handleAddEntry} />
+      <InputList onAddEntry={handleAddInkling} />
 
       <FlexRow justifyContent="space-around">
-        <AddInputButton handleAddEntry={handleAddEntry} />
+        <AddInputButton handleAddInkling={handleAddInkling} />
         <CommitButton />
       </FlexRow>
     </FlexCol>

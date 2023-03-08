@@ -4,14 +4,14 @@ import React from "react";
 // MY COMPONENTS
 import CircleButton from "../../../../generic/Button/CircleButton";
 type AddInputButtonProps = {
-  handleAddEntry: () => void;
+  handleAddInkling: () => void;
 };
 const AddInputButton = (props: AddInputButtonProps) => {
-  const { handleAddEntry } = props;
+  const { handleAddInkling } = props;
 
   return (
     <>
-      <CircleButton onClick={handleAddEntry} radius={5}>
+      <CircleButton onClick={handleAddInkling} radius={5}>
         +
       </CircleButton>
     </>
