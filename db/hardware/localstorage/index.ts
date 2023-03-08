@@ -278,7 +278,9 @@ const LocalStorageDriver: DbHardwareType = {
   },
   getThoughtsDict: async function (journalId: string): Promise<ThoughtsDict> {
     try {
-      return JSON.parse(localStorage.getItem(genThoughtsDictKey(journalId)));
+      return (
+        JSON.parse(localStorage.getItem(genThoughtsDictKey(journalId))) || {}
+      );
     } catch (err) {
       return {};
     }
