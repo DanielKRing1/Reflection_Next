@@ -1,14 +1,7 @@
 // THIRD PARTY
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-// DB
-import dbDriver from "../../db/api";
-
-// REDUX
-import { startHydrateNewInklings } from "../newInklingsSlice";
-
 // TYPES
-import { Inklings } from "../../db/api/types";
 import { ThunkConfig } from "../types";
 import { JournalingPhase } from "./types";
 
