@@ -2,6 +2,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import FlexCol from "../components/generic/Flex/FlexCol";
 import MyText from "../components/generic/Text/MyText";
 import CreateJournal from "../components/pages/home/CreateJournal";
 import Inkling from "../components/pages/home/Inkling";
@@ -26,16 +27,30 @@ export default function Home() {
 
       <main>
         <Link href="./history">Go to History</Link>
-        {journalingPhase === JournalingPhase.StartUp ||
-        journalingPhase === JournalingPhase.Create_Journal ? (
-          <CreateJournal />
-        ) : journalingPhase === JournalingPhase.Inkling ? (
-          <Inkling />
-        ) : journalingPhase === JournalingPhase.Reflecting ? (
-          <Reflecting />
-        ) : (
-          <MyText>Idk</MyText>
-        )}
+
+        <FlexCol>
+          <FlexCol
+            style={{
+              width: "70vw",
+              borderWidth: "5rem",
+              border: "solid black",
+              boxShadow:
+                "inset 0 -3em 3em rgb(0 0 0 / 10%), 0.5em 0.5em 2em rgb(0 0 0 / 30%)",
+            }}
+          >
+            {journalingPhase === JournalingPhase.StartUp ? (
+              <MyText>Loading</MyText>
+            ) : journalingPhase === JournalingPhase.Create_Journal ? (
+              <CreateJournal />
+            ) : journalingPhase === JournalingPhase.Inkling ? (
+              <Inkling />
+            ) : journalingPhase === JournalingPhase.Reflecting ? (
+              <Reflecting />
+            ) : (
+              <MyText>Idk</MyText>
+            )}
+          </FlexCol>
+        </FlexCol>
       </main>
 
       <footer>

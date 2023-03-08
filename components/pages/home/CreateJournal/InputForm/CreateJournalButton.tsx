@@ -11,8 +11,8 @@ import { startCreateJournal } from "../../../../../redux/createJournalSlice";
 // TYPES
 import { AppDispatch } from "../../../../../redux/store";
 
-type CreateJournalProps = {};
-const CreateJournal = (props: CreateJournalProps) => {
+type CreateJournalButtonProps = {};
+const CreateJournalButton = (props: CreateJournalButtonProps) => {
   // REDUX
   const dispatch: AppDispatch = useDispatch();
 
@@ -28,4 +28,4 @@ const CreateJournal = (props: CreateJournalProps) => {
   );
 };
 
-export default CreateJournal;
+export default CreateJournalButton;

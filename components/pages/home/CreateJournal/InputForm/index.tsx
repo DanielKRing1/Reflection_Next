@@ -6,13 +6,13 @@ import FlexRow from "../../../../generic/Flex/FlexRow";
 
 // PAGE-SPECIFIC COMPONENTS
 import Input from "./Input";
-import CreateJournal from "..";
+import CreateJournalButton from "./CreateJournalButton";
 
 const InputForm = () => {
   return (
     <FlexRow>
       <Input />
-      <CreateJournal />
+      <CreateJournalButton />
     </FlexRow>
   );
 };

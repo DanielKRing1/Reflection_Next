@@ -34,6 +34,7 @@ const dbDriver: DbDriverType = {
    */
   createJournalEntry: async function (
     journalId: string,
+    time: Date,
     thoughtIdsDiscarded: string[],
     thoughtIdsKept: string[],
     inklingIdsKept: string[],
@@ -41,11 +42,12 @@ const dbDriver: DbDriverType = {
   ): Promise<void> {
     // 1. Save Inklings as Thoughts in Db
     // Save them before deleting Inklings cache, so they can still be referenced by Journal Entries
-    await DbHardware._convertInklingsToThoughts(journalId);
+    await DbHardware._convertInklingsToThoughts(journalId, time);
 
     // 2. Save JournalEntry
     await DbHardware.createJournalEntry(
       journalId,
+      time,
       thoughtIdsDiscarded,
       thoughtIdsKept,
       inklingIdsKept,

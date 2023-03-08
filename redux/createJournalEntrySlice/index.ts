@@ -3,13 +3,14 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 // DB
 import dbDriver from "../../db/api";
-import { Inkling } from "../../db/api/types";
+import { Inkling, ThoughtsDict } from "../../db/api/types";
 
 // TYPES
 import { Dict } from "../../types/data";
 import { setJournalingPhase } from "../journalingPhaseSlice";
 import { JournalingPhase } from "../journalingPhaseSlice/types";
 import { addJournalEntry } from "../journalSlice";
+import { addThoughtsDict } from "../journalThoughtsDictSlice";
 import { clearInklings } from "../newInklingsSlice";
 import { ThunkConfig } from "../types";
 
@@ -53,8 +54,10 @@ export const startCreateJournalEntry = createAsyncThunk<
       .map(({ id }: Inkling) => id);
 
     // 3. Add Journal Entry to Db
+    const time: Date = new Date();
     await dbDriver.createJournalEntry(
       activeJournalId,
+      time,
       discardedThoughtIds,
       Object.keys(selectedThoughtIds),
       Object.keys(selectedInklingIds),
@@ -64,10 +67,23 @@ export const startCreateJournalEntry = createAsyncThunk<
     // 4. Add Journal Entry to Redux
     thunkAPI.dispatch(addJournalEntry);
 
-    // 5. Clear new Inklings from Redux (They were already cleared from Db when adding the new Journal Entry)
+    // 5. Update ThoughtsDict in Redux
+    thunkAPI.dispatch(
+      addThoughtsDict(
+        newInklings.reduce<ThoughtsDict>((acc, cur) => {
+          acc[cur.id] = {
+            ...cur,
+            time,
+          };
+          return acc;
+        }, {})
+      )
+    );
+
+    // 6. Clear new Inklings from Redux (They were already cleared from Db when adding the new Journal Entry)
     thunkAPI.dispatch(clearInklings());
 
-    // 6. Manually set Journaling Phase to Inkling
+    // 7. Manually set Journaling Phase to Inkling
     thunkAPI.dispatch(setJournalingPhase(JournalingPhase.Inkling));
 
     return true;

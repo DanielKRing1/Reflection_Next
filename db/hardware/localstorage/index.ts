@@ -169,6 +169,7 @@ const LocalStorageDriver: DbHardwareType = {
   // Journal Entries
   createJournalEntry: async function (
     journalId: string,
+    time: Date,
     thoughtIdsDiscarded: string[],
     thoughtIdsKept: string[],
     inklingIdsKept: string[],
@@ -231,12 +232,11 @@ const LocalStorageDriver: DbHardwareType = {
   },
 
   // THOUGHTS
-  _convertInklingsToThoughts: async function (journalId: string) {
+  _convertInklingsToThoughts: async function (journalId: string, time: Date) {
     // 1. Get Inklings
     const inklings: Inklings = await LocalStorageDriver.getInklings(journalId);
 
     // 2. Convert Inklings to Thoughts
-    const time: Date = new Date();
     const newThoughts: Thought[] = inklings.map((inkling: Inkling) => ({
       ...inkling,
       time,

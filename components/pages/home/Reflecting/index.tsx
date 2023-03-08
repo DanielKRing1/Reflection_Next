@@ -1,11 +1,13 @@
 // THIRD PARTY
 import React from "react";
-import AddButton from "../../../generic/Button/AddButton";
 
 // GENERIC COMPONENTS
 import FlexCol from "../../../generic/Flex/FlexCol";
 import MyText from "../../../generic/Text/MyText";
+
+// PAGE-SPECIFIC COMPONENT
 import SelectionList from "./SelectionList";
+import CreateJournalEntryButton from "./CreateJournalEntryButton";
 
 const Reflecting = () => {
   return (
@@ -14,7 +16,7 @@ const Reflecting = () => {
 
       <SelectionList />
 
-      <AddButton
+      <CreateJournalEntryButton />
     </FlexCol>
   );
 };

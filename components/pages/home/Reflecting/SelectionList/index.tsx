@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 // GENERIC COMPONENTS
 import FlexCol from "../../../../generic/Flex/FlexCol";
 import MyText from "../../../../generic/Text/MyText";
-import CommitButton from "../../../../generic/Button/CommitButton";
 
 // PAGE-SPECIFIC COMPONENTS
 import SelectionItem from "./SelectionItem";
@@ -16,7 +15,6 @@ import {
   addThoughtId,
   rmInklingId,
   rmThoughtId,
-  startCreateJournalEntry,
 } from "../../../../../redux/createJournalEntrySlice";
 
 // TYPES
@@ -51,13 +49,10 @@ const SelectionList = () => {
     else dispatch(rmInklingId(id));
   };
 
-  // Add Journal Entry
-  const handleAddJournalEntry = () => {
-    dispatch(startCreateJournalEntry());
-  };
+  console.log(thoughtsDict);
 
   return (
-    <FlexCol>
+    <>
       <FlexCol>
         {identityThoughtIds.length > 0 ? (
           identityThoughtIds.map((id: string) => (
@@ -92,9 +87,7 @@ const SelectionList = () => {
           />
         ))}
       </FlexCol>
-
-      <CommitButton onClick={handleAddJournalEntry} />
-    </FlexCol>
+    </>
   );
 };
 

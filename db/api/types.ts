@@ -80,6 +80,7 @@ export type DbDriverType = {
 
   createJournalEntry: (
     journalId: string,
+    time: Date,
     thoughtIdsDiscarded: string[],
     thoughtIdsKept: string[],
     inklingIdsKept: string[],
@@ -94,7 +95,7 @@ export type DbDriverType = {
 
 export type DbHardwareType = DbDriverType & {
   // THOUGHTS
-  _convertInklingsToThoughts: (journalId: string) => Promise<void>;
+  _convertInklingsToThoughts: (journalId: string, time: Date) => Promise<void>;
   // User will never need to manually commit Inklings
   // Inklings will be committed once a Journal Reflection is complete
   _commitThoughts: (journalId: string, thoughts: Thought[]) => Promise<void>;
