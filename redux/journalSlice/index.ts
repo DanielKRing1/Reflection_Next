@@ -41,6 +41,7 @@ export const startHydrateJournal = createAsyncThunk<
 // ACTION TYPES
 
 type SetJournalAction = PayloadAction<Journal>;
+type AddJournalEntryAction = PayloadAction<JournalEntry>;
 type StartJournalFulfilled = PayloadAction<boolean>;
 
 // SLICE
@@ -51,6 +52,9 @@ export const journalSlice = createSlice({
   reducers: {
     setJournal: (state: JournalState, action: SetJournalAction) => {
       state.journal = action.payload;
+    },
+    addJournalEntry: (state: JournalState, action: AddJournalEntryAction) => {
+      state.journal.push(action.payload);
     },
   },
   extraReducers: (builder) => {
@@ -68,6 +72,6 @@ export const journalSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { setJournal } = journalSlice.actions;
+export const { setJournal, addJournalEntry } = journalSlice.actions;
 
 export default journalSlice.reducer;
