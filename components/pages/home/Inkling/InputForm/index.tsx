@@ -8,7 +8,7 @@ import FlexCol from "../../../../generic/Flex/FlexCol";
 import FlexRow from "../../../../generic/Flex/FlexRow";
 
 // PAGE-SPECIFIC COMPONENTS
-import AddInputButton from "../../../../generic/Button/AddInputButton";
+import AddButton from "../../../../generic/Button/AddButton";
 import CommitButton from "./CommitButton";
 import InputList from "./InputList";
 
@@ -62,7 +62,7 @@ const InputForm = () => {
       <InputList errorIds={errorIds} onAddEntry={handleAddInkling} />
 
       <FlexRow justifyContent="space-around">
-        <AddInputButton onClick={handleAddInkling} />
+        <AddButton onClick={handleAddInkling} />
         <CommitButton onClick={handleCommitInklings} />
       </FlexRow>
     </FlexCol>

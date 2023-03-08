@@ -4,10 +4,10 @@ import React from "react";
 // MY COMPONENTS
 import CircleButton from "./Base/CircleButton";
 
-type AddInputButtonProps = {
+type AddButtonProps = {
   onClick: () => void;
 };
-const AddInputButton = (props: AddInputButtonProps) => {
+const AddButton = (props: AddButtonProps) => {
   const { onClick } = props;
 
   return (
@@ -19,4 +19,4 @@ const AddInputButton = (props: AddInputButtonProps) => {
   );
 };
 
-export default AddInputButton;
+export default AddButton;
