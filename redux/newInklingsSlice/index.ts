@@ -44,6 +44,8 @@ export const startHydrateNewInklings = createAsyncThunk<
 >(
   "newInklingsSlice/startHydrateNewInklings",
   async (inklings: Inklings | undefined, thunkAPI) => {
+    thunkAPI.dispatch(clearInklings());
+
     // 1. No Inklings provided, hydrate from Db
     if (inklings === undefined) {
       const { activeJournalId } = thunkAPI.getState().activeJournalSlice;
