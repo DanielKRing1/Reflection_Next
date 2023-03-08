@@ -66,38 +66,38 @@ export const startSetActiveJournalId = createAsyncThunk<
     // 1. No Journal id provided, must be StartUp
     // Get last used Journal id
     if (journalId === null) journalId = await dbDriver.getLastUsedJournalId();
-    if (journalId === null) return false;
 
-    // 2. Set activeJournalId in Redux
-    thunkAPI.dispatch(setActiveJournalId(journalId));
-    // 3. Set lastUsedJournalId in Db
-    await dbDriver.setLastUsedJournalId(journalId);
+    let committedInklings: Inklings = [];
+    if (journalId !== null) {
+      // 2. Set activeJournalId in Redux
+      thunkAPI.dispatch(setActiveJournalId(journalId));
+      // 3. Set lastUsedJournalId in Db
+      await dbDriver.setLastUsedJournalId(journalId);
 
-    // 4. Get Journal metadata if not provided (default Journal Metadata might be provided if Journal was just created)
-    const metadata: JournalMetadata | undefined = isNew
-      ? DEFAULT_JOURNAL_METADATA
-      : undefined;
-    // 5. Set Journal metadata in Redux
-    thunkAPI.dispatch(startHydrateJournalMetadata(metadata));
+      // 4. Get Journal metadata if not provided (default Journal Metadata might be provided if Journal was just created)
+      const metadata: JournalMetadata | undefined = isNew
+        ? DEFAULT_JOURNAL_METADATA
+        : undefined;
+      // 5. Set Journal metadata in Redux
+      thunkAPI.dispatch(startHydrateJournalMetadata(metadata));
 
-    // 6. Get committed Inklings from Db
-    const committedInklings: Inklings = isNew
-      ? []
-      : await dbDriver.getInklings(journalId);
-    // 7. Hydrate committed Inklings if any
-    thunkAPI.dispatch(startHydrateNewInklings(committedInklings));
+      // 6. Get committed Inklings from Db
+      committedInklings = isNew ? [] : await dbDriver.getInklings(journalId);
+      // 7. Hydrate committed Inklings if any
+      thunkAPI.dispatch(startHydrateNewInklings(committedInklings));
 
-    // 8. Hydrate committed Inklings if any
-    const journal: Journal | undefined = isNew ? [] : undefined;
-    thunkAPI.dispatch(startHydrateJournal(journal));
+      // 8. Hydrate committed Inklings if any
+      const journal: Journal | undefined = isNew ? [] : undefined;
+      thunkAPI.dispatch(startHydrateJournal(journal));
 
-    // 9. Hydrate committed Inklings if any
-    const identityThoughtIds: string[] | undefined = isNew ? [] : undefined;
-    thunkAPI.dispatch(startHydrateIdentityThoughtIds(identityThoughtIds));
+      // 9. Hydrate committed Inklings if any
+      const identityThoughtIds: string[] | undefined = isNew ? [] : undefined;
+      thunkAPI.dispatch(startHydrateIdentityThoughtIds(identityThoughtIds));
 
-    // 10. Hydrate ThoughtsDict if any
-    const thoughtsDict: ThoughtsDict | undefined = isNew ? {} : undefined;
-    thunkAPI.dispatch(startHydrateThoughtsDict(thoughtsDict));
+      // 10. Hydrate ThoughtsDict if any
+      const thoughtsDict: ThoughtsDict | undefined = isNew ? {} : undefined;
+      thunkAPI.dispatch(startHydrateThoughtsDict(thoughtsDict));
+    }
 
     // 12. Set Journaling Phase
     // - 'null' journalId (bcus no 'lastUsedJournalId' and therefore no existing journals) will prompt CreateJournal phase
