@@ -59,11 +59,16 @@ export const GlobalStyles = createGlobalStyle`
     font-family: Tahoma, Helvetica, Arial, Roboto, sans-serif;
   }
 
+  main {
+    width: 100%;
+    margin: 2.5vh 2.5vw;
+  }
+
   * {
-    -webkit-transition: all 500ms ease-in-out;
-    -moz-transition: all 500ms ease-in-out;
-    -o-transition: all 500ms ease-in-out;
-    transition: all 500ms ease-in-out;
+    -webkit-transition: all 350ms ease-out;
+    -moz-transition: all 350ms ease-out;
+    -o-transition: all 350ms ease-out;
+    transition: all 350ms ease-out;
   }
 
   button {
