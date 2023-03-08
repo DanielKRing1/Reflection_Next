@@ -16,7 +16,7 @@ import {
   addThoughtId,
   rmInklingId,
   rmThoughtId,
-  startAddJournalEntry,
+  startCreateJournalEntry,
 } from "../../../../../redux/createJournalEntrySlice";
 
 // TYPES
@@ -53,7 +53,7 @@ const SelectionList = () => {
 
   // Add Journal Entry
   const handleAddJournalEntry = () => {
-    dispatch(startAddJournalEntry());
+    dispatch(startCreateJournalEntry());
   };
 
   return (

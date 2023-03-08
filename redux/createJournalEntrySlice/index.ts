@@ -26,48 +26,51 @@ const initialState: NewJournalEntryState = {
 
 // ASYNC THUNKS
 
-export const startAddJournalEntry = createAsyncThunk<
+export const startCreateJournalEntry = createAsyncThunk<
   boolean,
   undefined,
   ThunkConfig
->("createJournalEntrySlice/startAddJournalEntry", async (undef, thunkAPI) => {
-  const { activeJournalId } = thunkAPI.getState().activeJournalSlice;
-  const { newInklings } = thunkAPI.getState().newInklingsSlice;
-  const { selectedThoughtIds, selectedInklingIds } =
-    thunkAPI.getState().createJournalEntrySlice;
+>(
+  "createJournalEntrySlice/startCreateJournalEntry",
+  async (undef, thunkAPI) => {
+    const { activeJournalId } = thunkAPI.getState().activeJournalSlice;
+    const { newInklings } = thunkAPI.getState().newInklingsSlice;
+    const { selectedThoughtIds, selectedInklingIds } =
+      thunkAPI.getState().createJournalEntrySlice;
 
-  // 1. Get discarded Thoughts
-  const currentIdentityIds: string[] = await dbDriver.getCurrentIdentityIds(
-    activeJournalId
-  );
-  const discardedThoughtIds: string[] = currentIdentityIds.filter(
-    (id) => !selectedThoughtIds[id]
-  );
+    // 1. Get discarded Thoughts
+    const currentIdentityIds: string[] = await dbDriver.getCurrentIdentityIds(
+      activeJournalId
+    );
+    const discardedThoughtIds: string[] = currentIdentityIds.filter(
+      (id) => !selectedThoughtIds[id]
+    );
 
-  // 2. Get discarded Inklings
-  const discardedInklingIds: string[] = newInklings
-    .filter(({ id }: Inkling) => !selectedInklingIds[id])
-    .map(({ id }: Inkling) => id);
+    // 2. Get discarded Inklings
+    const discardedInklingIds: string[] = newInklings
+      .filter(({ id }: Inkling) => !selectedInklingIds[id])
+      .map(({ id }: Inkling) => id);
 
-  // 3. Add Journal Entry to Db
-  await dbDriver.createJournalEntry(
-    activeJournalId,
-    discardedThoughtIds,
-    Object.keys(selectedThoughtIds),
-    Object.keys(selectedInklingIds),
-    discardedInklingIds
-  );
+    // 3. Add Journal Entry to Db
+    await dbDriver.createJournalEntry(
+      activeJournalId,
+      discardedThoughtIds,
+      Object.keys(selectedThoughtIds),
+      Object.keys(selectedInklingIds),
+      discardedInklingIds
+    );
 
-  // 4. Add Journal Entry to Redux
+    // 4. Add Journal Entry to Redux
 
-  // 5. Clear new Inklings from Redux (They were already cleared from Db when adding the new Journal Entry)
-  thunkAPI.dispatch(clearInklings());
+    // 5. Clear new Inklings from Redux (They were already cleared from Db when adding the new Journal Entry)
+    thunkAPI.dispatch(clearInklings());
 
-  // 6. Manually set Journaling Phase to Inkling
-  thunkAPI.dispatch(setJournalingPhase(JournalingPhase.Inkling));
+    // 6. Manually set Journaling Phase to Inkling
+    thunkAPI.dispatch(setJournalingPhase(JournalingPhase.Inkling));
 
-  return true;
-});
+    return true;
+  }
+);
 
 // ACTION TYPES
 
@@ -97,12 +100,12 @@ export const NewJournalEntrySlice = createSlice({
   extraReducers: (builder) => {
     // Add reducers for additional action types here, and handle loading state as needed
     builder.addCase(
-      startAddJournalEntry.fulfilled,
+      startCreateJournalEntry.fulfilled,
       (state, action: StartNewJournalEntryFulfilled) => {
         // Add user to the state array
       }
     );
-    builder.addCase(startAddJournalEntry.rejected, (state, action) => {
+    builder.addCase(startCreateJournalEntry.rejected, (state, action) => {
       console.log(action.error.message);
     });
   },
