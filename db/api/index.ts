@@ -32,7 +32,7 @@ const dbDriver: DbDriverType = {
    * 3. Adds a new JournalEntry,
    * 4. Then deletes old Inklings
    */
-  addJournalEntry: async function (
+  createJournalEntry: async function (
     journalId: string,
     thoughtIdsDiscarded: string[],
     thoughtIdsKept: string[],
@@ -44,7 +44,7 @@ const dbDriver: DbDriverType = {
     await DbHardware._convertInklingsToThoughts(journalId);
 
     // 2. Save JournalEntry
-    await DbHardware.addJournalEntry(
+    await DbHardware.createJournalEntry(
       journalId,
       thoughtIdsDiscarded,
       thoughtIdsKept,

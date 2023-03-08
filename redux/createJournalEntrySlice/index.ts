@@ -49,8 +49,8 @@ export const startAddJournalEntry = createAsyncThunk<
     .filter(({ id }: Inkling) => !selectedInklingIds[id])
     .map(({ id }: Inkling) => id);
 
-  // 3. Add Journal Entry
-  await dbDriver.addJournalEntry(
+  // 3. Add Journal Entry to Db
+  await dbDriver.createJournalEntry(
     activeJournalId,
     discardedThoughtIds,
     Object.keys(selectedThoughtIds),
@@ -58,10 +58,12 @@ export const startAddJournalEntry = createAsyncThunk<
     discardedInklingIds
   );
 
-  // 4. Clear new Inklings from Redux (They were already cleared from Db when adding the new Journal Entry)
+  // 4. Add Journal Entry to Redux
+
+  // 5. Clear new Inklings from Redux (They were already cleared from Db when adding the new Journal Entry)
   thunkAPI.dispatch(clearInklings());
 
-  // 5. Manually set Journaling Phase to Inkling
+  // 6. Manually set Journaling Phase to Inkling
   thunkAPI.dispatch(setJournalingPhase(JournalingPhase.Inkling));
 
   return true;

@@ -78,7 +78,7 @@ export type DbDriverType = {
   setLastUsedJournalId: (journalId: string) => Promise<void>;
   getLastUsedJournalId: () => Promise<string | null>;
 
-  addJournalEntry: (
+  createJournalEntry: (
     journalId: string,
     thoughtIdsDiscarded: string[],
     thoughtIdsKept: string[],

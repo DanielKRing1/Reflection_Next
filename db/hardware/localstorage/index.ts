@@ -167,7 +167,7 @@ const LocalStorageDriver: DbHardwareType = {
   },
 
   // Journal Entries
-  addJournalEntry: async function (
+  createJournalEntry: async function (
     journalId: string,
     thoughtIdsDiscarded: string[],
     thoughtIdsKept: string[],
