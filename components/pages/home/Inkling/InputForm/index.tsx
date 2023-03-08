@@ -1,5 +1,5 @@
 // THIRD PARTY
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import genId from "@asianpersonn/time-id";
 
@@ -13,12 +13,23 @@ import CommitButton from "./CommitButton";
 import InputList from "./InputList";
 
 // REDUX
-import { addInkling } from "../../../../../redux/newInklingsSlice";
+import {
+  addInkling,
+  startCommitNewInklings,
+} from "../../../../../redux/newInklingsSlice";
 
 // TYPES
 import { AppDispatch, RootState } from "../../../../../redux/store";
+import { INKLING_ERROR_TIMEOUT_MS } from "../../../../../constants/error";
+import { Dict } from "../../../../../types/data";
 
 const InputForm = () => {
+  // LOCAL STATE
+  const [errorIds, setErrorIds] = useState<Dict<boolean>>({});
+  const [timeoutHandle, setTimeoutHandle] = useState<
+    NodeJS.Timeout | undefined
+  >();
+
   // REDUX
   const dispatch: AppDispatch = useDispatch();
   const { emptyInklings } = useSelector(
@@ -33,20 +44,26 @@ const InputForm = () => {
     dispatch(addInkling({ id: genId(), data: "" }));
   };
 
-  const handleAddInkling = () => {
-    // Cannot add entry if empty entries exist
-    if (Object.keys(emptyInklings).length > 0) return;
+  const handleCommitInklings = () => {
+    if (Object.keys(emptyInklings).length === 0)
+      return dispatch(startCommitNewInklings());
 
-    dispatch(addInkling({ id: genId(), data: "" }));
+    // Cannot submit if empty Inklings exist
+    //    Mark empty Inklings for error display
+    setErrorIds(emptyInklings);
+    //    Remove error display after some timeout
+    if (timeoutHandle) clearTimeout(timeoutHandle);
+    const handle = setTimeout(() => setErrorIds({}), INKLING_ERROR_TIMEOUT_MS);
+    setTimeoutHandle(handle);
   };
 
   return (
     <FlexCol alignItems="stretch">
-      <InputList onAddEntry={handleAddInkling} />
+      <InputList errorIds={errorIds} onAddEntry={handleAddInkling} />
 
       <FlexRow justifyContent="space-around">
-        <AddInputButton handleAddInkling={handleAddInkling} />
-        <CommitButton />
+        <AddInputButton onClick={handleAddInkling} />
+        <CommitButton onClick={handleCommitInklings} />
       </FlexRow>
     </FlexCol>
   );

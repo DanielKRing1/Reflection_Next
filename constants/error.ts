@@ -1,0 +1,1 @@
+export const INKLING_ERROR_TIMEOUT_MS = 500;

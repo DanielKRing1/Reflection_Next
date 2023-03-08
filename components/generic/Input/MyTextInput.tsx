@@ -7,6 +7,7 @@ type MyTextInputProps = {
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   onKeyUp?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 
+  borderColor?: string;
   color?: string;
 } & Omit<HTMLProps<HTMLInputElement>, "onChange">;
 const MyTextInput = forwardRef<HTMLInputElement, MyTextInputProps>(
@@ -67,9 +68,12 @@ const MyTextInput = forwardRef<HTMLInputElement, MyTextInputProps>(
     );
   }
 );
-const StyledInput = styled.input<React.HTMLProps<HTMLInputElement>>`
+const StyledInput = styled.input<
+  React.HTMLProps<HTMLInputElement> & { borderColor?: string }
+>`
   background-color: ${({ theme, color }) => color || theme.colors.main};
   color: ${({ theme }) => theme.colors.text};
+  border-color: ${({ borderColor }) => borderColor};
   font-size: ${({ theme }) => theme.fonts.md};
   padding: 10px 60px;
   border-radius: 5px;

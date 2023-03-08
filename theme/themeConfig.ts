@@ -60,9 +60,9 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   * {
-  -webkit-transition: all 1000ms ease;
-  -moz-transition: all 1000ms ease;
-  -o-transition: all 1000ms ease;
-  transition: all 1000ms ease;
+  -webkit-transition: all 500ms ease-in-out;
+  -moz-transition: all 500ms ease-in-out;
+  -o-transition: all 500ms ease-in-out;
+  transition: all 500ms ease-in-out;
   }
 `;

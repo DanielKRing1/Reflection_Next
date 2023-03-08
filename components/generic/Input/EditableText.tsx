@@ -4,6 +4,7 @@ import MyText from "../Text/MyText";
 import MyTextInput from "./MyTextInput";
 
 export type EditableTextProps = {
+  borderColor?: string;
   isFocused?: boolean;
   editable?: boolean;
   placeholder?: string;
@@ -18,6 +19,7 @@ export type EditableTextProps = {
 
 const EditableText = (props: EditableTextProps) => {
   const {
+    borderColor = "",
     isFocused = false,
     editable = true,
     placeholder = "",
@@ -104,13 +106,18 @@ const EditableText = (props: EditableTextProps) => {
   return (
     <>
       {!isEditing ? (
-        <MyButton onClick={handleStartEditing} cursor="text">
+        <MyButton
+          borderColor={borderColor}
+          onClick={handleStartEditing}
+          cursor="text"
+        >
           <MyText>{value}</MyText>
         </MyButton>
       ) : (
         <MyTextInput
           ref={ref}
           // onEnter={handleEnter}
+          borderColor={borderColor}
           placeholder={placeholder}
           value={localValue}
           onChange={handleChangeValue}

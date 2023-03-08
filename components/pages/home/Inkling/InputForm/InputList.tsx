@@ -19,12 +19,14 @@ import {
 // TYPES
 import { AppDispatch, RootState } from "../../../../../redux/store";
 import { Inkling } from "../../../../../db/api/types";
+import { Dict } from "../../../../../types/data";
 
 type InputListProps = {
+  errorIds: Dict<boolean>;
   onAddEntry: () => void;
 };
 const InputList = (props: InputListProps) => {
-  const { onAddEntry } = props;
+  const { errorIds, onAddEntry } = props;
 
   // REDUX
   const dispatch: AppDispatch = useDispatch();
@@ -97,6 +99,7 @@ const InputList = (props: InputListProps) => {
       {newInklings.map(({ id, data }: Inkling, i: number) => (
         <InputRow
           key={id}
+          borderColor={errorIds[id] ? "white" : ""}
           value={data}
           onChange={(newEntry: string) => handleEditInkling(i, newEntry)}
           isFocused={i === focusedInklingIndex}
