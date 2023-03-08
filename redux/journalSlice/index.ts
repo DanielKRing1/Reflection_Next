@@ -16,7 +16,7 @@ const initialState: JournalState = {
 
 // ASYNC THUNKS
 
-// This is called from 'startDetermineJournalingPhase' when starting the app
+// This is called from 'startSetActiveJournalId' when starting the app
 /**
  * Pass Journal to hydrate with
  *    or 'undefined' to hydrate from Db

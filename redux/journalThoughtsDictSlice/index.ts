@@ -1,8 +1,10 @@
 // THIRD PARTY
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import dbDriver from "../../db/api";
 
 // TYPES
 import { ThoughtsDict } from "../../db/api/types";
+import { ThunkConfig } from "../types";
 
 // INITIAL STATE
 
@@ -13,6 +15,33 @@ export interface JournalThoughtsDictState {
 const initialState: JournalThoughtsDictState = {
   thoughtsDict: {},
 };
+
+// THUNKS
+
+// This is called from 'startSetActiveJournalId' when starting the app
+/**
+ * Pass Journal to hydrate with
+ *    or 'undefined' to hydrate from Db
+ */
+export const startHydrateThoughtsDict = createAsyncThunk<
+  boolean,
+  ThoughtsDict | undefined,
+  ThunkConfig
+>(
+  "journalThoughtsDictSlice/startHydrateThoughtsDict",
+  async (thoughtsDict, thunkAPI) => {
+    // 1. No ThoughtsDict provided, hydrate from Db
+    if (thoughtsDict === undefined) {
+      const { activeJournalId } = thunkAPI.getState().activeJournalSlice;
+      thoughtsDict = await dbDriver.getThoughtsDict(activeJournalId);
+    }
+
+    // 2. Set ThoughtsDict in Redux
+    thunkAPI.dispatch(setThoughtsDict(thoughtsDict));
+
+    return true;
+  }
+);
 
 // ACTION TYPES
 
