@@ -9,7 +9,7 @@ import FlexRow from "../../../../generic/Flex/FlexRow";
 
 // PAGE-SPECIFIC COMPONENTS
 import AddButton from "../../../../generic/Button/AddButton";
-import CommitButton from "./CommitButton";
+import CommitButton from "../../../../generic/Button/CommitButton";
 import InputList from "./InputList";
 
 // REDUX
