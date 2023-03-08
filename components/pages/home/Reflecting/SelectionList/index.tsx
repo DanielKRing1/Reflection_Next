@@ -9,6 +9,7 @@ import {
 } from "../../../../../redux/createJournalEntrySlice";
 import { AppDispatch, RootState } from "../../../../../redux/store";
 import FlexCol from "../../../../generic/Flex/FlexCol";
+import MyText from "../../../../generic/Text/MyText";
 import SelectionItem from "./SelectionItem";
 
 const SelectionList = () => {
@@ -33,32 +34,47 @@ const SelectionList = () => {
     else dispatch(rmThoughtId(id));
   };
   const handleToggleSelectInkling = (id: string) => {
-    console.log("toggle");
-    console.log(id);
     if (!selectedInklingIds[id]) dispatch(addInklingId(id));
     else dispatch(rmInklingId(id));
   };
 
   return (
-    <FlexCol>
-      {identityThoughtIds.map((id: string) => (
-        <SelectionItem
-          key={id}
-          isSelected={selectedThoughtIds[id] || false}
-          text={thoughtsDict[id].data}
-          onClick={() => handleToggleSelectThought(id)}
-        />
-      ))}
+    <>
+      <FlexCol>
+        {identityThoughtIds.length > 0 ? (
+          identityThoughtIds.map((id: string) => (
+            <SelectionItem
+              key={id}
+              isSelected={selectedThoughtIds[id] || false}
+              text={thoughtsDict[id].data}
+              onClick={() => handleToggleSelectThought(id)}
+            />
+          ))
+        ) : (
+          <MyText>No previous Journal Entry</MyText>
+        )}
+      </FlexCol>
 
-      {newInklings.map((inkling: Inkling) => (
-        <SelectionItem
-          key={inkling.id}
-          isSelected={selectedInklingIds[inkling.id] || false}
-          text={inkling.data}
-          onClick={() => handleToggleSelectInkling(inkling.id)}
-        />
-      ))}
-    </FlexCol>
+      <hr
+        style={{
+          width: "100%",
+          height: "1vh",
+          borderWidth: 0,
+          backgroundColor: "#abefef",
+        }}
+      />
+
+      <FlexCol>
+        {newInklings.map((inkling: Inkling) => (
+          <SelectionItem
+            key={inkling.id}
+            isSelected={selectedInklingIds[inkling.id] || false}
+            text={inkling.data}
+            onClick={() => handleToggleSelectInkling(inkling.id)}
+          />
+        ))}
+      </FlexCol>
+    </>
   );
 };
 

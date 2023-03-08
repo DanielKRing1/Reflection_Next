@@ -9,12 +9,13 @@ type SelectionItemProps = {
 };
 const SelectionItem = (props: SelectionItemProps) => {
   const { isSelected, text, onClick } = props;
-  useEffect(() => {
-    console.log(isSelected);
-  }, [isSelected]);
 
   return (
-    <MyButton borderColor={isSelected ? "#AAFF00" : ""} onClick={onClick}>
+    <MyButton
+      style={{ width: "35vw" }}
+      borderColor={isSelected ? "#AAFF00" : ""}
+      onClick={onClick}
+    >
       <MyText>{text}</MyText>
     </MyButton>
   );

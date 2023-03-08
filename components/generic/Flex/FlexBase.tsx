@@ -20,7 +20,7 @@ const FlexBase = styled.div<FlexBaseProps>`
   justify-content: ${({ justifyContent = "flex-start" }: FlexBaseProps) =>
     justifyContent};
   flex-direction: ${({ flexDirection }: FlexBaseProps) => flexDirection};
-  align-items: ${({ alignItems = "stretch" }: FlexBaseProps) => alignItems};
+  align-items: ${({ alignItems = "center" }: FlexBaseProps) => alignItems};
 `;
 
 export default FlexBase;
