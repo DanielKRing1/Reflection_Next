@@ -277,7 +277,11 @@ const LocalStorageDriver: DbHardwareType = {
       .filter((thought) => thought !== undefined);
   },
   getThoughtsDict: async function (journalId: string): Promise<ThoughtsDict> {
-    return JSON.parse(localStorage.getItem(genThoughtsDictKey(journalId)));
+    try {
+      return JSON.parse(localStorage.getItem(genThoughtsDictKey(journalId)));
+    } catch (err) {
+      return {};
+    }
   },
 };
 
