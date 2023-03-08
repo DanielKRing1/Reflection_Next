@@ -2,10 +2,8 @@
 import React from "react";
 
 // MY COMPONENTS
-import CircleButton from "../../../../generic/Button/CircleButton";
-
-// TYPES
-import NoWrap from "../../../../generic/Container/NoWrap";
+import CircleButton from "./Base/CircleButton";
+import NoWrap from "../Container/NoWrap";
 
 type CommitSubmitButtonProps = {
   onClick: () => void;

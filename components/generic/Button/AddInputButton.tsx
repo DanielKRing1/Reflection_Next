@@ -2,7 +2,8 @@
 import React from "react";
 
 // MY COMPONENTS
-import CircleButton from "../../../../generic/Button/CircleButton";
+import CircleButton from "./Base/CircleButton";
+
 type AddInputButtonProps = {
   onClick: () => void;
 };

@@ -3,16 +3,16 @@ import React from "react";
 import { useDispatch } from "react-redux";
 
 // MY COMPONENTS
+import MyButton from "../../../../generic/Button/Base/MyButton";
 
 // REDUX
 import { startCreateJournal } from "../../../../../redux/createJournalSlice";
 
 // TYPES
 import { AppDispatch } from "../../../../../redux/store";
-import MyButton from "../../../../generic/Button/MyButton";
 
-type CommitButtonProps = {};
-const CommitButton = (props: CommitButtonProps) => {
+type CreateJournalProps = {};
+const CreateJournal = (props: CreateJournalProps) => {
   // REDUX
   const dispatch: AppDispatch = useDispatch();
 
@@ -28,4 +28,4 @@ const CommitButton = (props: CommitButtonProps) => {
   );
 };
 
-export default CommitButton;
+export default CreateJournal;

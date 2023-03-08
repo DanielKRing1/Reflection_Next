@@ -8,7 +8,7 @@ import FlexCol from "../../../../generic/Flex/FlexCol";
 import FlexRow from "../../../../generic/Flex/FlexRow";
 
 // PAGE-SPECIFIC COMPONENTS
-import AddInputButton from "./AddInputButton";
+import AddInputButton from "../../../../generic/Button/AddInputButton";
 import CommitButton from "./CommitButton";
 import InputList from "./InputList";
 

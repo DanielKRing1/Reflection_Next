@@ -1,16 +1,27 @@
+// THIRD-PARTY
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Inkling } from "../../../../../db/api/types";
+
+// GENERIC COMPONENTS
+import FlexCol from "../../../../generic/Flex/FlexCol";
+import MyText from "../../../../generic/Text/MyText";
+import CommitButton from "../../../../generic/Button/CommitButton";
+
+// PAGE-SPECIFIC COMPONENTS
+import SelectionItem from "./SelectionItem";
+
+// REDUX
 import {
   addInklingId,
   addThoughtId,
   rmInklingId,
   rmThoughtId,
+  startAddJournalEntry,
 } from "../../../../../redux/createJournalEntrySlice";
+
+// TYPES
 import { AppDispatch, RootState } from "../../../../../redux/store";
-import FlexCol from "../../../../generic/Flex/FlexCol";
-import MyText from "../../../../generic/Text/MyText";
-import SelectionItem from "./SelectionItem";
+import { Inkling } from "../../../../../db/api/types";
 
 const SelectionList = () => {
   // REDUX
@@ -29,6 +40,8 @@ const SelectionList = () => {
   const dispatch: AppDispatch = useDispatch();
 
   // HANDLERS
+
+  // Toggle selection
   const handleToggleSelectThought = (id: string) => {
     if (!selectedThoughtIds[id]) dispatch(addThoughtId(id));
     else dispatch(rmThoughtId(id));
@@ -38,8 +51,13 @@ const SelectionList = () => {
     else dispatch(rmInklingId(id));
   };
 
+  // Add Journal Entry
+  const handleAddJournalEntry = () => {
+    dispatch(startAddJournalEntry());
+  };
+
   return (
-    <>
+    <FlexCol>
       <FlexCol>
         {identityThoughtIds.length > 0 ? (
           identityThoughtIds.map((id: string) => (
@@ -74,7 +92,9 @@ const SelectionList = () => {
           />
         ))}
       </FlexCol>
-    </>
+
+      <CommitButton onClick={handleAddJournalEntry} />
+    </FlexCol>
   );
 };
 

@@ -1,6 +1,9 @@
-import React, { useEffect } from "react";
-import MyButton from "../../../../generic/Button/MyButton";
+// THIRD PARTY
+import React from "react";
+
+// MY COMPONENTS
 import MyText from "../../../../generic/Text/MyText";
+import MyButton from "../../../../generic/Button/Base/MyButton";
 
 type SelectionItemProps = {
   isSelected: boolean;

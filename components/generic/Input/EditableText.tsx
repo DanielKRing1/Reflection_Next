@@ -1,5 +1,8 @@
+// THIRD-PARTY
 import React, { useState, useEffect, useRef } from "react";
-import MyButton from "../Button/MyButton";
+
+// MY COMPONENTS
+import MyButton from "../Button/Base/MyButton";
 import MyText from "../Text/MyText";
 import MyTextInput from "./MyTextInput";
 

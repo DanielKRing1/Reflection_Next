@@ -1,13 +1,19 @@
+// THIRD-PARTY
 import React from "react";
-import CommitButton from "./CommitButton";
+
+// GENERIC COMPONENTS
+import FlexRow from "../../../../generic/Flex/FlexRow";
+
+// PAGE-SPECIFIC COMPONENTS
 import Input from "./Input";
+import CreateJournal from "..";
 
 const InputForm = () => {
   return (
-    <>
+    <FlexRow>
       <Input />
-      <CommitButton />
-    </>
+      <CreateJournal />
+    </FlexRow>
   );
 };
 
