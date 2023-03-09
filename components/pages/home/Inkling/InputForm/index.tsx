@@ -59,7 +59,7 @@ const InputForm = () => {
 
   return (
     <FlexCol alignItems="stretch">
-      <InputList errorIds={errorIds} onAddEntry={handleAddInkling} />
+      <InputList errorIds={errorIds} onAddInkling={handleAddInkling} />
 
       <FlexRow justifyContent="space-around">
         <AddButton onClick={handleAddInkling} />

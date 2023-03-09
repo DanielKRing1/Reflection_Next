@@ -23,10 +23,10 @@ import { Dict } from "../../../../../types/data";
 
 type InputListProps = {
   errorIds: Dict<boolean>;
-  onAddEntry: () => void;
+  onAddInkling: () => void;
 };
 const InputList = (props: InputListProps) => {
-  const { errorIds, onAddEntry } = props;
+  const { errorIds, onAddInkling } = props;
 
   // REDUX
   const dispatch: AppDispatch = useDispatch();
@@ -36,8 +36,8 @@ const InputList = (props: InputListProps) => {
 
   // HANDLERS
   const handleAddInkling = useCallback(() => {
-    onAddEntry();
-  }, [onAddEntry]);
+    onAddInkling();
+  }, [onAddInkling]);
   const handleEditInkling = (index: number, newEntry: string) => {
     dispatch(editInkling({ index, data: newEntry }));
   };
@@ -61,29 +61,29 @@ const InputList = (props: InputListProps) => {
   useEffect(() => {
     // 1. Defined key down handler
     const keydownHandler = (e: KeyboardEvent) => {
-      // Only handle 'Enter' key events
+      // 1.1. Only handle 'Enter' key events
       if (e.key !== "Enter") return;
-      // Last index focused and empty
+      // 1.2. Last index focused and empty -> remove it
       if (
         newInklings.length > 0 &&
         newInklings[newInklings.length - 1].data === "" &&
         focusedInklingIndex === newInklings.length - 1
       )
         return handleRmInkling(focusedInklingIndex);
-      // Already focused, then unfocus
+      // 1.3. Already focusing an Inkling ->  unfocus it
       if (focusedInklingIndex > -1) return handleBlurInkling();
 
-      // 1. Look for empty Inkling
+      // 1.4. Look for empty Inkling
       const pivotIndex = focusedInklingIndex > -1 ? focusedInklingIndex : 0;
       for (let i = 0; i < newInklings.length; i++) {
         const shiftedIndex = (pivotIndex + i) % newInklings.length;
         const { data, id } = newInklings[shiftedIndex];
 
-        // 2. Found next empty Inkling, focus it
+        // 1.5. Found next empty Inkling, focus it
         if (data === "") return handleFocusInkling(shiftedIndex);
       }
 
-      // 3. No empty Inklings, add new input (will focus)
+      // 1.6. No empty Inklings, add new input and focus it
       handleAddInkling();
     };
 
