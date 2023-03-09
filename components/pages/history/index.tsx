@@ -1,53 +1,25 @@
-// THIRD PARTY
-import React, { useMemo } from "react";
+// THIRD-PARTY
+import React from "react";
 import { useSelector } from "react-redux";
 
 // PAGE-SPECIFIC COMPONENTS
-import JournalEntryThought from "./JournalEntry/JournalEntryThought";
+import JournalEntry from "./JournalEntry";
 
 // TYPES
-import { JournalEntry, Reflection, Thought } from "../../../db/api/types";
+import { JournalEntry as JournalEntryType } from "../../../db/api/types";
 import { RootState } from "../../../redux/store";
+import FlexCol from "../../generic/Flex/FlexCol";
 
-// UTILS
-import { getThought } from "../../../redux/journalThoughtsDictSlice/utils/getThoughts";
-import useOnHover from "../../../hooks/useOnHover";
-
-type JournalEntryProps = {
-  journalEntry: JournalEntry;
-};
-const JournalEntry = (props: JournalEntryProps) => {
-  const { journalEntry } = props;
-
-  // HOOKS
-  const { isHovered, onMouseEnter, onMouseLeave } = useOnHover();
-
-  // REDUX
-  const { thoughtsDict } = useSelector(
-    (state: RootState) => state.journalThoughtsDictSlice
-  );
-
-  // MEMO
-  const thoughts = useMemo(
-    () =>
-      journalEntry.reflections.map(({ id, data }: Reflection) => ({
-        thought: getThought(id, thoughtsDict),
-        reflectionDecision: data,
-      })),
-    [journalEntry]
-  );
+const HistoryList = () => {
+  const { journal } = useSelector((state: RootState) => state.journalSlice);
 
   return (
-    <div onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
-      {thoughts.map(({ thought, reflectionDecision }) => (
-        <JournalEntryThought
-          isHovered={isHovered}
-          thought={thought}
-          reflectionDecision={reflectionDecision}
-        />
+    <FlexCol>
+      {journal.map((journalEntry: JournalEntryType) => (
+        <JournalEntry journalEntry={journalEntry} />
       ))}
-    </div>
+    </FlexCol>
   );
 };
 
-export default JournalEntry;
+export default HistoryList;
