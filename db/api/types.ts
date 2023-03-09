@@ -28,7 +28,7 @@ export enum ReflectionDecision {
 export type Reflection = DataWId<ReflectionDecision>;
 // All the reflections of a journaling session
 export type JournalEntry = {
-  time: Date;
+  time: number;
   reflections: Reflection[];
 };
 // All journaling sessions
@@ -48,7 +48,7 @@ export const DEFAULT_JOURNAL_METADATA: JournalMetadata = {
 // A single thought that has been committed to the journal
 //      and reflected on (keep or discard thought)
 export type Thought = Inkling & {
-  time: Date;
+  time: number;
 };
 // A dict of all committed thoughts (excludes pending thoughts)
 //      This is 'the source of truth' for thought data
@@ -80,7 +80,7 @@ export type DbDriverType = {
 
   createJournalEntry: (
     journalId: string,
-    time: Date,
+    time: number,
     thoughtIdsDiscarded: string[],
     thoughtIdsKept: string[],
     inklingIdsKept: string[],
@@ -95,7 +95,10 @@ export type DbDriverType = {
 
 export type DbHardwareType = DbDriverType & {
   // THOUGHTS
-  _convertInklingsToThoughts: (journalId: string, time: Date) => Promise<void>;
+  _convertInklingsToThoughts: (
+    journalId: string,
+    time: number
+  ) => Promise<void>;
   // User will never need to manually commit Inklings
   // Inklings will be committed once a Journal Reflection is complete
   _commitThoughts: (journalId: string, thoughts: Thought[]) => Promise<void>;

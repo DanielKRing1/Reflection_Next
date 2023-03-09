@@ -54,7 +54,7 @@ export const startCreateJournalEntry = createAsyncThunk<
       .map(({ id }: Inkling) => id);
 
     // 3. Add Journal Entry to Db
-    const time: Date = new Date();
+    const time: number = Date.now();
     await dbDriver.createJournalEntry(
       activeJournalId,
       time,

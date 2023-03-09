@@ -34,7 +34,7 @@ const dbDriver: DbDriverType = {
    */
   createJournalEntry: async function (
     journalId: string,
-    time: Date,
+    time: number,
     thoughtIdsDiscarded: string[],
     thoughtIdsKept: string[],
     inklingIdsKept: string[],
