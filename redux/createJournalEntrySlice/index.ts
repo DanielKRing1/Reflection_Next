@@ -7,6 +7,7 @@ import { Inkling, ThoughtsDict } from "../../db/api/types";
 
 // TYPES
 import { Dict } from "../../types/data";
+import { setIdentityThoughtIds } from "../identityThoughtsSlice";
 import { setJournalingPhase } from "../journalingPhaseSlice";
 import { JournalingPhase } from "../journalingPhaseSlice/types";
 import { addJournalEntry } from "../journalSlice";
@@ -80,10 +81,21 @@ export const startCreateJournalEntry = createAsyncThunk<
       )
     );
 
-    // 6. Clear new Inklings from Redux (They were already cleared from Db when adding the new Journal Entry)
+    // 6. Update Identity Thoughts in Redux
+    thunkAPI.dispatch(
+      setIdentityThoughtIds([
+        ...Object.keys(selectedThoughtIds),
+        ...Object.keys(selectedInklingIds),
+      ])
+    );
+
+    // 7. Clear new Inklings from Redux (They were already cleared from Db when adding the new Journal Entry)
     thunkAPI.dispatch(clearInklings());
 
-    // 7. Manually set Journaling Phase to Inkling
+    // 8. Clear selected Reflection ids
+    thunkAPI.dispatch(clear());
+
+    // 9. Manually set Journaling Phase to Inkling
     thunkAPI.dispatch(setJournalingPhase(JournalingPhase.Inkling));
 
     return true;
@@ -94,6 +106,7 @@ export const startCreateJournalEntry = createAsyncThunk<
 
 type AddIdAction = PayloadAction<string>;
 type RmIdAction = PayloadAction<string>;
+type ClearAction = PayloadAction<void>;
 type StartNewJournalEntryFulfilled = PayloadAction<boolean>;
 
 // SLICE
@@ -114,6 +127,10 @@ export const NewJournalEntrySlice = createSlice({
     rmInklingId: (state: NewJournalEntryState, action: RmIdAction) => {
       delete state.selectedInklingIds[action.payload];
     },
+    clear: (state: NewJournalEntryState, action: ClearAction) => {
+      state.selectedThoughtIds = {};
+      state.selectedInklingIds = {};
+    },
   },
   extraReducers: (builder) => {
     // Add reducers for additional action types here, and handle loading state as needed
@@ -130,6 +147,7 @@ export const NewJournalEntrySlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
+const { clear } = NewJournalEntrySlice.actions;
 export const { addThoughtId, addInklingId, rmThoughtId, rmInklingId } =
   NewJournalEntrySlice.actions;
 
