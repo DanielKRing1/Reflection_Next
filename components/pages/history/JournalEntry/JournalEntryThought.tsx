@@ -21,21 +21,25 @@ const JournalEntryThought = (props: JournalEntryThoughtProps) => {
   const { isHovered, thought, reflectionDecision } = props;
 
   return (
-    <StyledButton reflectionDecision={reflectionDecision}>
-      <MyText>{thought.data}</MyText>
-      <MyText>{formatTime(thought.time)}</MyText>
-      {/* {isHovered && <MyText>{formatTime(thought.time)}</MyText>} */}
-    </StyledButton>
+    <ThoughtContainer reflectionDecision={reflectionDecision}>
+      <StyledText>{thought.data}</StyledText>
+      <StyledText>{formatTime(thought.time)}</StyledText>
+      {/* {isHovered && <StyledText>{formatTime(thought.time)}</StyledText>} */}
+    </ThoughtContainer>
   );
 };
 
 export default JournalEntryThought;
 
 // STYLED COMPONENTS
-type StyledButtonProps = {
+const StyledText = styled(MyText)`
+  text-align: start;
+`;
+
+type ThoughtContainerProps = {
   reflectionDecision: ReflectionDecision;
 };
-const StyledButton = styled(MyButton)<StyledButtonProps>`
+const ThoughtContainer = styled(MyButton)<ThoughtContainerProps>`
   &,
   & > * {
     background: ${({ reflectionDecision }) =>
