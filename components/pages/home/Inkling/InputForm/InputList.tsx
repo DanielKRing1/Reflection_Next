@@ -85,8 +85,6 @@ const InputList = (props: InputListProps) => {
         const shiftedIndex = (pivotIndex + i) % newInklings.length;
         const { data, id } = newInklings[shiftedIndex];
 
-        console.log(shiftedIndex);
-
         // 1.5. Found next empty Inkling, focus it
         if (data === "") return handleFocusInkling(shiftedIndex);
       }
