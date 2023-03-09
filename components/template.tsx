@@ -8,6 +8,9 @@ import { useSelector, useDispatch } from "react-redux";
 
 // TYPES
 import { Inkling } from "../db/api/types";
+import { editInkling } from "../redux/newInklingsSlice";
+import { AppDispatch, RootState } from "../redux/store";
+import Input from "./pages/home/CreateJournal/InputForm/Input";
 
 type TemplateProps = {};
 const Template = (props: TemplateProps) => {
@@ -22,17 +25,7 @@ const Template = (props: TemplateProps) => {
     dispatch(editInkling({ index, data: newEntry }));
   };
 
-  return (
-    <>
-      {newInklings.map(({ id, data }: Inkling, i: number) => (
-        <Input
-          key={id}
-          value={data}
-          onCommit={(newEntry: string) => handleEditEntry(i, newEntry)}
-        />
-      ))}
-    </>
-  );
+  return <></>;
 };
 
 export default Template;
