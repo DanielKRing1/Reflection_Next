@@ -30,7 +30,7 @@ const InputList = (props: InputListProps) => {
 
   // REDUX
   const dispatch: AppDispatch = useDispatch();
-  const { newInklings, emptyInklings, focusedInklingIndex } = useSelector(
+  const { newInklings, focusedInklingIndex } = useSelector(
     (state: RootState) => state.newInklingsSlice
   );
 
@@ -52,10 +52,12 @@ const InputList = (props: InputListProps) => {
     },
     [dispatch, setFocusedInkling]
   );
-  const handleBlurInkling = useCallback(() => {
-    // if (nothingFocused()) dispatch(rmFocusedInkling());
-    dispatch(rmFocusedInkling());
-  }, [dispatch, rmFocusedInkling]);
+  const handleBlurInkling = useCallback(
+    (index: number) => {
+      if (index === focusedInklingIndex) dispatch(rmFocusedInkling());
+    },
+    [dispatch, rmFocusedInkling, focusedInklingIndex]
+  );
 
   // HANDLE KEYBOARD PRESS ENTER
   useEffect(() => {
@@ -70,14 +72,20 @@ const InputList = (props: InputListProps) => {
         focusedInklingIndex === newInklings.length - 1
       )
         return handleRmInkling(focusedInklingIndex);
-      // 1.3. Already focusing an Inkling ->  unfocus it
-      if (focusedInklingIndex > -1) return handleBlurInkling();
+      // 1.3. Focusing an empty Inkling -> unfocus it and return
+      if (
+        focusedInklingIndex > -1 &&
+        newInklings[focusedInklingIndex].data === ""
+      )
+        return handleBlurInkling(focusedInklingIndex);
 
       // 1.4. Look for empty Inkling
       const pivotIndex = focusedInklingIndex > -1 ? focusedInklingIndex : 0;
       for (let i = 0; i < newInklings.length; i++) {
         const shiftedIndex = (pivotIndex + i) % newInklings.length;
         const { data, id } = newInklings[shiftedIndex];
+
+        console.log(shiftedIndex);
 
         // 1.5. Found next empty Inkling, focus it
         if (data === "") return handleFocusInkling(shiftedIndex);
@@ -104,7 +112,7 @@ const InputList = (props: InputListProps) => {
           onChange={(newEntry: string) => handleEditInkling(i, newEntry)}
           isFocused={i === focusedInklingIndex}
           onFocus={() => handleFocusInkling(i)}
-          onBlur={() => handleBlurInkling()}
+          onBlur={() => handleBlurInkling(i)}
         />
       ))}
     </FlexCol>
