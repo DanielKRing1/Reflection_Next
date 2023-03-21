@@ -11,14 +11,14 @@ import {
   Thought,
   ThoughtsDict,
 } from "../../db/api/types";
-import { startHydrateIdentityThoughtIds } from "../identityThoughtsSlice";
+import { startHydrateIdentityThoughtIds } from "../db/identityThoughtsSlice";
 
 // REDUX
 import { startDetermineJournalingPhase } from "../journalingPhaseSlice";
 import { startHydrateJournalMetadata } from "../journalMetadataSlice";
-import { startHydrateJournal } from "../journalSlice";
-import { startHydrateThoughtsDict } from "../journalThoughtsDictSlice";
-import { startHydrateNewInklings } from "../newInklingsSlice";
+import { startHydrateJournal } from "../db/journalSlice";
+import { startHydrateThoughtsDict } from "../db/journalThoughtsDictSlice";
+import { startHydrateNewInklings } from "../db/newInklingsSlice";
 
 // TYPES
 import { ThunkConfig } from "../types";

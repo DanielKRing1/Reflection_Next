@@ -4,12 +4,12 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 // DB
 
 // TYPES
-import { ThunkConfig } from "../types";
-import { Dict } from "../../types/data";
-import { Inkling, Inklings } from "../../db/api/types";
-import dbDriver from "../../db/api";
-import { setJournalingPhase } from "../journalingPhaseSlice";
-import { JournalingPhase } from "../journalingPhaseSlice/types";
+import { ThunkConfig } from "../../types";
+import { Dict } from "../../../types/data";
+import { Inkling, Inklings } from "../../../db/api/types";
+import dbDriver from "../../../db/api";
+import { setJournalingPhase } from "../../journalingPhaseSlice";
+import { JournalingPhase } from "../../journalingPhaseSlice/types";
 
 // INITIAL STATE
 

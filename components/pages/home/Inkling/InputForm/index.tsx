@@ -16,7 +16,7 @@ import InputList from "./InputList";
 import {
   addInkling,
   startCommitNewInklings,
-} from "../../../../../redux/newInklingsSlice";
+} from "../../../../../redux/db/newInklingsSlice";
 
 // TYPES
 import { AppDispatch, RootState } from "../../../../../redux/store";

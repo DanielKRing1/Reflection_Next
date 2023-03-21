@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import dbDriver from "../../db/api";
-import { Journal, JournalEntry } from "../../db/api/types";
+import dbDriver from "../../../db/api";
+import { Journal, JournalEntry } from "../../../db/api/types";
 
-import { ThunkConfig } from "../types";
+import { ThunkConfig } from "../../types";
 
 // INITIAL STATE
 

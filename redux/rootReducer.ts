@@ -5,11 +5,11 @@ import journalingPhaseSlice from "./journalingPhaseSlice";
 import createJournalSlice from "./createJournalSlice";
 import activeJournalSlice from "./activeJournalSlice";
 import journalMetadataSlice from "./journalMetadataSlice";
-import journalThoughtsDictSlice from "./journalThoughtsDictSlice";
-import journalSlice from "./journalSlice";
-import identityThoughtsSlice from "./identityThoughtsSlice";
+import journalThoughtsDictSlice from "./db/journalThoughtsDictSlice";
+import journalSlice from "./db/journalSlice";
+import identityThoughtsSlice from "./db/identityThoughtsSlice";
 
-import newInklingsSlice from "./newInklingsSlice";
+import newInklingsSlice from "./db/newInklingsSlice";
 import createJournalEntrySlice from "./createJournalEntrySlice";
 
 export default combineReducers({

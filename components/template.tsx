@@ -8,7 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 // TYPES
 import { Inkling } from "../db/api/types";
-import { editInkling } from "../redux/newInklingsSlice";
+import { editInkling } from "../redux/db/newInklingsSlice";
 import { AppDispatch, RootState } from "../redux/store";
 import Input from "./pages/home/CreateJournal/InputForm/Input";
 

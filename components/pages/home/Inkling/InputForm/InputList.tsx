@@ -14,7 +14,7 @@ import {
   rmFocusedInkling,
   rmInkling,
   setFocusedInkling,
-} from "../../../../../redux/newInklingsSlice";
+} from "../../../../../redux/db/newInklingsSlice";
 
 // TYPES
 import { AppDispatch, RootState } from "../../../../../redux/store";

@@ -1,4 +1,4 @@
-import { Thought, ThoughtsDict } from "../../../db/api/types";
+import { ThoughtsDict, Thought } from "../../../../db/api/types";
 
 export const getThought = (
   thoughtId: string,

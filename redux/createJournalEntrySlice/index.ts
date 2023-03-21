@@ -7,12 +7,12 @@ import { Inkling, ThoughtsDict } from "../../db/api/types";
 
 // TYPES
 import { Dict } from "../../types/data";
-import { setIdentityThoughtIds } from "../identityThoughtsSlice";
+import { setIdentityThoughtIds } from "../db/identityThoughtsSlice";
 import { setJournalingPhase } from "../journalingPhaseSlice";
 import { JournalingPhase } from "../journalingPhaseSlice/types";
-import { addJournalEntry } from "../journalSlice";
-import { addThoughtsDict } from "../journalThoughtsDictSlice";
-import { clearInklings } from "../newInklingsSlice";
+import { addJournalEntry } from "../db/journalSlice";
+import { addThoughtsDict } from "../db/journalThoughtsDictSlice";
+import { clearInklings } from "../db/newInklingsSlice";
 import { ThunkConfig } from "../types";
 
 // INITIAL STATE
