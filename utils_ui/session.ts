@@ -20,6 +20,10 @@ export enum NeededLoginAction {
 export const hasFreshAccessCookie = (): boolean => {
     try {
         const { expires } = parseJSONCookie(META_ACCESS_SESSION_COOKIE_NAME);
+        if (expires === undefined)
+            throw new Error(
+                "hasFreshAccessCookie did not find a access meta cookie"
+            );
 
         // Fresh (return true) if now is 'older' than expiration
         return isDateOlder(new Date(), expires as Date);
@@ -36,6 +40,10 @@ export const hasFreshAccessCookie = (): boolean => {
 export const hasFreshRefreshCookie = (): boolean => {
     try {
         const { expires } = parseJSONCookie(META_REFRESH_SESSION_COOKIE_NAME);
+        if (expires === undefined)
+            throw new Error(
+                "hasFreshRefreshCookie did not find a refresh meta cookie"
+            );
 
         // Fresh (return true) if now is 'older' than expiration
         return isDateOlder(new Date(), expires as Date);
