@@ -52,7 +52,7 @@ export const hasFreshRefreshCookie = (): boolean => {
         return false;
     }
 };
-export const getNeededLoginAction = (): NeededLoginAction => {
+export const getNeededSessionAction = (): NeededLoginAction => {
     if (hasFreshAccessCookie()) return NeededLoginAction.None;
     if (hasFreshRefreshCookie()) return NeededLoginAction.Refresh;
     return NeededLoginAction.Login;
