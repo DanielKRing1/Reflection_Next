@@ -6,7 +6,7 @@ const META_REFRESH_SESSION_COOKIE_NAME = "rfltn-refresh-meta";
 
 // LOGIN
 
-export enum NeededLoginAction {
+export enum NeededSessionAction {
     Login,
     Refresh,
     None,
@@ -52,8 +52,8 @@ export const hasFreshRefreshCookie = (): boolean => {
         return false;
     }
 };
-export const getNeededSessionAction = (): NeededLoginAction => {
-    if (hasFreshAccessCookie()) return NeededLoginAction.None;
-    if (hasFreshRefreshCookie()) return NeededLoginAction.Refresh;
-    return NeededLoginAction.Login;
+export const getNeededSessionAction = (): NeededSessionAction => {
+    if (hasFreshAccessCookie()) return NeededSessionAction.None;
+    if (hasFreshRefreshCookie()) return NeededSessionAction.Refresh;
+    return NeededSessionAction.Login;
 };
