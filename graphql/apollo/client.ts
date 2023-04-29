@@ -1,6 +1,7 @@
 import { ApolloClient, HttpLink, InMemoryCache, from } from "@apollo/client";
 
 import authLink from "./links/auth";
+import schema from "./local/schemas";
 
 // TYPE POLICIES
 // (Define id fields)
@@ -14,6 +15,11 @@ const typePolicies = {
     },
     Thought: {
         keyFields: ["timeId"],
+    },
+
+    // Local schema types
+    Query: {
+        fields: schema.fieldPolicies,
     },
 };
 
@@ -33,6 +39,9 @@ const client = new ApolloClient({
         typePolicies,
     }),
     link: from([authLink, httpLink]),
+
+    // Local schema types
+    typeDefs: schema.typeDefs,
 });
 
 export default client;
