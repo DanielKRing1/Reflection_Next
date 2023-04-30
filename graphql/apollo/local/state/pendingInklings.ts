@@ -6,6 +6,12 @@ import { addToList, rmFromList } from "./utils";
 // Initializes to empty array
 export const pendingInklingsVar = makeVar<Inklings>([]);
 
+export const getPendingInklings = () => pendingInklingsVar();
+
+export const clearPendingInklings = () => {
+    pendingInklingsVar([]);
+};
+
 export const addPendingInkling = (newInkling: Inkling) => {
     addToList(pendingInklingsVar, newInkling);
 };

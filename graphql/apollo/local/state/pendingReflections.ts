@@ -15,6 +15,8 @@ export const editInklingReflections = (index: number, decision: number) => {
     editListIndex(inklingReflectionsVar, index, { data: decision });
 };
 
+export const getInklingReflections = () => inklingReflectionsVar();
+
 // THOUGHTS
 
 export const thoughtReflectionsVar = makeVar<Reflection[]>([]);
@@ -26,3 +28,5 @@ export const initThoughtReflections = (thoughtReflections: Reflection[]) => {
 export const editThoughtReflections = (index: number, decision: number) => {
     editListIndex(thoughtReflectionsVar, index, { data: decision });
 };
+
+export const getThoughtReflections = () => thoughtReflectionsVar();
