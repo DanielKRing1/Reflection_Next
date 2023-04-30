@@ -22,25 +22,25 @@ export type Inklings = Inkling[];
 //      in the current snapshot
 // { id, data: 0 | 1 }
 export enum ReflectionDecision {
-  Discard,
-  Keep,
+    Discard,
+    Keep,
 }
 export type Reflection = DataWId<ReflectionDecision>;
 // All the reflections of a journaling session
 export type JournalEntry = {
-  time: number;
-  reflections: Reflection[];
+    timeId: number;
+    reflections: Reflection[];
 };
 // All journaling sessions
 export type Journal = JournalEntry[];
 // Information abt the Journal
 export type JournalMetadata = {
-  name: string;
-  keepMax: number;
+    name: string;
+    keepMax: number;
 };
 export const DEFAULT_JOURNAL_METADATA: JournalMetadata = {
-  name: "",
-  keepMax: 5,
+    name: "",
+    keepMax: 5,
 };
 
 // IDEAS REFLECTED ON AND COMMITTED TO THE JOURNAL
@@ -48,7 +48,7 @@ export const DEFAULT_JOURNAL_METADATA: JournalMetadata = {
 // A single thought that has been committed to the journal
 //      and reflected on (keep or discard thought)
 export type Thought = Inkling & {
-  time: number;
+    time: number;
 };
 // A dict of all committed thoughts (excludes pending thoughts)
 //      This is 'the source of truth' for thought data
@@ -56,50 +56,53 @@ export type Thought = Inkling & {
 export type ThoughtsDict = Dict<Thought>;
 
 export type DbDriverType = {
-  // INKLINGS
-  commitInklings: (journalId: string, inklings: Inklings) => Promise<void>;
-  getInklings: (journalId: string) => Promise<Inklings>;
-  clearInklings: (journalId: string) => Promise<void>;
+    // INKLINGS
+    commitInklings: (journalId: string, inklings: Inklings) => Promise<void>;
+    getInklings: (journalId: string) => Promise<Inklings>;
+    clearInklings: (journalId: string) => Promise<void>;
 
-  // REFLECTIONS, ENTRIES, JOURNAL
-  createJournal: (
-    journalName: string
-  ) => Promise<{ id: string; metadata: JournalMetadata }>;
-  getJournal: (journalId: string) => Promise<Journal>;
-  deleteJournal: (journalId: string) => Promise<void>;
+    // REFLECTIONS, ENTRIES, JOURNAL
+    createJournal: (
+        journalName: string
+    ) => Promise<{ id: string; metadata: JournalMetadata }>;
+    getJournal: (journalId: string) => Promise<Journal>;
+    deleteJournal: (journalId: string) => Promise<void>;
 
-  getJournalMetadata: (journalId: string) => Promise<JournalMetadata | null>;
-  addJournalMetadata: (
-    journalId: string,
-    additionalMetadata: Partial<JournalMetadata>
-  ) => Promise<void>;
+    getJournalMetadata: (journalId: string) => Promise<JournalMetadata | null>;
+    addJournalMetadata: (
+        journalId: string,
+        additionalMetadata: Partial<JournalMetadata>
+    ) => Promise<void>;
 
-  getJournalIds: () => Promise<string[]>;
-  setLastUsedJournalId: (journalId: string) => Promise<void>;
-  getLastUsedJournalId: () => Promise<string | null>;
+    getJournalIds: () => Promise<string[]>;
+    setLastUsedJournalId: (journalId: string) => Promise<void>;
+    getLastUsedJournalId: () => Promise<string | null>;
 
-  createJournalEntry: (
-    journalId: string,
-    time: number,
-    thoughtIdsDiscarded: string[],
-    thoughtIdsKept: string[],
-    inklingIdsKept: string[],
-    inklingIdsDiscarded: string[]
-  ) => Promise<void>;
-  getCurrentIdentityIds: (journalId: string) => Promise<string[]>;
+    createJournalEntry: (
+        journalId: string,
+        time: number,
+        thoughtIdsDiscarded: string[],
+        thoughtIdsKept: string[],
+        inklingIdsKept: string[],
+        inklingIdsDiscarded: string[]
+    ) => Promise<void>;
+    getCurrentIdentityIds: (journalId: string) => Promise<string[]>;
 
-  // THOUGHTS
-  getThoughts: (journalId: string, thoughtIds: string[]) => Promise<Thought[]>;
-  getThoughtsDict: (journalId: string) => Promise<ThoughtsDict>;
+    // THOUGHTS
+    getThoughts: (
+        journalId: string,
+        thoughtIds: string[]
+    ) => Promise<Thought[]>;
+    getThoughtsDict: (journalId: string) => Promise<ThoughtsDict>;
 };
 
 export type DbHardwareType = DbDriverType & {
-  // THOUGHTS
-  _convertInklingsToThoughts: (
-    journalId: string,
-    time: number
-  ) => Promise<void>;
-  // User will never need to manually commit Inklings
-  // Inklings will be committed once a Journal Reflection is complete
-  _commitThoughts: (journalId: string, thoughts: Thought[]) => Promise<void>;
+    // THOUGHTS
+    _convertInklingsToThoughts: (
+        journalId: string,
+        time: number
+    ) => Promise<void>;
+    // User will never need to manually commit Inklings
+    // Inklings will be committed once a Journal Reflection is complete
+    _commitThoughts: (journalId: string, thoughts: Thought[]) => Promise<void>;
 };
