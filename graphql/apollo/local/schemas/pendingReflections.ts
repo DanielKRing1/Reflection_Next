@@ -1,4 +1,7 @@
-import { inklingReflectionsVar } from "../state/pendingReflections";
+import {
+    getInklingReflections,
+    getThoughtReflections,
+} from "../state/pendingReflections";
 import { SchemaFragment } from "./types";
 
 export const typeDefs = `
@@ -11,12 +14,12 @@ export const pendingReflectionsFragment: SchemaFragment = {
     fieldPolicies: {
         inklingReflections: {
             read() {
-                return inklingReflectionsVar();
+                return getInklingReflections();
             },
         },
         thoughtReflections: {
             read() {
-                return inklingReflectionsVar();
+                return getThoughtReflections();
             },
         },
     },

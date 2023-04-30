@@ -4,7 +4,7 @@ import { Inkling, Inklings } from "../../../../db/api/types";
 import { addToList, rmFromList } from "./utils";
 
 // Initializes to empty array
-export const pendingInklingsVar = makeVar<Inklings>([]);
+const pendingInklingsVar = makeVar<Inklings>([]);
 
 export const getPendingInklings = () => pendingInklingsVar();
 

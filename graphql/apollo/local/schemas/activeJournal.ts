@@ -1,4 +1,4 @@
-import { activeJournalVar } from "../state/activeJournal";
+import { getActiveJournal } from "../state/activeJournal";
 import { SchemaFragment } from "./types";
 
 const typeDefs = `activeJournal: String`;
@@ -8,7 +8,7 @@ export const activeJournalFragment: SchemaFragment = {
     fieldPolicies: {
         activeJournal: {
             read() {
-                return activeJournalVar();
+                return getActiveJournal();
             },
         },
     },

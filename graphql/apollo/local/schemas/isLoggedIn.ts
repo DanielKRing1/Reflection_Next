@@ -1,4 +1,4 @@
-import { isLoggedInVar } from "../state/isLoggedIn";
+import { getIsLoggedIn } from "../state/isLoggedIn";
 import { SchemaFragment } from "./types";
 
 const typeDefs = `isLoggedIn: Boolean!`;
@@ -8,7 +8,7 @@ export const isLoggedInFragment: SchemaFragment = {
     fieldPolicies: {
         isLoggedIn: {
             read() {
-                return isLoggedInVar();
+                return getIsLoggedIn();
             },
         },
     },

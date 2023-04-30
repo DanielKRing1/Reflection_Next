@@ -1,4 +1,4 @@
-import { pendingInklingsVar } from "../state/pendingInklings";
+import { getPendingInklings } from "../state/pendingInklings";
 
 import { SchemaFragment } from "./types";
 
@@ -9,7 +9,7 @@ export const pendingInklingsFragment: SchemaFragment = {
     fieldPolicies: {
         pendingInklings: {
             read() {
-                return pendingInklingsVar();
+                return getPendingInklings();
             },
         },
     },

@@ -5,7 +5,7 @@ import { editListIndex } from "./utils";
 
 // INKLINGS
 // Initializes to empty array
-export const inklingReflectionsVar = makeVar<Reflection[]>([]);
+const inklingReflectionsVar = makeVar<Reflection[]>([]);
 
 export const initInklingReflections = (inklingReflections: Reflection[]) => {
     inklingReflectionsVar(inklingReflections);
@@ -19,7 +19,7 @@ export const getInklingReflections = () => inklingReflectionsVar();
 
 // THOUGHTS
 
-export const thoughtReflectionsVar = makeVar<Reflection[]>([]);
+const thoughtReflectionsVar = makeVar<Reflection[]>([]);
 
 export const initThoughtReflections = (thoughtReflections: Reflection[]) => {
     thoughtReflectionsVar(thoughtReflections);
