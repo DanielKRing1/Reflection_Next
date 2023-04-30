@@ -2,7 +2,7 @@ import { gql } from "@apollo/client";
 
 // QUERIES
 
-export const getThoughts = gql`
+export const GET_THOUGHTS = gql`
     query Thoughts($journalId: ID!, $thoughtIds: [DateTime]!) {
         thoughts(journalId: $journalId, thoughtIds: $thoughtIds) {
             timeId

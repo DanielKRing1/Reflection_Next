@@ -1,6 +1,6 @@
 import { gql, useMutation } from "@apollo/client";
 
-import { createJournalEntry } from "../../gql/journalEntry";
+import { CREATE_JOURNAL_ENTRY } from "../../gql/journalEntry";
 import { getActiveJournal } from "../local/state/activeJournal";
 import { JournalEntry, Reflection } from "../../../db/api/types";
 import {
@@ -8,8 +8,8 @@ import {
     getThoughtReflections,
 } from "../local/state/pendingReflections";
 import client from "../client/client";
-import { getInklings } from "../../gql/inklings";
-import { getThoughts } from "../../gql/thoughts";
+import { GET_INKLINGS } from "../../gql/inklings";
+import { GET_THOUGHTS } from "../../gql/thoughts";
 import { setJournalPhase } from "../local/state/journalPhase";
 import { JournalPhase } from "../../../utils_ui/journalPhase";
 
@@ -23,7 +23,7 @@ export default () => {
     const thoughtReflections: Reflection[] = getThoughtReflections();
 
     const [mutateFunction, { data, loading, error }] = useMutation(
-        createJournalEntry,
+        CREATE_JOURNAL_ENTRY,
         {
             variables: {
                 createJournalEntryJournalId: activeJournalId,
@@ -93,7 +93,7 @@ export default () => {
 
                 // Get cached Inklings
                 const { inklings } = client.readQuery({
-                    query: getInklings,
+                    query: GET_INKLINGS,
                     // Provide any required variables in this object.
                     // Variables of mismatched types will return `null`.
                     variables: {
@@ -103,7 +103,7 @@ export default () => {
 
                 // Save Inklings as Thoughts
                 client.writeQuery({
-                    query: getThoughts,
+                    query: GET_THOUGHTS,
                     variables: {
                         journalId: activeJournalId,
                         thoughIds: inklings.map((i) => i.timeId),
@@ -113,7 +113,7 @@ export default () => {
 
                 // 3. Clear cached server (committed) Inklings
                 client.writeQuery({
-                    query: getInklings,
+                    query: GET_INKLINGS,
                     variables: {
                         journalId: activeJournalId,
                     },

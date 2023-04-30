@@ -1,6 +1,6 @@
 import { useMutation } from "@apollo/client";
 
-import { getJournalEntries } from "../../gql/journalEntry";
+import { GET_JOURNAL_ENTRIES } from "../../gql/journalEntry";
 import { getActiveJournal } from "../local/state/activeJournal";
 import { Inkling, Inklings } from "../../../db/api/types";
 import {
@@ -8,7 +8,7 @@ import {
     initThoughtReflections,
 } from "../local/state/pendingReflections";
 import client from "../client/client";
-import { commitInklings, getInklings } from "../../gql/inklings";
+import { COMMIT_INKLINGS, GET_INKLINGS } from "../../gql/inklings";
 import {
     clearPendingInklings,
     getPendingInklings,
@@ -24,7 +24,7 @@ export default () => {
     const pendingInklings: Inklings = getPendingInklings();
 
     const [mutateFunction, { data, loading, error }] = useMutation(
-        commitInklings,
+        COMMIT_INKLINGS,
         {
             variables: {
                 commitInklingsJournalId: activeJournalId,
@@ -38,7 +38,7 @@ export default () => {
 
                 // Get cached Inklings
                 const { inklings } = client.readQuery({
-                    query: getInklings,
+                    query: GET_INKLINGS,
                     // Provide any required variables in this object.
                     // Variables of mismatched types will return `null`.
                     variables: {
@@ -54,7 +54,7 @@ export default () => {
 
                 // Get most recent JournalEntry's 'kept' Thoughts
                 const { journalEntries } = client.readQuery({
-                    query: getJournalEntries,
+                    query: GET_JOURNAL_ENTRIES,
                     // Provide any required variables in this object.
                     // Variables of mismatched types will return `null`.
                     variables: {

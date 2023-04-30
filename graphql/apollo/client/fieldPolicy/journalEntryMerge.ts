@@ -3,7 +3,7 @@ import { JournalEntry } from "../../../../db/api/types";
 import { genCacheId } from "../../local/utils/id";
 import { THOUGHT_TYPENAME } from "../../server/typenames";
 import client from "../client";
-import { getThoughts } from "../../../gql/thoughts";
+import { GET_THOUGHTS } from "../../../gql/thoughts";
 import { getActiveJournal } from "../../local/state/activeJournal";
 
 export const merge = {
@@ -44,7 +44,7 @@ export const merge = {
             const activeJournalId: string = getActiveJournal();
 
             client.query({
-                query: getThoughts,
+                query: GET_THOUGHTS,
                 variables: {
                     journalId: activeJournalId,
                     thoughtIds: missingThoughtIds,

@@ -2,7 +2,7 @@ import { gql } from "@apollo/client";
 
 // QUERIES
 
-export const getJournalEntries = gql`
+export const GET_JOURNAL_ENTRIES = gql`
     query JournalEntries(
         $journalId: BigInt!
         $cursorTime: DateTime
@@ -25,7 +25,7 @@ export const getJournalEntries = gql`
 
 // MUTATIONS
 
-export const createJournalEntry = gql`
+export const CREATE_JOURNAL_ENTRY = gql`
     mutation CreateJournalEntry(
         $createJournalEntryJournalId: BigInt!
         $keepIdsInkling: [DateTime]!

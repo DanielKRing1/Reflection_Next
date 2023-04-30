@@ -1,10 +1,10 @@
 import { useQuery } from "@apollo/client";
 
-import { getJournalEntries } from "../../gql/journalEntry";
+import { GET_JOURNAL_ENTRIES } from "../../gql/journalEntry";
 
 // { loading, error, data, fetchMore }
 export default (journalId: BigInt, cursorTime: Date, count: number) => {
-    const handle = useQuery(getJournalEntries, {
+    const handle = useQuery(GET_JOURNAL_ENTRIES, {
         variables: {
             journalId,
             cursorTime,

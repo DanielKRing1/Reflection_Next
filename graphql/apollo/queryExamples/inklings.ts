@@ -1,10 +1,10 @@
 import { useQuery } from "@apollo/client";
 
-import { getInklings } from "../../gql/inklings";
+import { GET_INKLINGS } from "../../gql/inklings";
 
 // { loading, error, data, refetch }
 export default (journalId: string) => {
-    const handle = useQuery(getInklings, {
+    const handle = useQuery(GET_INKLINGS, {
         variables: {
             journalId,
         },
@@ -15,7 +15,7 @@ export default (journalId: string) => {
 
 // export const clearInklingsLocal = () => {
 //     client.writeQuery({
-//         query: getInklings,
+//         query: GET_INKLINGS,
 //         data: [],
 //         variables: {
 //             journalId: getActiveJournal(),

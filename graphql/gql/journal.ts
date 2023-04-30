@@ -2,7 +2,7 @@ import { gql } from "@apollo/client";
 
 // QUERIES
 
-export const getJournals = gql`
+export const GET_JOURNALS = gql`
     query Journals {
         journals {
             id
@@ -14,7 +14,7 @@ export const getJournals = gql`
 
 // MUTATIONS
 
-export const createJournal = gql`
+export const CREATE_JOURNAL = gql`
     mutation CreateJournal($journalName: String!) {
         createJournal(journalName: $journalName) {
             id
