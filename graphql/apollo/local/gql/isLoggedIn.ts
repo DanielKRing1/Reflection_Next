@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-export const isLoggedIn = gql`
+export const IS_LOGGED_IN = gql`
     query IsLoggedIn {
         isLoggedIn @client
     }
