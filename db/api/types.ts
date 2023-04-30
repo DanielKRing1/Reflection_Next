@@ -29,6 +29,7 @@ export type Reflection = DataWId<ReflectionDecision>;
 // All the reflections of a journaling session
 export type JournalEntry = {
     timeId: number;
+    journalId: string;
     reflections: Reflection[];
 };
 // All journaling sessions
