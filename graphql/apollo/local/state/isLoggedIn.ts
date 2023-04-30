@@ -1,7 +1,12 @@
 import { makeVar } from "@apollo/client";
 
-// Initializes to false
-export const isLoggedInVar = makeVar<boolean>(false);
+import { NeededSessionAction } from "../../../../utils_ui/session";
+import { getNeededSessionAction } from "../../../../utils_ui/session";
+
+// Initializes to true if has fresh access and refresh cookies
+export const isLoggedInVar = makeVar<boolean>(
+    getNeededSessionAction() === NeededSessionAction.None
+);
 
 export const login = () => isLoggedInVar(true);
 export const logout = () => isLoggedInVar(false);
