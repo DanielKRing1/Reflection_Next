@@ -1,9 +1,9 @@
 import { ApolloClient, HttpLink, InMemoryCache, from } from "@apollo/client";
 
 import authLink from "../links/auth";
-import schema from "../local/schemas";
+import localState from "../local/schemas";
 
-import { read as readReflectionThought } from "./fieldPolicy/reflection";
+import { read as journalEntryRead } from "./fieldPolicy/journalEntryRead";
 
 // TYPE POLICIES
 // (Define id fields)
@@ -18,7 +18,7 @@ const typePolicies = {
         // Combine Thought into Reflection
         fields: {
             thoughtId: {
-                read: readReflectionThought,
+                read: journalEntryRead,
             },
         },
     },
@@ -28,7 +28,9 @@ const typePolicies = {
 
     // Local schema types
     Query: {
-        fields: schema.fieldPolicies,
+        fields: {
+            ...localState.fieldPolicies,
+        },
     },
 };
 
@@ -50,7 +52,7 @@ const client = new ApolloClient({
     link: from([authLink, httpLink]),
 
     // Local schema types
-    typeDefs: schema.typeDefs,
+    typeDefs: localState.typeDefs,
 });
 
 export default client;
