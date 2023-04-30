@@ -1,7 +1,9 @@
 import { ApolloClient, HttpLink, InMemoryCache, from } from "@apollo/client";
 
-import authLink from "./links/auth";
-import schema from "./local/schemas";
+import authLink from "../links/auth";
+import schema from "../local/schemas";
+
+import { read as readReflectionThought } from "./fieldPolicy/reflection";
 
 // TYPE POLICIES
 // (Define id fields)
@@ -12,6 +14,13 @@ const typePolicies = {
     },
     JournalEntry: {
         keyFields: ["timeId"],
+
+        // Combine Thought into Reflection
+        fields: {
+            thoughtId: {
+                read: readReflectionThought,
+            },
+        },
     },
     Thought: {
         keyFields: ["timeId"],
