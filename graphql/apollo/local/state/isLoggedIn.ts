@@ -9,5 +9,5 @@ const isLoggedInVar = makeVar<boolean>(
 );
 
 export const getIsLoggedIn = () => isLoggedInVar();
-export const login = () => isLoggedInVar(true);
-export const logout = () => isLoggedInVar(false);
+export const loginLocal = () => isLoggedInVar(true);
+export const logoutLocal = () => isLoggedInVar(false);
