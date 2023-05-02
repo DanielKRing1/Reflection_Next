@@ -16,11 +16,11 @@ export default (props: LoginFormProps) => {
 
     return (
         <FlexCol>
-            <h1>Login</h1>
+            <h1>Log In</h1>
 
             <CredentialForm {...props} submitButtonText="Login" />
 
-            <h6 onClick={handleToggleLoginPhase}>Create Account</h6>
+            <h6 onClick={handleToggleLoginPhase}>Sign Up</h6>
         </FlexCol>
     );
 };

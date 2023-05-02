@@ -20,7 +20,7 @@ export default (props: SignupFormProps) => {
 
             <CredentialForm {...props} submitButtonText="Signup" />
 
-            <h6 onClick={handleToggleLoginPhase}>Create Account</h6>
+            <h6 onClick={handleToggleLoginPhase}>Log In</h6>
         </FlexCol>
     );
 };
