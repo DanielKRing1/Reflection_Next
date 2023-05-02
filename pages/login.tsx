@@ -1,9 +1,9 @@
 import Head from "next/head";
-import Link from "next/link";
 
 import styles from "../styles/Home.module.css";
+import Login from "../components/pages/login";
 
-export default function Login() {
+export default () => {
     return (
         <div className={styles.container}>
             <Head>
@@ -11,18 +11,8 @@ export default function Login() {
             </Head>
 
             <main>
-                <h1>Login View</h1>
-
-                <input placeholder="Username..." />
-                <input placeholder="Password..." />
-
-                <h1>SignUp View</h1>
-
-                <input placeholder="Username..." />
-                <input placeholder="Password..." />
-
-                <Link href="/">Go Back</Link>
+                <Login />
             </main>
         </div>
     );
-}
+};
