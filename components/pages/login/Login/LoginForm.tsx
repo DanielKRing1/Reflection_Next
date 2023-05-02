@@ -1,3 +1,4 @@
+import ClickContainer from "../../../generic/Button/Base/ClickContainer";
 import FlexCol from "../../../generic/Flex/FlexCol";
 
 import CredentialForm, { CredentialFormProps } from "../generic/CredentialForm";
@@ -20,7 +21,9 @@ export default (props: LoginFormProps) => {
 
             <CredentialForm {...props} submitButtonText="Login" />
 
-            <h6 onClick={handleToggleLoginPhase}>Sign Up</h6>
+            <ClickContainer onClick={handleToggleLoginPhase}>
+                <h6>Sign Up</h6>
+            </ClickContainer>
         </FlexCol>
     );
 };
