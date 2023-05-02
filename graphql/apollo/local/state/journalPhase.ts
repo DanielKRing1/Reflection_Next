@@ -14,18 +14,23 @@ export const getJournalPhase = () => journalPhaseVar();
 export const setJournalPhase = (phase: JournalPhase) => journalPhaseVar(phase);
 
 export const determineJournalPhase = (): JournalPhase => {
-    const activeJournalId: string = getActiveJournal();
+    try {
+        const activeJournalId: string = getActiveJournal();
 
-    const { inklings } = client.readQuery({
-        query: GET_INKLINGS,
-        // Provide any required variables in this object.
-        // Variables of mismatched types will return `null`.
-        variables: {
-            journalId: activeJournalId,
-        },
-    });
+        const { inklings } = client.readQuery({
+            query: GET_INKLINGS,
+            // Provide any required variables in this object.
+            // Variables of mismatched types will return `null`.
+            variables: {
+                journalId: activeJournalId,
+            },
+        });
 
-    return inklings.length === 0
-        ? JournalPhase.Inklings
-        : JournalPhase.Reflection;
+        return inklings.length === 0
+            ? JournalPhase.Inklings
+            : JournalPhase.Reflection;
+    } catch (err) {
+        console.log(err);
+        return JournalPhase.Unknown;
+    }
 };
