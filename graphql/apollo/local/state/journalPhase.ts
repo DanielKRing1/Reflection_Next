@@ -1,7 +1,7 @@
 import { makeVar } from "@apollo/client";
 import client from "../../client/client";
 
-import { getInklings } from "../../../gql/inklings";
+import { GET_INKLINGS } from "../../../gql/inklings";
 import { getActiveJournal } from "./activeJournal";
 
 import { JournalPhase } from "../../../../utils_ui/journalPhase";
@@ -17,7 +17,7 @@ export const determineJournalPhase = (): JournalPhase => {
     const activeJournalId: string = getActiveJournal();
 
     const { inklings } = client.readQuery({
-        query: getInklings,
+        query: GET_INKLINGS,
         // Provide any required variables in this object.
         // Variables of mismatched types will return `null`.
         variables: {
