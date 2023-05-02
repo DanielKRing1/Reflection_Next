@@ -65,15 +65,18 @@ export default () => {
         switch (journalPhase) {
             case JournalPhase.Inklings: {
                 router.push("/");
+                break;
             }
 
             case JournalPhase.Reflection: {
                 router.push("/");
+                break;
             }
 
             default:
             case JournalPhase.Unknown: {
                 // Do nothing
+                break;
             }
         }
     }, [journalPhase]);

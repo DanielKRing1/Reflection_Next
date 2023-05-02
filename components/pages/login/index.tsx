@@ -18,10 +18,12 @@ export default (props: Props) => {
         switch (loginPhase) {
             case LoginPhase.Login: {
                 success = await login(username, password);
+                break;
             }
             default:
             case LoginPhase.Signup: {
                 success = await createUser(username, password);
+                break;
             }
         }
 
