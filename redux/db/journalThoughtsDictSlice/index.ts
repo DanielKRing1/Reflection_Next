@@ -1,19 +1,19 @@
 // THIRD PARTY
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import dbDriver from "../../db/api";
+import dbDriver from "../../../db/api";
 
 // TYPES
-import { ThoughtsDict } from "../../db/api/types";
-import { ThunkConfig } from "../types";
+import { ThoughtsDict } from "../../../db/api/types";
+import { ThunkConfig } from "../../types";
 
 // INITIAL STATE
 
 export interface JournalThoughtsDictState {
-  thoughtsDict: ThoughtsDict;
+    thoughtsDict: ThoughtsDict;
 }
 
 const initialState: JournalThoughtsDictState = {
-  thoughtsDict: {},
+    thoughtsDict: {},
 };
 
 // THUNKS
@@ -24,23 +24,23 @@ const initialState: JournalThoughtsDictState = {
  *    or 'undefined' to hydrate from Db
  */
 export const startHydrateThoughtsDict = createAsyncThunk<
-  boolean,
-  ThoughtsDict | undefined,
-  ThunkConfig
+    boolean,
+    ThoughtsDict | undefined,
+    ThunkConfig
 >(
-  "journalThoughtsDictSlice/startHydrateThoughtsDict",
-  async (thoughtsDict, thunkAPI) => {
-    // 1. No ThoughtsDict provided, hydrate from Db
-    if (thoughtsDict === undefined) {
-      const { activeJournalId } = thunkAPI.getState().activeJournalSlice;
-      thoughtsDict = await dbDriver.getThoughtsDict(activeJournalId);
+    "journalThoughtsDictSlice/startHydrateThoughtsDict",
+    async (thoughtsDict, thunkAPI) => {
+        // 1. No ThoughtsDict provided, hydrate from Db
+        if (thoughtsDict === undefined) {
+            const { activeJournalId } = thunkAPI.getState().activeJournalSlice;
+            thoughtsDict = await dbDriver.getThoughtsDict(activeJournalId);
+        }
+
+        // 2. Set ThoughtsDict in Redux
+        thunkAPI.dispatch(setThoughtsDict(thoughtsDict));
+
+        return true;
     }
-
-    // 2. Set ThoughtsDict in Redux
-    thunkAPI.dispatch(setThoughtsDict(thoughtsDict));
-
-    return true;
-  }
 );
 
 // ACTION TYPES
@@ -51,27 +51,27 @@ type AddThoughtsDict = PayloadAction<ThoughtsDict>;
 // SLICE
 
 export const JournalThoughtsDictSlice = createSlice({
-  name: "journalThoughtsDict",
-  initialState,
-  reducers: {
-    setThoughtsDict: (
-      state: JournalThoughtsDictState,
-      action: SetThoughtsDict
-    ) => {
-      state.thoughtsDict = action.payload;
-    },
+    name: "journalThoughtsDict",
+    initialState,
+    reducers: {
+        setThoughtsDict: (
+            state: JournalThoughtsDictState,
+            action: SetThoughtsDict
+        ) => {
+            state.thoughtsDict = action.payload;
+        },
 
-    addThoughtsDict: (
-      state: JournalThoughtsDictState,
-      action: AddThoughtsDict
-    ) => {
-      state.thoughtsDict = {
-        ...state.thoughtsDict,
-        ...action.payload,
-      };
+        addThoughtsDict: (
+            state: JournalThoughtsDictState,
+            action: AddThoughtsDict
+        ) => {
+            state.thoughtsDict = {
+                ...state.thoughtsDict,
+                ...action.payload,
+            };
+        },
     },
-  },
-  extraReducers: (builder) => {},
+    extraReducers: (builder) => {},
 });
 
 // Action creators are generated for each case reducer function
