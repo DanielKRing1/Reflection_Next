@@ -2,7 +2,7 @@ import { gql } from "@apollo/client";
 
 // QUERIES
 
-export const getUser = gql`
+export const GET_USER = gql`
     query User {
         user {
             email
