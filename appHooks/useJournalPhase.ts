@@ -18,8 +18,16 @@ import { GET_ACTIVE_JOURNAL } from "../graphql/apollo/local/gql/activeJournal";
 export default () => {
     // LOCAL STATE
 
-    const { data: activeJournal } = useQuery<boolean>(GET_ACTIVE_JOURNAL);
-    const { data: journalPhase } = useQuery<JournalPhase>(GET_JOURNAL_PHASE);
+    const {
+        data: { activeJournal },
+    } = useQuery(GET_ACTIVE_JOURNAL);
+    const {
+        data: { journalPhase },
+    } = useQuery(GET_JOURNAL_PHASE);
+
+    // ROUTING
+
+    const router = useRouter();
 
     // SERVER/LOCAL STATE
 
@@ -27,15 +35,27 @@ export default () => {
     const [getInklings, { loading, error, data, refetch, called }] =
         useLazyQuery(GET_INKLINGS);
 
-    // ROUTING
-
-    const router = useRouter();
-
     // SET JOURNAL PHASE
 
-    useEffect(() => {
-        if (!activeJournal) return;
+    // Cache Inklings from server, locally
+    const _getInklings = () => {
+        const vars = {
+            variables: {
+                journalId: activeJournal,
+            },
+        };
 
+        if (!called) getInklings(vars);
+        else refetch(vars);
+    };
+    useEffect(() => {
+        if (activeJournal === null) return;
+
+        _getInklings();
+    }, [activeJournal]);
+
+    // When Inklings are cached, determine journal phase
+    useEffect(() => {
         if (!loading && !error) setJournalPhase(determineJournalPhase());
     }, [loading, error]);
 

@@ -12,7 +12,9 @@ import { GET_JOURNALS } from "../graphql/gql/journal";
 export default () => {
     // LOCAL STATE
 
-    const { data: isLoggedIn } = useQuery<boolean>(GET_IS_LOGGED_IN);
+    const {
+        data: { isLoggedIn },
+    } = useQuery(GET_IS_LOGGED_IN);
 
     // SERVER STATE
 

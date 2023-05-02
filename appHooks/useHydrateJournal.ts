@@ -8,14 +8,12 @@ import { useEffect } from "react";
 import { GET_ACTIVE_JOURNAL } from "../graphql/apollo/local/gql/activeJournal";
 import { GET_INKLINGS } from "../graphql/gql/inklings";
 import { GET_JOURNAL_ENTRIES } from "../graphql/gql/journalEntry";
-import {
-    determineJournalPhase,
-    setJournalPhase,
-} from "../graphql/apollo/local/state/journalPhase";
 
 export default () => {
     // LOCAL STATE
-    const { data: activeJournal } = useQuery<boolean>(GET_ACTIVE_JOURNAL);
+    const {
+        data: { activeJournal },
+    } = useQuery(GET_ACTIVE_JOURNAL);
 
     // SERVER STATE
 
@@ -70,7 +68,7 @@ export default () => {
     // HYDRATE JOURNAL
 
     useEffect(() => {
-        if (activeJournal === undefined) return;
+        if (activeJournal === null) return;
 
         _hydrateInklings();
         _hydrateJournalEntries();
