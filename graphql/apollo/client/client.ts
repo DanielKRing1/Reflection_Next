@@ -53,6 +53,8 @@ const client = new ApolloClient({
 
     // Local schema types
     typeDefs: localState.typeDefs,
+
+    connectToDevTools: true,
 });
 
 export default client;
