@@ -10,12 +10,7 @@ import { loginLocal } from "../graphql/apollo/local/state/isLoggedIn";
  * @returns True if created user, else false
  */
 export const createUser = async (userId: string, password: string) => {
-    const res = await startSession(CREATE_USER_URL, userId, password);
-
-    const success = res.status < 300;
-    if (success) loginLocal();
-
-    return success;
+    return await startSession(CREATE_USER_URL, userId, password);
 };
 
 /**
@@ -25,12 +20,7 @@ export const createUser = async (userId: string, password: string) => {
  * @returns True if logged in user, else false
  */
 export const login = async (userId: string, password: string) => {
-    const res = await startSession(LOGIN_URL, userId, password);
-
-    const success = res.status < 300;
-    if (success) loginLocal();
-
-    return success;
+    return await startSession(LOGIN_URL, userId, password);
 };
 
 /**
@@ -42,8 +32,16 @@ export const login = async (userId: string, password: string) => {
  * @returns axios post response
  */
 const startSession = async (url: string, userId: string, password: string) => {
-    return axios.post(url, {
-        userId,
-        password,
-    });
+    try {
+        const res = await axios.post(url, {
+            userId,
+            password,
+        });
+
+        const success = res.status < 300;
+        if (success) loginLocal();
+    } catch (err) {
+        console.log(err);
+        return false;
+    }
 };
