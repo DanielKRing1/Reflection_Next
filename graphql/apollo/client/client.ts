@@ -38,14 +38,17 @@ const typePolicies = {
 
 // [operation, authLink, errorLink]
 
-const httpLink = new HttpLink({ uri: "http://localhost:4000/graphql" });
+const httpLink = new HttpLink({
+    uri: "http://localhost:4000/graphql",
+    credentials: "include",
+});
 
 // APOLLO CLIENT
 
 const client = new ApolloClient({
     // TODO Remove hardcode after testing
     uri: "http://localhost:4000/graphql",
-    credentials: "include",
+    // credentials: "include",
     cache: new InMemoryCache({
         typePolicies,
     }),
