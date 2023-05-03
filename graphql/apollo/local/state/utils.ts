@@ -19,7 +19,13 @@ export function addToList<T>(rvar: ReactiveVar<T[]>, newItem: T) {
     rvar([...existing, newItem]);
 }
 
-export function rmFromList<T>(
+export function rmFromList<T>(rvar: ReactiveVar<T[]>, index: number) {
+    const existing = rvar();
+
+    rvar(existing.filter((item, i) => i !== index));
+}
+
+export function rmIdFromList<T>(
     rvar: ReactiveVar<T[]>,
     getId: (item: T) => string,
     idToRm: string
