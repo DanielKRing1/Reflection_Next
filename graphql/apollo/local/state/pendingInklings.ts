@@ -1,7 +1,7 @@
 import { makeVar } from "@apollo/client";
 
 import { Inkling, Inklings } from "../../../../db/api/types";
-import { addToList, rmFromList } from "./utils";
+import { addToList, editListIndex, rmFromList } from "./utils";
 
 // Initializes to empty array
 const pendingInklingsVar = makeVar<Inklings>([]);
@@ -16,6 +16,10 @@ export const addPendingInkling = (newInkling: Inkling) => {
     addToList(pendingInklingsVar, newInkling);
 };
 
-export const rmPendingInkling = (idToRm: string) => {
-    rmFromList(pendingInklingsVar, ({ id }) => id, idToRm);
+export const editPendingInkling = (index: number, newText: string) => {
+    editListIndex(pendingInklingsVar, index, { data: newText });
+};
+
+export const rmPendingInkling = (index: number) => {
+    rmFromList(pendingInklingsVar, index);
 };
