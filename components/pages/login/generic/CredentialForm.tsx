@@ -22,20 +22,29 @@ export default (props: CredentialFormProps) => {
         onSubmit,
     } = props;
 
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        switch (e.key) {
+            case "Enter":
+                onSubmit();
+        }
+    };
+
     return (
         <FlexCol>
             <MyTextInput
                 placeholder={"Username..."}
                 value={username}
                 onChange={onChangeUsername}
+                onKeyDown={handleKeyDown}
             />
             <MyTextInput
                 placeholder={"Password..."}
                 value={password}
                 onChange={onChangePassword}
+                onKeyDown={handleKeyDown}
             />
 
-            <MyButton onSubmit={onSubmit}>{submitButtonText}</MyButton>
+            <MyButton onClick={onSubmit}>{submitButtonText}</MyButton>
         </FlexCol>
     );
 };
