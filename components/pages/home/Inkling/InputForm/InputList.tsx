@@ -1,120 +1,114 @@
-// THIRD PARTY
-import React, { useCallback, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useQuery } from "@apollo/client";
 
-// GENERIC COMPONENTS
 import FlexCol from "../../../../generic/Flex/FlexCol";
-
-// PAGE-SPECIFIC COMPONENTS
 import InputRow from "./InputRow";
 
-// REDUX
-import {
-  editInkling,
-  rmFocusedInkling,
-  rmInkling,
-  setFocusedInkling,
-} from "../../../../../redux/db/newInklingsSlice";
-
-// TYPES
-import { AppDispatch, RootState } from "../../../../../redux/store";
+import { GET_PENDING_INKLINGS } from "../../../../../graphql/apollo/local/gql/pendingInklings";
 import { Inkling } from "../../../../../db/api/types";
-import { Dict } from "../../../../../types/data";
 
 type InputListProps = {
-  errorIds: Dict<boolean>;
-  onAddInkling: () => void;
+    errorIds: Set<string>;
+    onAddInkling: () => void;
+    onRmInkling: (index: number) => void;
+    onEditInkling: (index: number, newText: string) => void;
+    onCommitInklings: () => void;
 };
-const InputList = (props: InputListProps) => {
-  const { errorIds, onAddInkling } = props;
+export const InputList = (props: InputListProps) => {
+    const {
+        errorIds,
+        onAddInkling,
+        onRmInkling,
+        onEditInkling,
+        onCommitInklings,
+    } = props;
 
-  // REDUX
-  const dispatch: AppDispatch = useDispatch();
-  const { newInklings, focusedInklingIndex } = useSelector(
-    (state: RootState) => state.newInklingsSlice
-  );
+    // LOCAL STATE
+    const [focusedIndex, setFocusedIndex] = useState(-1);
+    const rmFocusedIndex = () => setFocusedIndex(-1);
 
-  // HANDLERS
-  const handleAddInkling = useCallback(() => {
-    onAddInkling();
-  }, [onAddInkling]);
-  const handleEditInkling = (index: number, newEntry: string) => {
-    dispatch(editInkling({ index, data: newEntry }));
-  };
-  const handleRmInkling = (index: number) => {
-    // Will unfocus
-    dispatch(rmInkling(index));
-  };
+    // APOLLO CLIENT
+    const {
+        data: { pendingInklings },
+    } = useQuery(GET_PENDING_INKLINGS);
 
-  const handleFocusInkling = useCallback(
-    (index: number) => {
-      dispatch(setFocusedInkling(index));
-    },
-    [dispatch, setFocusedInkling]
-  );
-  const handleBlurInkling = useCallback(
-    (index: number) => {
-      if (index === focusedInklingIndex) dispatch(rmFocusedInkling());
-    },
-    [dispatch, rmFocusedInkling, focusedInklingIndex]
-  );
+    // 'Enter' handler
+    useEffect(() => {
+        // 1. Define a key down handler
+        const keydownHandler = (e: KeyboardEvent) => {
+            // 0. Only handle 'Enter' key events
+            if (e.key !== "Enter") return;
 
-  // HANDLE KEYBOARD PRESS ENTER
-  useEffect(() => {
-    // 1. Defined key down handler
-    const keydownHandler = (e: KeyboardEvent) => {
-      // 1.1. Only handle 'Enter' key events
-      if (e.key !== "Enter") return;
-      // 1.2. Last index focused and empty -> remove it
-      if (
-        newInklings.length > 0 &&
-        newInklings[newInklings.length - 1].data === "" &&
-        focusedInklingIndex === newInklings.length - 1
-      )
-        return handleRmInkling(focusedInklingIndex);
-      // 1.3. Focusing an empty Inkling -> unfocus it and return
-      if (
-        focusedInklingIndex > -1 &&
-        newInklings[focusedInklingIndex].data === ""
-      )
-        return handleBlurInkling(focusedInklingIndex);
+            // 1. If focused
+            if (focusedIndex > -1) {
+                // 1.1. Empty, rm Inkling and rm focus
+                if (pendingInklings[focusedIndex].data === "") {
+                    onRmInkling(focusedIndex);
+                    rmFocusedIndex();
+                }
+                // 1.2. Not empty, focus next empty
+                else {
+                    let nextEmpty;
+                    for (
+                        let i = focusedIndex + 1;
+                        i < focusedIndex + pendingInklings.length;
+                        i++
+                    ) {
+                        const index = i % pendingInklings.length;
+                        if (pendingInklings[index].data === "") {
+                            nextEmpty = index;
+                            break;
+                        }
+                    }
+                    if (nextEmpty) setFocusedIndex(nextEmpty);
+                    else {
+                        setFocusedIndex(pendingInklings.length);
+                        onAddInkling();
+                    }
+                }
+            }
+            // 2. Not focused
+            else {
+                // 2.1. Focus first empty
+                let nextEmpty;
+                for (let i = 0; i < pendingInklings.length; i++) {
+                    const index = i % pendingInklings.length;
+                    if (pendingInklings[index].data === "") {
+                        nextEmpty = index;
+                        break;
+                    }
+                }
+                if (nextEmpty) setFocusedIndex(nextEmpty);
+                // 2.2. Or add new Inkling and focus
+                else {
+                    setFocusedIndex(pendingInklings.length);
+                    onAddInkling();
+                }
+            }
+        };
 
-      // 1.4. Look for empty Inkling
-      const pivotIndex = focusedInklingIndex > -1 ? focusedInklingIndex : 0;
-      for (let i = 0; i < newInklings.length; i++) {
-        const shiftedIndex = (pivotIndex + i) % newInklings.length;
-        const { data, id } = newInklings[shiftedIndex];
+        // 2. Add key down handler
+        document.addEventListener("keydown", keydownHandler);
 
-        // 1.5. Found next empty Inkling, focus it
-        if (data === "") return handleFocusInkling(shiftedIndex);
-      }
+        // 3. Remove key down handler
+        return () => document.removeEventListener("keydown", keydownHandler);
+    }, [pendingInklings, focusedIndex]);
 
-      // 1.6. No empty Inklings, add new input and focus it
-      handleAddInkling();
-    };
-
-    // 2. Add key down handler
-    document.addEventListener("keydown", keydownHandler);
-
-    // 3. Remove key down handler
-    return () => document.removeEventListener("keydown", keydownHandler);
-  }, [newInklings, handleFocusInkling, handleBlurInkling, handleAddInkling]);
-
-  return (
-    <FlexCol alignItems="stretch">
-      {newInklings.map(({ id, data }: Inkling, i: number) => (
-        <InputRow
-          key={id}
-          borderColor={errorIds[id] ? "white" : ""}
-          value={data}
-          onChange={(newEntry: string) => handleEditInkling(i, newEntry)}
-          isFocused={i === focusedInklingIndex}
-          onFocus={() => handleFocusInkling(i)}
-          onBlur={() => handleBlurInkling(i)}
-        />
-      ))}
-    </FlexCol>
-  );
+    return (
+        <FlexCol alignItems="stretch">
+            {pendingInklings.map(({ id, data }: Inkling, i: number) => (
+                <InputRow
+                    key={id}
+                    borderColor={errorIds.has(id) ? "white" : ""}
+                    value={data}
+                    onChange={(newEntry: string) => onEditInkling(i, newEntry)}
+                    isFocused={i === focusedIndex}
+                    onFocus={() => setFocusedIndex(i)}
+                    onBlur={() => {
+                        if (i === focusedIndex) rmFocusedIndex();
+                    }}
+                />
+            ))}
+        </FlexCol>
+    );
 };
-
-export default InputList;

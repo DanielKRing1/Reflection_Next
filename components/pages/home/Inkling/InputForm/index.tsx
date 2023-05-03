@@ -1,6 +1,5 @@
 // THIRD PARTY
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import genId from "@asianpersonn/time-id";
 
 // GENERIC COMPONENTS
@@ -10,63 +9,91 @@ import FlexRow from "../../../../generic/Flex/FlexRow";
 // PAGE-SPECIFIC COMPONENTS
 import AddButton from "../../../../generic/Button/AddButton";
 import CommitButton from "../../../../generic/Button/CommitButton";
-import InputList from "./InputList";
-
-// REDUX
-import {
-  addInkling,
-  startCommitNewInklings,
-} from "../../../../../redux/db/newInklingsSlice";
+import { InputList } from "./InputList";
 
 // TYPES
-import { AppDispatch, RootState } from "../../../../../redux/store";
 import { INKLING_ERROR_TIMEOUT_MS } from "../../../../../constants/error";
-import { Dict } from "../../../../../types/data";
+import { GET_PENDING_INKLINGS } from "../../../../../graphql/apollo/local/gql/pendingInklings";
+import { useQuery } from "@apollo/client";
+import { Inklings } from "../../../../../db/api/types";
+import {
+    addPendingInkling,
+    editPendingInkling,
+    rmPendingInkling,
+} from "../../../../../graphql/apollo/local/state/pendingInklings";
+import commitInklings from "../../../../../graphql/apollo/mutationExamples/commitInklings";
 
 const InputForm = () => {
-  // LOCAL STATE
-  const [errorIds, setErrorIds] = useState<Dict<boolean>>({});
-  const [timeoutHandle, setTimeoutHandle] = useState<
-    NodeJS.Timeout | undefined
-  >();
+    // LOCAL STATE
+    const [errorIds, setErrorIds] = useState<Set<string>>(new Set());
+    const [timeoutHandle, setTimeoutHandle] = useState<
+        NodeJS.Timeout | undefined
+    >();
 
-  // REDUX
-  const dispatch: AppDispatch = useDispatch();
-  const { emptyInklings } = useSelector(
-    (state: RootState) => state.newInklingsSlice
-  );
+    // APOLLO CLIENT
+    const {
+        data: { pendingInklings },
+    } = useQuery(GET_PENDING_INKLINGS);
 
-  // HANDLERS
-  const handleAddInkling = () => {
-    // Cannot add entry if empty entries exist
-    if (Object.keys(emptyInklings).length > 0) return;
+    const [commit, { data, loading, error }] = commitInklings();
 
-    dispatch(addInkling({ id: genId(), data: "" }));
-  };
+    // HANDLERS
+    const handleAddInkling = () => {
+        // Cannot add entry if empty entries exist
+        if ((pendingInklings as Inklings).some(({ data }) => data === ""))
+            return;
 
-  const handleCommitInklings = () => {
-    if (Object.keys(emptyInklings).length === 0)
-      return dispatch(startCommitNewInklings());
+        addPendingInkling({ id: genId(), data: "" });
+    };
 
-    // Cannot submit if empty Inklings exist
-    //    Mark empty Inklings for error display
-    setErrorIds(emptyInklings);
-    //    Remove error display after some timeout
-    if (timeoutHandle) clearTimeout(timeoutHandle);
-    const handle = setTimeout(() => setErrorIds({}), INKLING_ERROR_TIMEOUT_MS);
-    setTimeoutHandle(handle);
-  };
+    const handleRmInkling = (index: number) => {
+        rmPendingInkling(index);
+    };
 
-  return (
-    <FlexCol alignItems="stretch">
-      <InputList errorIds={errorIds} onAddInkling={handleAddInkling} />
+    const handleEditInkling = (index: number, newText: string) => {
+        editPendingInkling(index, newText);
+    };
 
-      <FlexRow justifyContent="space-around">
-        <AddButton onClick={handleAddInkling} />
-        <CommitButton onClick={handleCommitInklings} />
-      </FlexRow>
-    </FlexCol>
-  );
+    const handleCommitInklings = () => {
+        const emptyInklings: Set<string> = new Set(
+            pendingInklings
+                .filter(({ data }) => data === "")
+                .map(({ id }) => id)
+        );
+
+        if (emptyInklings.size === 0)
+            // No empty Inklings
+            // TODO: Commit Inklings to server
+            return commit();
+
+        // Cannot submit if empty Inklings exist
+        //    Mark empty Inklings for error display
+        setErrorIds(emptyInklings);
+        //    Remove error display after some timeout
+        if (timeoutHandle) clearTimeout(timeoutHandle);
+        const handle = setTimeout(
+            () => setErrorIds(new Set()),
+            INKLING_ERROR_TIMEOUT_MS
+        );
+        setTimeoutHandle(handle);
+    };
+
+    return (
+        <FlexCol alignItems="stretch">
+            <InputList
+                errorIds={errorIds}
+                onAddInkling={handleAddInkling}
+                onRmInkling={handleRmInkling}
+                onEditInkling={handleEditInkling}
+                onCommitInklings={handleCommitInklings}
+            />
+
+            <FlexRow justifyContent="space-around">
+                <AddButton onClick={handleAddInkling} />
+                <CommitButton onClick={handleCommitInklings} />
+            </FlexRow>
+        </FlexCol>
+    );
 };
 
 export default InputForm;
