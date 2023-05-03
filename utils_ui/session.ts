@@ -120,11 +120,11 @@ export const getNeededSessionAction = (): NeededSessionAction => {
     const accessFresh: boolean = hasFreshAccessCookie();
     const refreshFresh: boolean = hasFreshRefreshCookie();
 
-    console.log("GE NEEDED SESSION ACTION");
+    console.log("GET NEEDED SESSION ACTION");
     console.log(accessFresh);
     console.log(refreshFresh);
 
     if (accessFresh && refreshFresh) return NeededSessionAction.None;
-    if (!refreshFresh) return NeededSessionAction.Refresh;
+    if (refreshFresh) return NeededSessionAction.Refresh;
     return NeededSessionAction.Login;
 };
