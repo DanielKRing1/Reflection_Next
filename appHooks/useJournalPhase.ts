@@ -8,10 +8,7 @@ import { useEffect } from "react";
 
 import { GET_JOURNAL_PHASE } from "../graphql/apollo/local/gql/journalPhase";
 import { JournalPhase } from "../utils_ui/journalPhase";
-import {
-    setJournalPhase,
-    determineJournalPhase,
-} from "../graphql/apollo/local/state/journalPhase";
+import { determineJournalPhase } from "../graphql/apollo/local/state/journalPhase";
 import { GET_INKLINGS } from "../graphql/gql/inklings";
 import { GET_ACTIVE_JOURNAL } from "../graphql/apollo/local/gql/activeJournal";
 
@@ -56,7 +53,7 @@ export default () => {
 
     // When Inklings are cached, determine journal phase
     useEffect(() => {
-        if (!loading && !error) setJournalPhase(determineJournalPhase());
+        if (!loading && !error) determineJournalPhase();
     }, [loading, error]);
 
     // HANDLE JOURNAL PHASE CHANGES

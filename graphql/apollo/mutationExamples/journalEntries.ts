@@ -10,8 +10,7 @@ import {
 import client from "../client/client";
 import { GET_INKLINGS } from "../../gql/inklings";
 import { GET_THOUGHTS } from "../../gql/thoughts";
-import { setJournalPhase } from "../local/state/journalPhase";
-import { JournalPhase } from "../../../utils_ui/journalPhase";
+import { setJournalPhaseInklings } from "../local/state/journalPhase";
 
 // { loading, error, data }
 export const createJournalEntryLocal = {};
@@ -121,7 +120,7 @@ export default () => {
                 });
 
                 // 4. Set JournalPhase to 'Inklings'
-                setJournalPhase(JournalPhase.Inklings);
+                setJournalPhaseInklings();
             },
         }
     );
