@@ -25,14 +25,16 @@ export const isAccessCookieGettingStale = (
     staleTtl: number = 1000 * 60 * 30
 ): boolean => {
     try {
-        const { expires } = parseJSONCookie(META_ACCESS_SESSION_COOKIE_NAME);
+        const { expires }: { expires: string } = parseJSONCookie(
+            META_ACCESS_SESSION_COOKIE_NAME
+        );
         if (expires === undefined)
             throw new Error(
                 "isAccessCookieGettingStale did not find an access meta cookie"
             );
 
         // Stale (return false) if ttl from now is <= staleTtl
-        return (expires as Date).getTime() - Date.now() <= staleTtl;
+        return new Date(expires).getTime() - Date.now() <= staleTtl;
     } catch (err) {
         console.log(err);
         return true;
@@ -46,14 +48,16 @@ export const isAccessCookieGettingStale = (
  */
 export const hasFreshAccessCookie = (): boolean => {
     try {
-        const { expires } = parseJSONCookie(META_ACCESS_SESSION_COOKIE_NAME);
+        const { expires }: { expires: string } = parseJSONCookie(
+            META_ACCESS_SESSION_COOKIE_NAME
+        );
         if (expires === undefined)
             throw new Error(
                 "hasFreshAccessCookie did not find an access meta cookie"
             );
 
         // Fresh (return true) if now is 'older' than expiration
-        return isDateOlder(new Date(), expires as Date);
+        return isDateOlder(new Date(), new Date(expires));
     } catch (err) {
         console.log(err);
         return false;
@@ -73,14 +77,16 @@ export const isRefreshCookieGettingStale = (
     staleTtl: number = 1000 * 10
 ): boolean => {
     try {
-        const { expires } = parseJSONCookie(META_REFRESH_SESSION_COOKIE_NAME);
+        const { expires }: { expires: string } = parseJSONCookie(
+            META_REFRESH_SESSION_COOKIE_NAME
+        );
         if (expires === undefined)
             throw new Error(
                 "isRefreshCookieGettingStale did not find a refresh meta cookie"
             );
 
         // Stale (return false) if ttl from now is <= staleTtl
-        return (expires as Date).getTime() - Date.now() <= staleTtl;
+        return new Date(expires).getTime() - Date.now() <= staleTtl;
     } catch (err) {
         console.log(err);
         return true;
@@ -95,21 +101,30 @@ export const isRefreshCookieGettingStale = (
  */
 export const hasFreshRefreshCookie = (): boolean => {
     try {
-        const { expires } = parseJSONCookie(META_REFRESH_SESSION_COOKIE_NAME);
+        const { expires }: { expires: string } = parseJSONCookie(
+            META_REFRESH_SESSION_COOKIE_NAME
+        );
         if (expires === undefined)
             throw new Error(
                 "hasFreshRefreshCookie did not find a refresh meta cookie"
             );
 
         // Fresh (return true) if now is 'older' than expiration
-        return isDateOlder(new Date(), expires as Date);
+        return isDateOlder(new Date(), new Date(expires));
     } catch (err) {
         console.log(err);
         return false;
     }
 };
 export const getNeededSessionAction = (): NeededSessionAction => {
-    if (hasFreshAccessCookie()) return NeededSessionAction.None;
-    if (hasFreshRefreshCookie()) return NeededSessionAction.Refresh;
+    const accessFresh: boolean = hasFreshAccessCookie();
+    const refreshFresh: boolean = hasFreshRefreshCookie();
+
+    console.log("GE NEEDED SESSION ACTION");
+    console.log(accessFresh);
+    console.log(refreshFresh);
+
+    if (accessFresh && refreshFresh) return NeededSessionAction.None;
+    if (!refreshFresh) return NeededSessionAction.Refresh;
     return NeededSessionAction.Login;
 };
