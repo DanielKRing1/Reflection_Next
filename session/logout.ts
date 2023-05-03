@@ -7,7 +7,15 @@ export const logout = async () => {
     let success = true;
 
     for (let url of LOGOUT_URLS) {
-        res = await axios.post(url);
+        res = await axios.post(
+            url,
+            {},
+            {
+                // NECESSARY TO SAVE COOKIES TO BROWSER
+                //AxiosRequestConfig parameter
+                withCredentials: true, //correct
+            }
+        );
         success = success && res.status < 300;
     }
 
