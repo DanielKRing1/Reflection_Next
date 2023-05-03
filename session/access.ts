@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { CREATE_USER_URL, LOGIN_URL } from "./constants";
+import { CREATE_USER_URL, LOGIN_URL, REFRESH_URL } from "./constants";
 import { loginLocal } from "../graphql/apollo/local/state/isLoggedIn";
 
 /**
@@ -33,10 +33,18 @@ export const login = async (userId: string, password: string) => {
  */
 const startSession = async (url: string, userId: string, password: string) => {
     try {
-        const res = await axios.post(url, {
-            userId,
-            password,
-        });
+        const res = await axios.post(
+            url,
+            {
+                userId,
+                password,
+            },
+            {
+                // NECESSARY TO SAVE COOKIES TO BROWSER
+                //AxiosRequestConfig parameter
+                withCredentials: true, //correct
+            }
+        );
 
         const success = res.status < 300;
         if (success) loginLocal();
