@@ -12,9 +12,6 @@ import { GET_INKLINGS } from "../../gql/inklings";
 import { GET_THOUGHTS } from "../../gql/thoughts";
 import { setJournalPhaseInklings } from "../local/state/journalPhase";
 
-// { loading, error, data }
-export const createJournalEntryLocal = {};
-
 export default () => {
     const activeJournalId: string = getActiveJournal();
 
