@@ -10,6 +10,7 @@ import Reflecting from "../components/pages/home/Reflecting";
 import styles from "../styles/Home.module.css";
 import { GET_JOURNAL_PHASE } from "../graphql/apollo/local/gql/journalPhase";
 import { JournalPhase } from "../utils_ui/journalPhase";
+import CreateJournal from "../components/pages/home/CreateJournal";
 
 export default function Home() {
     const {
@@ -39,6 +40,8 @@ export default function Home() {
                     >
                         {journalPhase === JournalPhase.Unknown ? (
                             <MyText>Loading</MyText>
+                        ) : journalPhase === JournalPhase.CreateJournal ? (
+                            <CreateJournal />
                         ) : journalPhase === JournalPhase.Inklings ? (
                             <Inkling />
                         ) : journalPhase === JournalPhase.Reflection ? (
