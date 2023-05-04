@@ -28,7 +28,7 @@ export default (): MutationTuple<any, any, any, any> => {
             commitInklingsJournalId: activeJournalId,
             inklingTexts: pendingInklings.map((i: Inkling) => i.data),
         },
-        update(cache, { data: { CreateJournalEntry } }) {
+        update(cache, { data: { CommitInklings } }) {
             // 1. Clear local pending Inklings
             clearPendingInklings();
 
