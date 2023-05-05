@@ -52,6 +52,7 @@ export default () => {
         else refetch_journals();
     };
 
+    // Fetch server state
     useEffect(() => {
         if (!isLoggedIn) return;
 
