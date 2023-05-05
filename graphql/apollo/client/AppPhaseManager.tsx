@@ -14,6 +14,7 @@ import useHydrateApp from "../../../appHooks/useHydrateApp";
 import useHydrateJournal from "../../../appHooks/useHydrateJournal";
 import useJournalPhase from "../../../appHooks/useJournalPhase";
 import useLoginChange from "../../../appHooks/useLoginChange";
+import useSyncActiveJournal from "../../../appHooks/useSyncActiveJournal";
 
 type AppPhaseManagerProps = { children: React.ReactNode };
 export default ({ children }: AppPhaseManagerProps) => {
@@ -21,6 +22,7 @@ export default ({ children }: AppPhaseManagerProps) => {
     useHydrateApp();
     useHydrateJournal();
     useJournalPhase();
+    useSyncActiveJournal();
 
     return <>{children}</>;
 };
