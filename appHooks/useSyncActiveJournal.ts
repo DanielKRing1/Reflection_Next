@@ -13,9 +13,8 @@ import { UPDATE_LAST_USEDJID } from "../graphql/gql/updateUser";
 export default () => {
     // LOCAL STATE
 
-    const {
-        data: { activeJournal },
-    } = useQuery(GET_ACTIVE_JOURNAL);
+    const { data: { activeJournal = null } = {} } =
+        useQuery(GET_ACTIVE_JOURNAL);
 
     // SERVER STATE
 
@@ -23,7 +22,7 @@ export default () => {
     const {
         loading: loading_user,
         error: error_user,
-        data: { user = {} } = {},
+        data: { user = { lastUsedJId: null } } = {},
     } = useQuery(GET_USER, {
         fetchPolicy: "cache-only",
     });
@@ -50,6 +49,8 @@ export default () => {
     }, [user]);
 
     useEffect(() => {
+        if (activeJournal === null) return;
+
         updateLastUsedJId({ variables: { journalId: activeJournal } });
     }, [activeJournal]);
 };

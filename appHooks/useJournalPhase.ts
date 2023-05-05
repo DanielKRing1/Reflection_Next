@@ -15,12 +15,10 @@ import { GET_ACTIVE_JOURNAL } from "../graphql/apollo/local/gql/activeJournal";
 export default () => {
     // LOCAL STATE
 
-    const {
-        data: { activeJournal },
-    } = useQuery(GET_ACTIVE_JOURNAL);
-    const {
-        data: { journalPhase },
-    } = useQuery(GET_JOURNAL_PHASE);
+    const { data: { activeJournal = null } = {} } =
+        useQuery(GET_ACTIVE_JOURNAL);
+    const { data: { journalPhase = JournalPhase.Unknown } = {} } =
+        useQuery(GET_JOURNAL_PHASE);
 
     // ROUTING
 

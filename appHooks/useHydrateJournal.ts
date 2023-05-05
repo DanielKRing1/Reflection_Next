@@ -11,9 +11,8 @@ import { GET_JOURNAL_ENTRIES } from "../graphql/gql/journalEntry";
 
 export default () => {
     // LOCAL STATE
-    const {
-        data: { activeJournal },
-    } = useQuery(GET_ACTIVE_JOURNAL);
+    const { data: { activeJournal = null } = {} } =
+        useQuery(GET_ACTIVE_JOURNAL);
 
     // SERVER STATE
 
@@ -68,6 +67,8 @@ export default () => {
     // HYDRATE JOURNAL
 
     useEffect(() => {
+        console.log("fdsfd");
+        console.log(activeJournal);
         if (activeJournal === null) return;
 
         _hydrateInklings();
