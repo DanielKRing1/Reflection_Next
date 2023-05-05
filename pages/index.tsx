@@ -11,6 +11,7 @@ import styles from "../styles/Home.module.css";
 import { GET_JOURNAL_PHASE } from "../graphql/apollo/local/gql/journalPhase";
 import { JournalPhase } from "../utils_ui/journalPhase";
 import CreateJournal from "../components/pages/home/CreateJournal";
+import JournalList from "../components/generic/JournalList";
 
 export default function Home() {
     const {
@@ -38,6 +39,8 @@ export default function Home() {
                                 "inset 0 -3em 3em rgb(0 0 0 / 10%), 0.5em 0.5em 2em rgb(0 0 0 / 30%)",
                         }}
                     >
+                        <JournalList />
+
                         {journalPhase === JournalPhase.Unknown ? (
                             <MyText>Loading</MyText>
                         ) : journalPhase === JournalPhase.CreateJournal ? (
