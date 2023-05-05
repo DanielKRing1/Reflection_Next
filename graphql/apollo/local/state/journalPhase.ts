@@ -5,6 +5,7 @@ import { GET_INKLINGS } from "../../../gql/inklings";
 import { getActiveJournal } from "./activeJournal";
 
 import { JournalPhase } from "../../../../utils_ui/journalPhase";
+import { GET_JOURNALS } from "../../../gql/journal";
 
 // Initializes to Unknown
 const journalPhaseVar = makeVar<JournalPhase>(JournalPhase.Unknown);
@@ -23,16 +24,27 @@ export const determineJournalPhase = (): JournalPhase => {
     try {
         const activeJournalId: string = getActiveJournal();
 
-        const inklings = client.readQuery({
-            query: GET_INKLINGS,
-            // Provide any required variables in this object.
-            // Variables of mismatched types will return `null`.
-            variables: {
-                journalId: activeJournalId,
-            },
-        });
+        const { journals = [] } =
+            client.readQuery({
+                query: GET_JOURNALS,
+            }) || {};
+        console.log("determine, journals");
+        console.log(journals);
 
-        return inklings === null
+        const { inklings = [] } =
+            client.readQuery({
+                query: GET_INKLINGS,
+                // Provide any required variables in this object.
+                // Variables of mismatched types will return `null`.
+                variables: {
+                    journalId: activeJournalId,
+                },
+            }) || {};
+
+        console.log("hererherher");
+        console.log(inklings);
+
+        return journals.length === 0
             ? setJournalPhase(JournalPhase.CreateJournal)
             : inklings.length === 0
             ? setJournalPhase(JournalPhase.Inklings)
