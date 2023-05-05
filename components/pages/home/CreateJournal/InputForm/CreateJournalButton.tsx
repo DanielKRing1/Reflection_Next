@@ -5,27 +5,18 @@ import { useDispatch } from "react-redux";
 // MY COMPONENTS
 import MyButton from "../../../../generic/Button/Base/MyButton";
 
-// REDUX
-import { startCreateJournal } from "../../../../../redux/createJournalSlice";
-
-// TYPES
-import { AppDispatch } from "../../../../../redux/store";
-
-type CreateJournalButtonProps = {};
+type CreateJournalButtonProps = {
+    onCreateJournal: () => void;
+};
 const CreateJournalButton = (props: CreateJournalButtonProps) => {
-  // REDUX
-  const dispatch: AppDispatch = useDispatch();
+    //  PROPS
+    const { onCreateJournal } = props;
 
-  // HANDLERS
-  const handleCreateJournal = () => {
-    dispatch(startCreateJournal());
-  };
-
-  return (
-    <>
-      <MyButton onClick={handleCreateJournal}>Create New Journal</MyButton>
-    </>
-  );
+    return (
+        <>
+            <MyButton onClick={onCreateJournal}>Create New Journal</MyButton>
+        </>
+    );
 };
 
 export default CreateJournalButton;

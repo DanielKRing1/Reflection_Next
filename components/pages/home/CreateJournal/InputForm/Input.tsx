@@ -1,44 +1,26 @@
 // THIRD PARTY
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-
-// REDUX
-import {
-  setNewJournalId,
-  startCreateJournal,
-} from "../../../../../redux/createJournalSlice";
-
-// TYPE
-import { AppDispatch, RootState } from "../../../../../redux/store";
 
 // MY COMPONENTS
 import MyTextInput from "../../../../generic/Input/MyTextInput";
 
-type InputProps = {};
+type InputProps = {
+    value: string;
+    onChange: (newName: string) => void;
+    onEnter: () => void;
+};
 const Input = (props: InputProps) => {
-  // REDUX
-  const dispatch: AppDispatch = useDispatch();
-  const { newJournalName } = useSelector(
-    (state: RootState) => state.createJournalSlice
-  );
+    // PROPS
+    const { value, onChange, onEnter } = props;
 
-  // HANDLERS
-  const handleEditJournalId = (id: string) => {
-    dispatch(setNewJournalId(id));
-  };
-
-  const handleCreateJournal = () => {
-    dispatch(startCreateJournal());
-  };
-
-  return (
-    <MyTextInput
-      placeholder="Journal Name..."
-      value={newJournalName}
-      onChange={handleEditJournalId}
-      onEnter={handleCreateJournal}
-    />
-  );
+    return (
+        <MyTextInput
+            placeholder="Journal Name..."
+            value={value}
+            onChange={onChange}
+            onEnter={onEnter}
+        />
+    );
 };
 
 export default Input;
