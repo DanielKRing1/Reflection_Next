@@ -4,7 +4,7 @@ import { gql } from "@apollo/client";
 
 export const UPDATE_LAST_USEDJID = gql`
     mutation UpdateLastUsedJId($journalId: BigInt!) {
-        updateLastUsedJournalId(journalId: $journalId) {}
+        updateLastUsedJournalId(journalId: $journalId)
     }
 `;
 
