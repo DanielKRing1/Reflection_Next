@@ -6,10 +6,10 @@ export default function <T>(
     error: ApolloError,
     data: T,
     onComplete: (data: T) => void,
-    onError: (data: T) => void
+    onError: (data: T, error: any) => void = () => {}
 ) {
     useEffect(() => {
         if (!loading && !error) onComplete(data);
-        else if (!loading && error) onError(data);
-    }, [loading, error, data]);
+        else if (!loading && error) onError(data, error);
+    }, [loading, error, data, onComplete, onError]);
 }
