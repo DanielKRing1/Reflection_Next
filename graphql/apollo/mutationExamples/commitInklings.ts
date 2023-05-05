@@ -28,11 +28,22 @@ export default (): MutationTuple<any, any, any, any> => {
             commitInklingsJournalId: activeJournalId,
             inklingTexts: pendingInklings.map((i: Inkling) => i.data),
         },
-        update(cache, { data: { CommitInklings } }) {
+        update(cache, { data: { commitInklings } }) {
             // 1. Clear local pending Inklings
             clearPendingInklings();
 
-            // 2. Set local inkling reflections
+            // 2. Set local Inklings
+            client.writeQuery({
+                query: GET_INKLINGS,
+                variables: {
+                    journalId: activeJournalId,
+                },
+                data: {
+                    inklings: commitInklings,
+                },
+            });
+
+            // 3. Set local Inkling Reflections
 
             // Get cached Inklings
             const { inklings } = client.readQuery({
@@ -48,19 +59,20 @@ export default (): MutationTuple<any, any, any, any> => {
                 inklings.map((i) => ({ id: i.timeId, data: 0 }))
             );
 
-            // 3. Set local thought reflections
+            // 4. Set local thought reflections
 
             // Get most recent JournalEntry's 'kept' Thoughts
-            const { journalEntries } = client.readQuery({
-                query: GET_JOURNAL_ENTRIES,
-                // Provide any required variables in this object.
-                // Variables of mismatched types will return `null`.
-                variables: {
-                    journalId: activeJournalId,
-                    cursorTime: new Date(),
-                    $count: 1,
-                },
-            });
+            const { journalEntries = [] } =
+                client.readQuery({
+                    query: GET_JOURNAL_ENTRIES,
+                    // Provide any required variables in this object.
+                    // Variables of mismatched types will return `null`.
+                    variables: {
+                        journalId: activeJournalId,
+                        cursorTime: new Date(),
+                        $count: 1,
+                    },
+                }) || {};
             // Check if no JournalEntry
             const reflections =
                 journalEntries.length === 0
@@ -71,7 +83,7 @@ export default (): MutationTuple<any, any, any, any> => {
                 reflections.map((r) => ({ id: r.thoughtId, data: 0 }))
             );
 
-            // 4. Set JournalPhase to 'Reflection'
+            // 5. Set JournalPhase to 'Reflection'
             setJournalPhaseReflection();
         },
     });
