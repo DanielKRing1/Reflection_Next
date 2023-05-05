@@ -67,8 +67,6 @@ export default () => {
     // HYDRATE JOURNAL
 
     useEffect(() => {
-        console.log("fdsfd");
-        console.log(activeJournal);
         if (activeJournal === null) return;
 
         _hydrateInklings();
