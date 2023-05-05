@@ -55,6 +55,16 @@ const InputForm = () => {
     };
 
     const handleCommitInklings = () => {
+        // Remove last Inkling if empty
+        if (
+            pendingInklings.length > 0 &&
+            pendingInklings[pendingInklings.length - 1].data === ""
+        )
+            rmPendingInkling(pendingInklings.length - 1);
+
+        // Do not commit without > 0 Inklings
+        if (pendingInklings.length === 0) return;
+
         const emptyInklings: Set<string> = new Set(
             pendingInklings
                 .filter(({ data }) => data === "")
