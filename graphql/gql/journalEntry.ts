@@ -7,7 +7,7 @@ export const GET_JOURNAL_ENTRIES = gql`
         $journalId: BigInt!
         $cursorTime: DateTime
         $count: Int
-    ) {
+    ) @connection(key: "journalEntries", filter: ["journalId"]) {
         journalEntries(
             journalId: $journalId
             cursorTime: $cursorTime
@@ -18,6 +18,7 @@ export const GET_JOURNAL_ENTRIES = gql`
             reflections {
                 thoughtId
                 decision
+                thought @client
             }
         }
     }

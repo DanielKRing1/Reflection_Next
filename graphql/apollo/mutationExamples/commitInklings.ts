@@ -3,10 +3,6 @@ import { MutationTuple, useMutation } from "@apollo/client";
 import { GET_JOURNAL_ENTRIES } from "../../gql/journalEntry";
 import { getActiveJournal } from "../local/state/activeJournal";
 import { Inkling, Inklings } from "../../../db/api/types";
-import {
-    initInklingReflections,
-    initThoughtReflections,
-} from "../local/state/pendingReflections";
 import client from "../client/client";
 import { COMMIT_INKLINGS, GET_INKLINGS } from "../../gql/inklings";
 import {
@@ -14,7 +10,6 @@ import {
     getPendingInklings,
 } from "../local/state/pendingInklings";
 import { setJournalPhaseReflection } from "../local/state/journalPhase";
-import { JournalPhase } from "../../../utils_ui/journalPhase";
 
 // { loading, error, data }
 export const createJournalEntryLocal = {};
@@ -45,6 +40,7 @@ export default (): MutationTuple<any, any, any, any> => {
 
             // 3. Set local Inkling Reflections
 
+            // TODO: Create a hook to listen for Inkling changes
             // Get cached Inklings
             const { inklings } = client.readQuery({
                 query: GET_INKLINGS,
@@ -55,9 +51,15 @@ export default (): MutationTuple<any, any, any, any> => {
                 },
             });
             // Set Inklings Reflections, default 0 (discard)
-            initInklingReflections(
-                inklings.map((i) => ({ id: i.timeId, data: 0 }))
-            );
+            // initInklingReflections(
+            //     inklings.reduce((acc: Dict<LocalReflection>, { timeId }) => {
+            //         acc[timeId] = {
+            //             keep: false,
+            //         };
+
+            //         return acc;
+            //     }, {})
+            // );
 
             // 4. Set local thought reflections
 
@@ -69,8 +71,6 @@ export default (): MutationTuple<any, any, any, any> => {
                     // Variables of mismatched types will return `null`.
                     variables: {
                         journalId: activeJournalId,
-                        cursorTime: new Date(),
-                        $count: 1,
                     },
                 }) || {};
             // Check if no JournalEntry
@@ -79,9 +79,18 @@ export default (): MutationTuple<any, any, any, any> => {
                     ? []
                     : journalEntries[0].reflections;
             // Set Thought Reflections, default 0 (discard)
-            initThoughtReflections(
-                reflections.map((r) => ({ id: r.thoughtId, data: 0 }))
-            );
+            // initThoughtReflections(
+            //     reflections.reduce(
+            //         (acc: Dict<LocalReflection>, { thoughtId }) => {
+            //             acc[thoughtId] = {
+            //                 keep: false,
+            //             };
+
+            //             return acc;
+            //         },
+            //         {}
+            //     )
+            // );
 
             // 5. Set JournalPhase to 'Reflection'
             setJournalPhaseReflection();
