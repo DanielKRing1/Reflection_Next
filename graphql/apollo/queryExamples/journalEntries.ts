@@ -14,5 +14,3 @@ export default (journalId: BigInt, cursorTime: Date, count: number) => {
 
     return handle;
 };
-
-export const createJournalEntryLocal = {};
