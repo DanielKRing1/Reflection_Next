@@ -17,7 +17,7 @@ const typePolicies = {
 
         // Combine Thought into Reflection
         fields: {
-            thoughtId: {
+            reflections: {
                 read: journalEntryRead,
             },
         },
