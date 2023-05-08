@@ -6,13 +6,16 @@ import { getActiveJournal } from "./activeJournal";
 
 import { JournalPhase } from "../../../../utils_ui/journalPhase";
 import { GET_JOURNALS } from "../../../gql/journal";
+import { GET_USER } from "../../../gql/user";
 
 // Initializes to Unknown
-const journalPhaseVar = makeVar<JournalPhase>(JournalPhase.Unknown);
+export const journalPhaseVar = makeVar<JournalPhase>(JournalPhase.Unknown);
 
 export const getJournalPhase = () => journalPhaseVar();
 
 const setJournalPhase = (phase: JournalPhase) => journalPhaseVar(phase);
+export const setJournalPhaseUnknown = () =>
+    journalPhaseVar(JournalPhase.Unknown);
 export const setJournalPhaseCreateJournal = () =>
     journalPhaseVar(JournalPhase.CreateJournal);
 export const setJournalPhaseInklings = () =>
@@ -24,12 +27,15 @@ export const determineJournalPhase = (): JournalPhase => {
     try {
         const activeJournalId: string = getActiveJournal();
 
-        const { journals = [] } =
+        const { journals = null } =
             client.readQuery({
                 query: GET_JOURNALS,
             }) || {};
-        console.log("determine, journals");
-        console.log(journals);
+
+        const { user = null } =
+            client.readQuery({
+                query: GET_USER,
+            }) || {};
 
         const { inklings = [] } =
             client.readQuery({
@@ -41,14 +47,13 @@ export const determineJournalPhase = (): JournalPhase => {
                 },
             }) || {};
 
-        console.log("hererherher");
-        console.log(inklings);
-
-        return journals.length === 0
-            ? setJournalPhase(JournalPhase.CreateJournal)
+        return user === null || journals === null
+            ? setJournalPhaseUnknown()
+            : activeJournalId === null
+            ? setJournalPhaseCreateJournal()
             : inklings.length === 0
-            ? setJournalPhase(JournalPhase.Inklings)
-            : setJournalPhase(JournalPhase.Reflection);
+            ? setJournalPhaseInklings()
+            : setJournalPhaseReflection();
     } catch (err) {
         console.log(err);
         return setJournalPhase(JournalPhase.Unknown);
