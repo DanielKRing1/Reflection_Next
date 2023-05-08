@@ -17,9 +17,6 @@ export default (): MutationTuple<any, any, any, any> => {
 
     const [createJournal, handle] = useMutation(CREATE_JOURNAL, {
         update(cache, { data: { createJournal } }) {
-            console.log("Create Journal update method:");
-            console.log(createJournal);
-
             const { id, userId, name } = createJournal;
             console.log(id);
 
