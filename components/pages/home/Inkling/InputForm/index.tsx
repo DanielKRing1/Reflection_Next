@@ -25,6 +25,9 @@ import commitInklings from "../../../../../graphql/apollo/mutationExamples/commi
 
 const InputForm = () => {
     // LOCAL STATE
+    const [focusedIndex, setFocusedIndex] = useState(-1);
+    const rmFocusedIndex = () => setFocusedIndex(-1);
+
     const [errorIds, setErrorIds] = useState<Set<string>>(new Set());
     const [timeoutHandle, setTimeoutHandle] = useState<
         NodeJS.Timeout | undefined
@@ -43,6 +46,8 @@ const InputForm = () => {
         if ((pendingInklings as Inklings).some(({ data }) => data === ""))
             return;
 
+        // Focus last index
+        setFocusedIndex(pendingInklings.length);
         addPendingInkling({ id: genId(), data: "" });
     };
 
@@ -91,11 +96,13 @@ const InputForm = () => {
     return (
         <FlexCol alignItems="stretch">
             <InputList
-                errorIds={errorIds}
+                focusedIndex={focusedIndex}
+                setFocusedIndex={setFocusedIndex}
+                rmFocusedIndex={rmFocusedIndex}
                 onAddInkling={handleAddInkling}
                 onRmInkling={handleRmInkling}
                 onEditInkling={handleEditInkling}
-                onCommitInklings={handleCommitInklings}
+                errorIds={errorIds}
             />
 
             <FlexRow justifyContent="space-around">

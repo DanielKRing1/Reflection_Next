@@ -8,24 +8,24 @@ import { GET_PENDING_INKLINGS } from "../../../../../graphql/apollo/local/gql/pe
 import { Inkling } from "../../../../../db/api/types";
 
 type InputListProps = {
-    errorIds: Set<string>;
+    focusedIndex: number;
+    setFocusedIndex: (index: number) => void;
+    rmFocusedIndex: () => void;
     onAddInkling: () => void;
     onRmInkling: (index: number) => void;
     onEditInkling: (index: number, newText: string) => void;
-    onCommitInklings: () => void;
+    errorIds: Set<string>;
 };
 export const InputList = (props: InputListProps) => {
     const {
-        errorIds,
+        focusedIndex,
+        setFocusedIndex,
+        rmFocusedIndex,
         onAddInkling,
         onRmInkling,
         onEditInkling,
-        onCommitInklings,
+        errorIds,
     } = props;
-
-    // LOCAL STATE
-    const [focusedIndex, setFocusedIndex] = useState(-1);
-    const rmFocusedIndex = () => setFocusedIndex(-1);
 
     // APOLLO CLIENT
     const {
