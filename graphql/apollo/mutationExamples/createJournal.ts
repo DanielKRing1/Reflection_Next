@@ -18,7 +18,6 @@ export default (): MutationTuple<any, any, any, any> => {
     const [createJournal, handle] = useMutation(CREATE_JOURNAL, {
         update(cache, { data: { createJournal } }) {
             const { id, userId, name } = createJournal;
-            console.log(id);
 
             // 1. Add created journal to local cache
             const { journals: existingJournals }: { journals: Journal[] } =
@@ -33,8 +32,8 @@ export default (): MutationTuple<any, any, any, any> => {
                 },
             });
 
-            // 2. If no active journal id, set to new journal id
-            if (getActiveJournal() === null) setActiveJournal(id);
+            // 2. Set to new journal id
+            setActiveJournal(id);
 
             // 3. Set JournalPhase to 'Reflection'
             setJournalPhaseInklings();

@@ -1,32 +1,49 @@
 import { makeVar } from "@apollo/client";
 
-import { Reflection } from "../../../../db/api/types";
-import { editListIndex } from "./utils";
+import { Dict } from "../../../../types/data";
+
+export type LocalReflection = {
+    keep: boolean;
+};
 
 // INKLINGS
 // Initializes to empty array
-const inklingReflectionsVar = makeVar<Reflection[]>([]);
+const inklingReflectionsVar = makeVar<Dict<LocalReflection>>({});
 
-export const initInklingReflections = (inklingReflections: Reflection[]) => {
+export const initInklingReflections = (
+    inklingReflections: Dict<LocalReflection>
+) => {
     inklingReflectionsVar(inklingReflections);
 };
 
-export const editInklingReflections = (index: number, decision: number) => {
-    editListIndex(inklingReflectionsVar, index, { data: decision });
+export const editInklingReflection = (id: string, keep: boolean) => {
+    const existing = inklingReflectionsVar();
+
+    inklingReflectionsVar({ ...existing, [id]: { ...existing[id], keep } });
 };
 
-export const getInklingReflections = () => inklingReflectionsVar();
+export const getInklingReflections = (): Dict<LocalReflection> =>
+    inklingReflectionsVar();
+
+export const clearInklingReflections = (): Dict<LocalReflection> =>
+    inklingReflectionsVar({});
 
 // THOUGHTS
 
-const thoughtReflectionsVar = makeVar<Reflection[]>([]);
+const thoughtReflectionsVar = makeVar<Dict<LocalReflection>>({});
 
-export const initThoughtReflections = (thoughtReflections: Reflection[]) => {
+export const initThoughtReflections = (
+    thoughtReflections: Dict<LocalReflection>
+) => {
     thoughtReflectionsVar(thoughtReflections);
 };
 
-export const editThoughtReflections = (index: number, decision: number) => {
-    editListIndex(thoughtReflectionsVar, index, { data: decision });
+export const editThoughtReflection = (id: string, keep: boolean) => {
+    const existing = thoughtReflectionsVar();
+
+    thoughtReflectionsVar({ ...existing, [id]: { ...existing[id], keep } });
 };
 
 export const getThoughtReflections = () => thoughtReflectionsVar();
+
+export const clearThoughtReflections = () => thoughtReflectionsVar({});

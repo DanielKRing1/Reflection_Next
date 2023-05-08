@@ -2,7 +2,7 @@ import { MutationTuple, useMutation } from "@apollo/client";
 
 import { GET_JOURNAL_ENTRIES } from "../../gql/journalEntry";
 import { getActiveJournal } from "../local/state/activeJournal";
-import { Inkling, Inklings } from "../../../db/api/types";
+import { Inkling } from "../../../db/api/types";
 import client from "../client/client";
 import { COMMIT_INKLINGS, GET_INKLINGS } from "../../gql/inklings";
 import {
@@ -15,13 +15,10 @@ import { setJournalPhaseReflection } from "../local/state/journalPhase";
 export const createJournalEntryLocal = {};
 
 export default (): MutationTuple<any, any, any, any> => {
-    const activeJournalId: string = getActiveJournal();
-    const pendingInklings: Inklings = getPendingInklings();
-
     const [commitInklings, handle] = useMutation(COMMIT_INKLINGS, {
         variables: {
-            commitInklingsJournalId: activeJournalId,
-            inklingTexts: pendingInklings.map((i: Inkling) => i.data),
+            commitInklingsJournalId: getActiveJournal(),
+            inklingTexts: getPendingInklings().map((i: Inkling) => i.data),
         },
         update(cache, { data: { commitInklings } }) {
             // 1. Clear local pending Inklings
@@ -31,7 +28,7 @@ export default (): MutationTuple<any, any, any, any> => {
             client.writeQuery({
                 query: GET_INKLINGS,
                 variables: {
-                    journalId: activeJournalId,
+                    journalId: getActiveJournal(),
                 },
                 data: {
                     inklings: commitInklings,
@@ -47,7 +44,7 @@ export default (): MutationTuple<any, any, any, any> => {
                 // Provide any required variables in this object.
                 // Variables of mismatched types will return `null`.
                 variables: {
-                    journalId: activeJournalId,
+                    journalId: getActiveJournal(),
                 },
             });
             // Set Inklings Reflections, default 0 (discard)
@@ -70,7 +67,7 @@ export default (): MutationTuple<any, any, any, any> => {
                     // Provide any required variables in this object.
                     // Variables of mismatched types will return `null`.
                     variables: {
-                        journalId: activeJournalId,
+                        journalId: getActiveJournal(),
                     },
                 }) || {};
             // Check if no JournalEntry

@@ -6,19 +6,21 @@ import FlexCol from "../../../generic/Flex/FlexCol";
 import MyText from "../../../generic/Text/MyText";
 
 // PAGE-SPECIFIC COMPONENT
-import SelectionList from "./SelectionList";
 import CreateJournalEntryButton from "./CreateJournalEntryButton";
+import InklingsList from "./Selection/InklingsList";
+import ThoughtsList from "./Selection/ThoughtsList";
 
 const Reflecting = () => {
-  return (
-    <FlexCol>
-      <MyText>Reflecting</MyText>
+    return (
+        <FlexCol>
+            <MyText>Reflecting</MyText>
 
-      <SelectionList />
+            <InklingsList />
+            <ThoughtsList />
 
-      <CreateJournalEntryButton />
-    </FlexCol>
-  );
+            <CreateJournalEntryButton />
+        </FlexCol>
+    );
 };
 
 export default Reflecting;
