@@ -33,7 +33,6 @@ export default (): MutationTuple<any, any, any, any> => {
                 },
             });
 
-            // TODO: Check if this works -> Did I destructure the response data properly?
             // 2. If no active journal id, set to new journal id
             if (getActiveJournal() === null) setActiveJournal(id);
 
