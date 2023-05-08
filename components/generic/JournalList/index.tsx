@@ -1,5 +1,6 @@
-import { useQuery } from "@apollo/client";
+import { useQuery, useReactiveVar } from "@apollo/client";
 import { GET_JOURNALS } from "../../../graphql/gql/journal";
+import { activeJournalVar } from "../../../graphql/apollo/local/state/activeJournal";
 
 type JournalListProps = {};
 
@@ -10,11 +11,11 @@ export default (props: JournalListProps) => {
         error,
     } = useQuery(GET_JOURNALS);
 
-    console.log("Journal query data:");
-    console.log(journals);
+    const activeJournal = useReactiveVar(activeJournalVar);
 
     return (
         <>
+            <p>Active: {activeJournal}</p>
             {loading ? (
                 <p>Loading Journals...</p>
             ) : (
