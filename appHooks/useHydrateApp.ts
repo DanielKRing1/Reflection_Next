@@ -8,8 +8,6 @@ import { useEffect } from "react";
 import { GET_USER } from "../graphql/gql/user";
 import { GET_IS_LOGGED_IN } from "../graphql/apollo/local/gql/isLoggedIn";
 import { GET_JOURNALS } from "../graphql/gql/journal";
-import useQueryComplete from "../hooks/useQueryComplete";
-import { setActiveJournal } from "../graphql/apollo/local/state/activeJournal";
 
 export default () => {
     // LOCAL STATE
@@ -62,14 +60,4 @@ export default () => {
         _hydrateUser();
         _hydrateJournals();
     }, [isLoggedIn]);
-
-    // After User is fetched
-    useQueryComplete(loading_user, error_user, data_user, (data) => {
-        try {
-            if (data === undefined) return;
-            setActiveJournal(data.user.lastUsedJId);
-        } catch (err) {
-            console.log(err);
-        }
-    });
 };
