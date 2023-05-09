@@ -21,8 +21,10 @@ import client from "../../../../../graphql/apollo/client/client";
 import { GET_INKLINGS } from "../../../../../graphql/gql/inklings";
 import { JournalEntry } from "../../../../../db/api/types";
 import { setJournalPhaseInklings } from "../../../../../graphql/apollo/local/state/journalPhase";
-import { genCacheId } from "../../../../../graphql/apollo/local/utils/id";
-import { THOUGHT_TYPENAME } from "../../../../../graphql/apollo/server/typenames";
+import {
+    REFLECTION_TYPENAME,
+    THOUGHT_TYPENAME,
+} from "../../../../../graphql/apollo/server/typenames";
 
 const CreateJournalEntryButton = () => {
     // GQL
@@ -68,6 +70,7 @@ const CreateJournalEntryButton = () => {
                         // 1. CREATE NEW REFLECTIONS TO CACHE UNDER NEW JOURNAL ENTRY
                         const newReflections = [
                             ...getInklingIds().map((id: string) => ({
+                                __typename: REFLECTION_TYPENAME,
                                 thoughtId: id,
                                 decision:
                                     getInklingReflections()[id] === undefined ||
@@ -76,6 +79,7 @@ const CreateJournalEntryButton = () => {
                                         : 2 /*keep*/,
                             })),
                             ...getThoughtIds().map((id: string) => ({
+                                __typename: REFLECTION_TYPENAME,
                                 thoughtId: id,
                                 decision:
                                     getThoughtReflections()[id] === undefined ||
