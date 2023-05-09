@@ -40,22 +40,22 @@ const CreateJournalEntryButton = () => {
             createJournalEntry({
                 variables: {
                     createJournalEntryJournalId: getActiveJournal(),
-                    keepIdsInkling: Object.keys(getInklingIds()).filter(
+                    keepIdsInkling: getInklingIds().filter(
                         (id) =>
                             getInklingReflections()[id] !== undefined &&
                             getInklingReflections()[id].keep === true
                     ),
-                    keepIdsThought: Object.keys(getThoughtIds()).filter(
+                    keepIdsThought: getThoughtIds().filter(
                         (id) =>
                             getThoughtReflections()[id] !== undefined &&
                             getThoughtReflections()[id].keep === true
                     ),
-                    discardIdsThought: Object.keys(getThoughtIds()).filter(
+                    discardIdsThought: getThoughtIds().filter(
                         (id) =>
                             getThoughtReflections()[id] === undefined ||
                             getThoughtReflections()[id].keep === false
                     ),
-                    discardIdsInkling: Object.keys(getInklingIds()).filter(
+                    discardIdsInkling: getInklingIds().filter(
                         (id) =>
                             getInklingReflections()[id] === undefined ||
                             getInklingReflections()[id].keep === false
