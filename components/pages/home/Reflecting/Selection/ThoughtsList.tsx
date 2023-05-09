@@ -47,7 +47,11 @@ export default (props: ThoughtsListProps) => {
                         return (
                             <ReflectionRow
                                 key={thoughtId}
-                                text={thought.text}
+                                text={
+                                    thought !== null
+                                        ? thought.text
+                                        : "fetch thought from server"
+                                }
                                 isSelected={keep}
                                 onClick={() =>
                                     editThoughtReflection(thoughtId, !keep)
