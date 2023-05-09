@@ -25,7 +25,10 @@ export enum ReflectionDecision {
     Discard,
     Keep,
 }
-export type Reflection = DataWId<ReflectionDecision>;
+export type Reflection = {
+    thoughtId: string;
+    decision: number;
+};
 // All the reflections of a journaling session
 export type JournalEntry = {
     timeId: number;
