@@ -5,22 +5,29 @@ import { THOUGHT_TYPENAME } from "../../server/typenames";
 
 import { Thought } from "../../../../db/api/types";
 
-export function read(reflections, { cache }: FieldFunctionOptions) {
-    return reflections.map((r) => {
-        const { thoughtId } = r;
-        const thoughtCacheId: string = genCacheId(THOUGHT_TYPENAME, thoughtId);
+export default {
+    reflections: {
+        read(reflections, { cache }: FieldFunctionOptions) {
+            return reflections.map((r) => {
+                const { thoughtId } = r;
+                const thoughtCacheId: string = genCacheId(
+                    THOUGHT_TYPENAME,
+                    thoughtId
+                );
 
-        const thought: Thought = cache.readFragment({
-            id: thoughtCacheId,
-            fragment: gql`
-                fragment MyThought on Thought {
-                    timeId
-                    journalId
-                    text
-                }
-            `,
-        });
+                const thought: Thought = cache.readFragment({
+                    id: thoughtCacheId,
+                    fragment: gql`
+                        fragment MyThought on Thought {
+                            timeId
+                            journalId
+                            text
+                        }
+                    `,
+                });
 
-        return { ...r, thought };
-    });
-}
+                return { ...r, thought };
+            });
+        },
+    },
+};

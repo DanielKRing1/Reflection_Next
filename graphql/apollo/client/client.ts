@@ -3,7 +3,8 @@ import { ApolloClient, HttpLink, InMemoryCache, from } from "@apollo/client";
 import authLink from "../links/auth";
 import localState from "../local/schemas";
 
-import { read as journalEntryRead } from "./fieldPolicy/journalEntryRead";
+import jeCacheFieldPolicy from "./fieldPolicy/journalEntryRead";
+import jeQueryFieldPolicy from "./fieldPolicy/journalEntryMerge";
 
 // TYPE POLICIES
 // (Define id fields)
@@ -17,9 +18,7 @@ const typePolicies = {
 
         // Combine Thought into Reflection
         fields: {
-            reflections: {
-                read: journalEntryRead,
-            },
+            ...jeCacheFieldPolicy,
         },
     },
     Thought: {
@@ -30,6 +29,7 @@ const typePolicies = {
     Query: {
         fields: {
             ...localState.fieldPolicies,
+            ...jeQueryFieldPolicy,
         },
     },
 };
@@ -50,6 +50,7 @@ const client = new ApolloClient({
     uri: "http://localhost:4000/graphql",
     // credentials: "include",
     cache: new InMemoryCache({
+        // @ts-ignore
         typePolicies,
     }),
     link: from([authLink, httpLink]),
