@@ -19,6 +19,11 @@ export default () => {
         error,
         data: { journalEntries = [] } = {},
     } = useQuery(GET_JOURNAL_ENTRIES, {
+        variables: {
+            journalId: getActiveJournal(),
+            cursorTime: new Date(),
+            count: 5,
+        },
         fetchPolicy: "cache-only",
     });
 
@@ -50,33 +55,38 @@ export default () => {
     // Fetch server state
     useEffect(() => {
         // Return if waiting on fresh journal entries or empty
+        console.log(loading);
+        console.log(error);
+        console.log(journalEntries);
         if (loading || error || journalEntries.length === 0) return;
 
         const neededThoughtIds: string[] = [];
         // Get all Thoughts missing from each Journal Entry
         for (const je of journalEntries) {
             for (const r of je.reflections) {
-                if (
-                    client.readFragment({
-                        id: client.cache.identify({
-                            __typename: THOUGHT_TYPENAME,
-                            timeId: r.thoughId,
-                        }),
-                        fragment: gql`
-                            fragment MyThought on Thought {
-                                timeId
-                                journalId
-                                text
-                            }
-                        `,
-                    }) === null
-                )
-                    neededThoughtIds.push(r.thoughtId);
+                const thought = client.readFragment({
+                    id: client.cache.identify({
+                        __typename: THOUGHT_TYPENAME,
+                        timeId: r.thoughtId,
+                    }),
+                    fragment: gql`
+                        fragment MyThought on Thought {
+                            timeId
+                            journalId
+                            text
+                        }
+                    `,
+                });
+                console.log(thought);
+                if (thought === null) neededThoughtIds.push(r.thoughtId);
             }
         }
 
         // Only fetch Thoughts from server if > 0 Thoughts needed
         if (neededThoughtIds.length === 0) return;
+
+        console.log("neededThoughtIds:");
+        console.log(neededThoughtIds);
 
         getThoughts(neededThoughtIds);
     }, [loading, error, journalEntries]);

@@ -10,7 +10,6 @@
 
 // TOP-LEVEL HOOKS
 
-import useFetchMissingThoughts from "../../../appHooks/useFetchMissingThoughts";
 import useHydrateApp from "../../../appHooks/useHydrateApp";
 import useHydrateJournal from "../../../appHooks/useHydrateJournal";
 import useJournalPhase from "../../../appHooks/useJournalPhase";
@@ -24,7 +23,6 @@ export default ({ children }: AppPhaseManagerProps) => {
     useHydrateJournal();
     useJournalPhase();
     useSyncActiveJournal();
-    useFetchMissingThoughts();
 
     return <>{children}</>;
 };
