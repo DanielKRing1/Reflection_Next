@@ -21,6 +21,8 @@ import client from "../../../../../graphql/apollo/client/client";
 import { GET_INKLINGS } from "../../../../../graphql/gql/inklings";
 import { JournalEntry } from "../../../../../db/api/types";
 import { setJournalPhaseInklings } from "../../../../../graphql/apollo/local/state/journalPhase";
+import { genCacheId } from "../../../../../graphql/apollo/local/utils/id";
+import { THOUGHT_TYPENAME } from "../../../../../graphql/apollo/server/typenames";
 
 const CreateJournalEntryButton = () => {
     // GQL
@@ -63,7 +65,45 @@ const CreateJournalEntryButton = () => {
                 },
                 update(cache, { data: { createJournalEntry } }) {
                     try {
-                        // 0. Create Local Reflections
+                        // 1. CREATE NEW CACHED THOUGHTS FROM CACHED INKLINGS
+                        const { inklings = [] }: { inklings: any[] } =
+                            cache.readQuery({
+                                query: GET_INKLINGS,
+                                variables: {
+                                    journalId: createJournalEntry.journalId,
+                                },
+                            });
+
+                        for (const inkling of inklings) {
+                            cache.writeFragment({
+                                id: genCacheId(
+                                    THOUGHT_TYPENAME,
+                                    inkling.timeId
+                                ),
+                                data: inkling,
+                                fragment: gql`
+                                    fragment NewThought on Thought {
+                                        timeId
+                                        journalId
+                                        text
+                                    }
+                                `,
+                            });
+                        }
+
+                        // 2. REMOVE CACHED INKLINGS
+                        cache.writeQuery({
+                            query: GET_INKLINGS,
+                            variables: {
+                                journalId: createJournalEntry.journalId,
+                            },
+                            data: {
+                                inklings: [],
+                            },
+                        });
+                        cache.gc();
+
+                        // 3. CREATE NEW REFLECTIONS TO CACHE UNDER NEW JOURNAL ENTRY
                         const newReflections = [
                             ...getInklingIds().map((id: string) => ({
                                 thoughtId: id,
@@ -82,8 +122,6 @@ const CreateJournalEntryButton = () => {
                                         : 1 /*keep*/,
                             })),
                         ];
-                        console.log(createJournalEntry);
-
                         const newJE: JournalEntry = {
                             ...createJournalEntry,
                             reflections: newReflections,
@@ -96,10 +134,9 @@ const CreateJournalEntryButton = () => {
                                 variables: { journalId: getActiveJournal() },
                             }
                         );
-                        console.log(existingJE);
                         const allJE = [newJE, ...existingJE];
 
-                        // 1. Create local JournalEntry and Reflections
+                        // 4. CREATE NEW CACHED JOURNAL ENTRY FROM REFLECTIONS AND SERVER RESPONSE
                         cache.writeQuery({
                             query: GET_JOURNAL_ENTRIES,
                             variables: {
@@ -110,11 +147,11 @@ const CreateJournalEntryButton = () => {
                             },
                         });
 
-                        // 2. Clear local reflections
+                        // 5. CLEAR LOCAL TEMP INKLING AND THOUGHT REFLECTIONS
                         clearInklingReflections();
                         clearThoughtReflections();
 
-                        // 3. Switch to Inkling Journal Phase
+                        // 6. SWITCH TO INKLING JOURNAL PHASE
                         setJournalPhaseInklings();
                     } catch (err) {
                         console.log(err);
