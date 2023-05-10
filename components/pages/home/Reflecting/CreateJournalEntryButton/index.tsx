@@ -25,6 +25,7 @@ import {
     REFLECTION_TYPENAME,
     THOUGHT_TYPENAME,
 } from "../../../../../graphql/apollo/server/typenames";
+import { GET_THOUGHTS } from "../../../../../graphql/gql/thoughts";
 
 const CreateJournalEntryButton = () => {
     // GQL
@@ -92,17 +93,19 @@ const CreateJournalEntryButton = () => {
                             ...createJournalEntry,
                             reflections: newReflections,
                         };
-                        const {
-                            journalEntries: existingJE,
-                        }: { journalEntries: JournalEntry[] } = cache.readQuery(
-                            {
-                                query: GET_JOURNAL_ENTRIES,
-                                variables: { journalId: getActiveJournal() },
-                            }
-                        );
-                        const allJE = [newJE, ...existingJE];
+                        // const {
+                        //     journalEntries: existingJE,
+                        // }: { journalEntries: JournalEntry[] } = cache.readQuery(
+                        //     {
+                        //         query: GET_JOURNAL_ENTRIES,
+                        //         variables: { journalId: getActiveJournal() },
+                        //     }
+                        // );
+                        // const allJE = [newJE, ...existingJE];
 
-                        // 1. CREATE NEW CACHED THOUGHTS FROM CACHED INKLINGS (do this before creating new journal entry, so app does not fetch these thoughts from server)
+                        // 2. CREATE NEW CACHED THOUGHTS FROM CACHED INKLINGS
+                        // (do this before creating new journal entry,
+                        // so app does not fetch these thoughts from server)
                         const { inklings = [] }: { inklings: any[] } =
                             cache.readQuery({
                                 query: GET_INKLINGS,
@@ -111,29 +114,23 @@ const CreateJournalEntryButton = () => {
                                 },
                             });
 
-                        for (const inkling of inklings) {
-                            cache.writeFragment({
-                                id: cache.identify({
+                        client.writeQuery({
+                            query: GET_THOUGHTS,
+                            variables: {
+                                journalId: createJournalEntry.journalId,
+                                thoughtIds: inklings.map((i) => i.timeId),
+                            },
+                            data: {
+                                thoughts: inklings.map((i) => ({
+                                    ...i,
                                     __typename: THOUGHT_TYPENAME,
-                                    timeId: inkling.timeId,
-                                }),
-                                fragment: gql`
-                                    fragment NewThought on Thought {
-                                        timeId
-                                        journalId
-                                        text
-                                    }
-                                `,
-                                data: {
-                                    __typename: THOUGHT_TYPENAME,
-                                    timeId: inkling.time,
-                                    journalId: inkling.journalId,
-                                    text: inkling.text,
-                                },
-                            });
-                        }
+                                })),
+                            },
+                        });
 
-                        // 3. REMOVE CACHED INKLINGS (do this after creating reflections, else no inklings will be available)
+                        // 3. REMOVE CACHED INKLINGS
+                        // (do this after creating reflections,
+                        // inkling ids will be deleted before they can be used to create reflections)
                         cache.writeQuery({
                             query: GET_INKLINGS,
                             variables: {
@@ -146,13 +143,16 @@ const CreateJournalEntryButton = () => {
                         cache.gc();
 
                         // 4. CREATE NEW CACHED JOURNAL ENTRY FROM REFLECTIONS AND SERVER RESPONSE
+                        // Only write new JE, merge policy will handle concatenating new with existing
+                        console.log("pre journalEntryMerge");
+                        console.log(newJE);
                         cache.writeQuery({
                             query: GET_JOURNAL_ENTRIES,
                             variables: {
                                 journalId: getActiveJournal(),
                             },
                             data: {
-                                journalEntries: allJE,
+                                journalEntries: [newJE],
                             },
                         });
 

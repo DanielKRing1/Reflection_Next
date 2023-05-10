@@ -8,7 +8,7 @@ export type LocalReflection = {
 
 // INKLINGS
 // Initializes to empty array
-const inklingReflectionsVar = makeVar<Dict<LocalReflection>>({});
+export const inklingReflectionsVar = makeVar<Dict<LocalReflection>>({});
 
 export const initInklingReflections = (
     inklingReflections: Dict<LocalReflection>
@@ -30,7 +30,7 @@ export const clearInklingReflections = (): Dict<LocalReflection> =>
 
 // THOUGHTS
 
-const thoughtReflectionsVar = makeVar<Dict<LocalReflection>>({});
+export const thoughtReflectionsVar = makeVar<Dict<LocalReflection>>({});
 
 export const initThoughtReflections = (
     thoughtReflections: Dict<LocalReflection>

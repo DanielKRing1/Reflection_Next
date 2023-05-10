@@ -18,7 +18,6 @@ export const GET_JOURNAL_ENTRIES = gql`
             reflections {
                 thoughtId
                 decision
-                thought @client
             }
         }
     }

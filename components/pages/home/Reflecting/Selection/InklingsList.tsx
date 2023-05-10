@@ -21,9 +21,6 @@ export default (props: InklingsListProps) => {
         GET_PENDING_INKLING_REFLECTIONS
     );
 
-    console.log(inklings);
-    console.log(inklingReflections);
-
     return (
         <>
             <p>Inklings</p>

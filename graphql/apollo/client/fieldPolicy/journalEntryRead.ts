@@ -8,6 +8,8 @@ import { Thought } from "../../../../db/api/types";
 export default {
     reflections: {
         read(reflections, { cache }: FieldFunctionOptions) {
+            return reflections;
+
             return reflections.map((r) => {
                 const { thoughtId } = r;
                 const thoughtCacheId: string = genCacheId(
@@ -16,7 +18,10 @@ export default {
                 );
 
                 const thought: Thought = cache.readFragment({
-                    id: thoughtCacheId,
+                    id: cache.identify({
+                        __typename: THOUGHT_TYPENAME,
+                        id: thoughtId,
+                    }),
                     fragment: gql`
                         fragment MyThought on Thought {
                             timeId
@@ -26,7 +31,7 @@ export default {
                     `,
                 });
 
-                return { ...r, thought };
+                return { ...r, thought: thought };
             });
         },
     },

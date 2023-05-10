@@ -5,6 +5,8 @@ import localState from "../local/schemas";
 
 import jeCacheFieldPolicy from "./fieldPolicy/journalEntryRead";
 import jeQueryFieldPolicy from "./fieldPolicy/journalEntryMerge";
+import thoughtFieldPolicy from "./fieldPolicy/thoughtMerge";
+import inklingFieldPolicy from "./fieldPolicy/inklingMerge";
 
 // TYPE POLICIES
 // (Define id fields)
@@ -18,7 +20,7 @@ const typePolicies = {
 
         // Combine Thought into Reflection
         fields: {
-            ...jeCacheFieldPolicy,
+            // ...jeCacheFieldPolicy,
         },
     },
     Thought: {
@@ -30,6 +32,8 @@ const typePolicies = {
         fields: {
             ...localState.fieldPolicies,
             ...jeQueryFieldPolicy,
+            ...thoughtFieldPolicy,
+            ...inklingFieldPolicy,
         },
     },
 };

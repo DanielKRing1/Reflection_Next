@@ -52,7 +52,7 @@ export const DEFAULT_JOURNAL_METADATA: JournalMetadata = {
 // A single thought that has been committed to the journal
 //      and reflected on (keep or discard thought)
 export type Thought = Inkling & {
-    time: number;
+    timeId: number;
 };
 // A dict of all committed thoughts (excludes pending thoughts)
 //      This is 'the source of truth' for thought data

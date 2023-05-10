@@ -60,6 +60,8 @@ export default () => {
             },
         };
 
+        console.log("useHydrateJournal journalEntryMerge GET_JEs");
+
         if (!called_journalEntries) getJournalEntries(vars);
         else refetch_journalEntries(vars);
     };

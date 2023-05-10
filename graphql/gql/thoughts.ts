@@ -3,7 +3,8 @@ import { gql } from "@apollo/client";
 // QUERIES
 
 export const GET_THOUGHTS = gql`
-    query Thoughts($journalId: ID!, $thoughtIds: [DateTime]!) {
+    query Thoughts($journalId: ID!, $thoughtIds: [DateTime]!)
+    @connection(key: "thoughts", filter: ["journalId"]) {
         thoughts(journalId: $journalId, thoughtIds: $thoughtIds) {
             timeId
             journalId
