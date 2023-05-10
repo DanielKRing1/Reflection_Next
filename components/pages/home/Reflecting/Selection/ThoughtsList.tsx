@@ -55,26 +55,8 @@ export default (props: ThoughtsListProps) => {
 
     const thoughtReflections = useReactiveVar(thoughtReflectionsVar);
 
-    // const [a, setA] = useState(1);
-    useEffect(() => {
-        // const handle = setInterval(() => setA(Math.random()), 1000);
-        const handle = setInterval(() => {
-            console.log(activeJournal);
-
-            console.log(
-                client.readQuery({
-                    query: GET_THOUGHTS,
-                    variables: { journalId: activeJournal, thoughtIds: [] },
-                })
-            );
-        }, 10000);
-
-        return () => clearInterval(handle);
-    }, []);
-
     return (
         <>
-            {/* {a} */}
             <p>Thoughts</p>
 
             {journalEntries.length > 0 &&
