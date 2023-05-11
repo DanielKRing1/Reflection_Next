@@ -34,7 +34,7 @@ export default (props: ThoughtsListProps) => {
             fetchPolicy: "cache-only",
         }
     );
-    const { data: { thoughts = {} } = {} } = useQuery(GET_THOUGHTS, {
+    const { data: { thoughts = [] } = {} } = useQuery(GET_THOUGHTS, {
         variables: {
             journalId: activeJournal,
             thoughtIds: [],
