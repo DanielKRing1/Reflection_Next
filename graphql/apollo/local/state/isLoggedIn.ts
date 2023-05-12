@@ -21,7 +21,7 @@ export const keepSessionFresh = async () => {
     switch (getNeededSessionAction()) {
         case NeededSessionAction.None: {
             // 1. Do nothing
-            if (!isAccessCookieGettingStale()) break;
+            if (!isAccessCookieGettingStale()) loginLocal();
 
             // 2. Else Access Cookie is getting stale, so
             // continue to Refresh block
@@ -32,8 +32,11 @@ export const keepSessionFresh = async () => {
             // And
             // Refresh the Refresh Cookie from the server (if it is > half expired)
             if (!isRefreshCookieGettingStale()) {
-                await refresh();
-                break;
+                const refreshed = await refresh();
+                if (refreshed) {
+                    loginLocal();
+                    break;
+                }
             }
 
             // 2. Refresh Cookie will expire before session can be refreshed, so
