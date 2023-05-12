@@ -23,6 +23,6 @@ export default () => {
     // Redirect pages when isLoggedIn changes
     useEffect(() => {
         if (!data.isLoggedIn) router.push("/login");
-        else router.push("/");
+        else if (router.pathname === "/login") router.push("/");
     }, [data.isLoggedIn]);
 };
