@@ -1,4 +1,4 @@
-import { useQuery } from "@apollo/client";
+import { useQuery, useReactiveVar } from "@apollo/client";
 import { Virtuoso } from "react-virtuoso";
 
 import { GET_JOURNAL_ENTRIES } from "../../../../graphql/gql/journalEntry";
@@ -8,6 +8,7 @@ import { GET_THOUGHTS } from "../../../../graphql/gql/thoughts";
 import { useMemo } from "react";
 import { Thought } from "../../../../db/api/types";
 import { arrayToObj } from "../../../../utils/obj";
+import { hasMoreJEVar } from "../../../../graphql/apollo/local/state/hasMoreJE";
 
 export default () => {
     // LOCAL STATE
@@ -21,6 +22,8 @@ export default () => {
     const thoughtDict = useMemo(() => {
         return arrayToObj<Thought>(thoughts, (t: Thought) => t.timeId);
     }, [thoughts]);
+
+    const hasMoreJE = useReactiveVar(hasMoreJEVar);
 
     // GQL
     const {
@@ -36,6 +39,8 @@ export default () => {
 
     // HANDLERS
     const loadMore = () => {
+        if (!hasMoreJE) return;
+
         const cursorTime =
             journalEntries.length === 0
                 ? new Date()
@@ -57,20 +62,20 @@ export default () => {
             endReached={loadMore}
             overscan={500}
             useWindowScroll={true}
-            itemContent={(index, journalEntry) => {
-                return (
-                    <JournalEntry
-                        journalEntry={journalEntry}
-                        thought={thoughtDict[journalEntry.thoughtId]}
-                    />
-                );
-            }}
+            itemContent={(index, journalEntry) => (
+                <JournalEntry
+                    journalEntry={journalEntry}
+                    thoughtDict={thoughtDict}
+                />
+            )}
             components={{ Footer }}
         />
     );
 };
 
 const Footer = () => {
+    const hasMoreJE = useReactiveVar(hasMoreJEVar);
+
     return (
         <div
             style={{
@@ -79,7 +84,7 @@ const Footer = () => {
                 justifyContent: "center",
             }}
         >
-            Loading...
+            {hasMoreJE ? "Loading..." : "Nothing more to see!"}
         </div>
     );
 };

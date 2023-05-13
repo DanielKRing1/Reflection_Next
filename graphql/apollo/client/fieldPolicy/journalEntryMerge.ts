@@ -2,12 +2,10 @@ import { gql } from "@apollo/client";
 
 import client from "../client";
 import { JournalEntry } from "../../../../db/api/types";
-import {
-    JOURNAL_ENTRY_TYPENAME,
-    THOUGHT_TYPENAME,
-} from "../../server/typenames";
+import { THOUGHT_TYPENAME } from "../../server/typenames";
 import { GET_THOUGHTS } from "../../../gql/thoughts";
 import { getActiveJournal } from "../../local/state/activeJournal";
+import { setHasMoreJE } from "../../local/state/hasMoreJE";
 
 export default {
     journalEntries: {
@@ -28,7 +26,11 @@ export default {
             incoming = [...incoming];
 
             // 1. No incoming
-            if (incoming.length === 0) return existing;
+            if (incoming.length === 0) {
+                console.log("No incoming Journal Entries to merge function");
+                setHasMoreJE(false);
+                return existing;
+            }
 
             console.log("journalEntryMerge");
             console.log(existing);

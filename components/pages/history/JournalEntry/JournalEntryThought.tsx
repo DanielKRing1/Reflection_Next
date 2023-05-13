@@ -26,7 +26,6 @@ const JournalEntryThought = (props: JournalEntryThoughtProps) => {
 
     return (
         <ThoughtContainer reflectionDecision={reflectionDecision}>
-            <p>Hello</p>
             <StyledText>{thought.text || "Loading..."}</StyledText>
             <StyledText>
                 {formatTime(thought.timeId || "Loading...")}
