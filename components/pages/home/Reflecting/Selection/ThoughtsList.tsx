@@ -11,7 +11,7 @@ import { GET_JOURNAL_ENTRIES } from "../../../../../graphql/gql/journalEntry";
 import { activeJournalVar } from "../../../../../graphql/apollo/local/state/activeJournal";
 import { GET_THOUGHTS } from "../../../../../graphql/gql/thoughts";
 import { Thought } from "../../../../../db/api/types";
-import { Dict } from "../../../../../types/data";
+import { arrayToObj } from "../../../../../utils/obj";
 
 type ThoughtsListProps = {};
 export default (props: ThoughtsListProps) => {
@@ -42,13 +42,7 @@ export default (props: ThoughtsListProps) => {
         fetchPolicy: "cache-only",
     });
     const thoughtDict = useMemo(() => {
-        if (thoughts.length === 0) return {};
-
-        return thoughts.reduce((acc: Dict<Thought>, cur: Thought) => {
-            acc[cur.timeId] = cur;
-
-            return acc;
-        }, {});
+        return arrayToObj<Thought>(thoughts, (t: Thought) => t.timeId);
     }, [thoughts]);
 
     // LOCAL REACTIVE VARS
