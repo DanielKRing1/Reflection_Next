@@ -11,7 +11,11 @@ import { DataWId, Dict } from "../../types/data";
 
 // Submitted but not yet committed to a journal session
 // { id, data }
-export type Inkling = DataWId<string>;
+export type Inkling = {
+    timeId: number;
+    journalId: number;
+    text: string;
+};
 export type Inklings = Inkling[];
 
 // REFLECTIONS ON PREVIOUS AND CURRENT SESSIONS' THOUGHTS
@@ -51,9 +55,7 @@ export const DEFAULT_JOURNAL_METADATA: JournalMetadata = {
 
 // A single thought that has been committed to the journal
 //      and reflected on (keep or discard thought)
-export type Thought = Inkling & {
-    timeId: number;
-};
+export type Thought = Inkling;
 // A dict of all committed thoughts (excludes pending thoughts)
 //      This is 'the source of truth' for thought data
 // { id: Thought }
