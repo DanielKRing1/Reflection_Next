@@ -68,23 +68,23 @@ export default () => {
 
     // HANDLE JOURNAL PHASE CHANGES
 
-    useEffect(() => {
-        switch (journalPhase) {
-            case JournalPhase.Inklings: {
-                router.push("/");
-                break;
-            }
+    // useEffect(() => {
+    //     switch (journalPhase) {
+    //         case JournalPhase.Inklings: {
+    //             router.push("/");
+    //             break;
+    //         }
 
-            case JournalPhase.Reflection: {
-                router.push("/");
-                break;
-            }
+    //         case JournalPhase.Reflection: {
+    //             router.push("/");
+    //             break;
+    //         }
 
-            default:
-            case JournalPhase.Unknown: {
-                // Do nothing
-                break;
-            }
-        }
-    }, [journalPhase]);
+    //         default:
+    //         case JournalPhase.Unknown: {
+    //             // Do nothing
+    //             break;
+    //         }
+    //     }
+    // }, [journalPhase]);
 };
