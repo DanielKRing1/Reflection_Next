@@ -13,36 +13,45 @@ import { formatTime } from "../../../../utils/time";
 import { ReflectionDecision, Thought } from "../../../../db/api/types";
 
 type JournalEntryThoughtProps = {
-  isHovered: boolean;
-  thought: Thought;
-  reflectionDecision: ReflectionDecision;
+    isHovered: boolean;
+    thought: Thought;
+    reflectionDecision: ReflectionDecision;
 };
 const JournalEntryThought = (props: JournalEntryThoughtProps) => {
-  const { isHovered, thought, reflectionDecision } = props;
+    const {
+        isHovered,
+        thought = { text: undefined, timeId: undefined },
+        reflectionDecision,
+    } = props;
 
-  return (
-    <ThoughtContainer reflectionDecision={reflectionDecision}>
-      <StyledText>{thought.data}</StyledText>
-      <StyledText>{formatTime(thought.time)}</StyledText>
-      {/* {isHovered && <StyledText>{formatTime(thought.time)}</StyledText>} */}
-    </ThoughtContainer>
-  );
+    return (
+        <ThoughtContainer reflectionDecision={reflectionDecision}>
+            <p>Hello</p>
+            <StyledText>{thought.text || "Loading..."}</StyledText>
+            <StyledText>
+                {formatTime(thought.timeId || "Loading...")}
+            </StyledText>
+            {/* {isHovered && <StyledText>{formatTime(thought.time)}</StyledText>} */}
+        </ThoughtContainer>
+    );
 };
 
 export default JournalEntryThought;
 
 // STYLED COMPONENTS
 const StyledText = styled(MyText)`
-  text-align: start;
+    text-align: start;
 `;
 
 type ThoughtContainerProps = {
-  reflectionDecision: ReflectionDecision;
+    reflectionDecision: ReflectionDecision;
 };
 const ThoughtContainer = styled(MyButton)<ThoughtContainerProps>`
-  &,
-  & > * {
-    background: ${({ reflectionDecision }) =>
-      reflectionDecision === ReflectionDecision.Keep ? "#D0FFBC" : "#EED3D0"};
-  }
+    &,
+    & > * {
+        background: ${({ reflectionDecision }) =>
+            reflectionDecision === ReflectionDecision.Keep
+                ? "#D0FFBC"
+                : "#EED3D0"};
+    }
 `;
