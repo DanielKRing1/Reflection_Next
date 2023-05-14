@@ -3,14 +3,16 @@ import React from "react";
 import styled from "styled-components";
 
 // GENERIC COMPONENTS
-import MyButton from "../../../generic/Button/Base/MyButton";
-import MyText from "../../../generic/Text/MyText";
+import { MyButtonNoMargin } from "../../../generic/Button/Base/MyButton";
+import { MyTextNoMargin } from "../../../generic/Text/MyText";
 
 // UTILS
 import { formatTime } from "../../../../utils/time";
 
 // TYPES
 import { ReflectionDecision, Thought } from "../../../../db/api/types";
+import FlexRow from "../../../generic/Flex/FlexRow";
+import DMYCard from "../../../generic/Date/DMYCard";
 
 type JournalEntryThoughtProps = {
     isHovered: boolean;
@@ -26,11 +28,16 @@ const JournalEntryThought = (props: JournalEntryThoughtProps) => {
 
     return (
         <ThoughtContainer reflectionDecision={reflectionDecision}>
-            <StyledText>{thought.text || "Loading..."}</StyledText>
-            <StyledText>
-                {formatTime(thought.timeId || "Loading...")}
-            </StyledText>
-            {/* {isHovered && <StyledText>{formatTime(thought.time)}</StyledText>} */}
+            <FlexRow>
+                {thought.timeId ? (
+                    <DMYCard date={new Date(thought.timeId)} />
+                ) : (
+                    <StyledText>Loading...</StyledText>
+                )}
+
+                <StyledText>{thought.text || "Loading..."}</StyledText>
+            </FlexRow>
+            {isHovered && <StyledText>{formatTime(thought.timeId)}</StyledText>}
         </ThoughtContainer>
     );
 };
@@ -38,18 +45,19 @@ const JournalEntryThought = (props: JournalEntryThoughtProps) => {
 export default JournalEntryThought;
 
 // STYLED COMPONENTS
-const StyledText = styled(MyText)`
+const StyledText = styled(MyTextNoMargin)`
     text-align: start;
 `;
 
 type ThoughtContainerProps = {
     reflectionDecision: ReflectionDecision;
 };
-const ThoughtContainer = styled(MyButton)<ThoughtContainerProps>`
+const ThoughtContainer = styled(MyButtonNoMargin)<ThoughtContainerProps>`
     &,
     & > * {
         background: ${({ reflectionDecision }) =>
-            reflectionDecision === ReflectionDecision.Keep
+            reflectionDecision === ReflectionDecision.ThoughtKeep ||
+            reflectionDecision === ReflectionDecision.InklingKeep
                 ? "#D0FFBC"
                 : "#EED3D0"};
     }

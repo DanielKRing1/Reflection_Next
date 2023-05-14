@@ -5,23 +5,29 @@ import { GET_JOURNAL_ENTRIES } from "../../../../graphql/gql/journalEntry";
 import { getActiveJournal } from "../../../../graphql/apollo/local/state/activeJournal";
 import JournalEntry from "../JournalEntry";
 import { GET_THOUGHTS } from "../../../../graphql/gql/thoughts";
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { Thought } from "../../../../db/api/types";
 import { arrayToObj } from "../../../../utils/obj";
 import { hasMoreJEVar } from "../../../../graphql/apollo/local/state/hasMoreJE";
+import styled from "styled-components";
 
 export default () => {
     // LOCAL STATE
-    const { data: { thoughts = [] } = {} } = useQuery(GET_THOUGHTS, {
+    const {
+        loading: loading_thoughts,
+        error: error_thoughts,
+        data: { thoughts = [] } = {},
+    } = useQuery(GET_THOUGHTS, {
         variables: {
             journalId: getActiveJournal(),
+            thoughtIds: [],
         },
         fetchPolicy: "cache-only",
     });
 
     const thoughtDict = useMemo(() => {
         return arrayToObj<Thought>(thoughts, (t: Thought) => t.timeId);
-    }, [thoughts]);
+    }, [thoughts, loading_thoughts]);
 
     const hasMoreJE = useReactiveVar(hasMoreJEVar);
 
@@ -34,17 +40,22 @@ export default () => {
     } = useQuery(GET_JOURNAL_ENTRIES, {
         variables: {
             journalId: getActiveJournal(),
+            count: 5,
         },
     });
 
     // HANDLERS
-    const loadMore = () => {
+    const loadMore = useCallback(() => {
+        console.log("loadMore");
+        console.log(hasMoreJE);
         if (!hasMoreJE) return;
 
         const cursorTime =
             journalEntries.length === 0
                 ? new Date()
                 : journalEntries[journalEntries.length - 1].timeId;
+
+        console.log(new Date(cursorTime));
 
         fetchMore({
             variables: {
@@ -53,25 +64,39 @@ export default () => {
                 count: 5,
             },
         });
-    };
+    }, [hasMoreJE, journalEntries]);
+
+    console.log(thoughts);
+    console.log(thoughtDict);
 
     return (
-        <Virtuoso
-            style={{ height: "100vh" }}
-            data={journalEntries}
-            endReached={loadMore}
-            overscan={500}
-            useWindowScroll={true}
-            itemContent={(index, journalEntry) => (
-                <JournalEntry
-                    journalEntry={journalEntry}
-                    thoughtDict={thoughtDict}
-                />
-            )}
-            components={{ Footer }}
-        />
+        <StyledDiv>
+            <Virtuoso
+                style={{ height: "100%" }}
+                data={journalEntries}
+                endReached={loadMore}
+                // overscan={500}
+                useWindowScroll={true}
+                itemContent={(index, journalEntry) => (
+                    <JournalEntry
+                        journalEntry={journalEntry}
+                        thoughtDict={thoughtDict}
+                    />
+                )}
+                components={{ Footer }}
+            />
+        </StyledDiv>
     );
 };
+
+const StyledDiv = styled.div`
+    * {
+        -webkit-transition: none !important;
+        -moz-transition: none !important;
+        -o-transition: none !important;
+        transition: none !important;
+    }
+`;
 
 const Footer = () => {
     const hasMoreJE = useReactiveVar(hasMoreJEVar);

@@ -1,6 +1,5 @@
 // THIRD PARTY
-import React, { useEffect, useMemo, useState } from "react";
-import { useSelector } from "react-redux";
+import React from "react";
 
 // PAGE-SPECIFIC COMPONENTS
 import JournalEntryThought from "./JournalEntryThought";
@@ -15,6 +14,8 @@ import {
 import useOnHover from "../../../../hooks/useOnHover";
 import FlexCol from "../../../generic/Flex/FlexCol";
 import { Dict } from "../../../../types/data";
+import { formatTime } from "../../../../utils/time";
+import { MyTextNoMargin } from "../../../generic/Text/MyText";
 
 type JournalEntryProps = {
     journalEntry: JournalEntryType;
@@ -32,6 +33,8 @@ const JournalEntry = (props: JournalEntryProps) => {
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
         >
+            <MyTextNoMargin>{formatTime(journalEntry.timeId)}</MyTextNoMargin>
+
             {journalEntry.reflections.map(({ thoughtId, decision }) => (
                 <JournalEntryThought
                     key={thoughtId}

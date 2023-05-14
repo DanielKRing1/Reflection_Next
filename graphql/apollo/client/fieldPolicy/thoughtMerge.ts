@@ -19,10 +19,16 @@ export default {
             incoming: Thought[] = [],
             { cache, mergeObjects, readField }
         ) {
+            console.log("Merge Thoughts");
+            console.log("existing");
+            console.log(existing);
+            console.log("incoming");
+            console.log(incoming);
+
             const merged = {};
 
             // 1. Add existing to merged Dict
-            for (const t of existing) {
+            for (const t of Object.values(existing)) {
                 merged[
                     cache.identify({
                         __typename: THOUGHT_TYPENAME,
@@ -32,7 +38,7 @@ export default {
             }
 
             // 2. Add incoming to merged Dict
-            for (const t of incoming) {
+            for (const t of Object.values(incoming)) {
                 merged[
                     cache.identify({
                         __typename: THOUGHT_TYPENAME,

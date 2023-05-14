@@ -23,7 +23,12 @@ export default {
             incoming: JournalEntry[] = [],
             { readField }
         ) {
-            incoming = [...incoming];
+            // existing = await existing;
+
+            incoming = [...Object.values(incoming)];
+
+            console.log("Incoming Journal Entries:");
+            console.log(incoming);
 
             // 1. No incoming
             if (incoming.length === 0) {
@@ -33,11 +38,13 @@ export default {
             }
 
             console.log("journalEntryMerge");
+            console.log("existing");
             console.log(existing);
+            console.log("incoming");
             console.log(incoming);
 
             // 2. Check which received thoughts are not cached locally
-            const missingThoughtIds: string[] = [];
+            const missingThoughtIds: Set<string> = new Set();
             for (const je of Object.values(incoming)) {
                 // Add missing reflection.thoughtIds
                 const reflections = readField("reflections", je);
@@ -58,21 +65,25 @@ export default {
                             }
                         `,
                     });
+                    console.log(thought);
 
-                    if (thought === null) missingThoughtIds.push(thoughtId);
+                    if (thought === null) missingThoughtIds.add(thoughtId);
                 }
             }
 
             // 3. Fetch missing thoughtIds from server
+            console.log("missingThoughtIds");
             console.log(missingThoughtIds);
-            if (missingThoughtIds.length > 0)
+            if (missingThoughtIds.size > 0) {
                 client.query({
                     query: GET_THOUGHTS,
                     variables: {
                         journalId: getActiveJournal(),
-                        thoughtIds: missingThoughtIds,
+                        thoughtIds: Array.from(missingThoughtIds),
                     },
+                    fetchPolicy: "network-only",
                 });
+            }
 
             // 4. Sort incoming, newest -> oldest
             incoming.sort(
@@ -81,6 +92,8 @@ export default {
 
             // 5. No existing
             if (existing.length === 0) return incoming;
+            console.log("existing");
+            console.log(existing);
 
             // 6. Newer than existing? -> add to front
             const newer = [];
@@ -103,8 +116,11 @@ export default {
                     older.push(je);
             }
 
+            console.log("Return result");
+            console.log([...newer, ...Object.values(existing), ...older]);
+
             // 8. Return merged
-            return [...newer, ...existing, ...older];
+            return [...newer, ...Object.values(existing), ...older];
         },
     },
 };

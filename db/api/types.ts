@@ -26,8 +26,10 @@ export type Inklings = Inkling[];
 //      in the current snapshot
 // { id, data: 0 | 1 }
 export enum ReflectionDecision {
-    Discard,
-    Keep,
+    ThoughtDiscard,
+    ThoughtKeep,
+    InklingKeep,
+    InklingDiscard,
 }
 export type Reflection = {
     thoughtId: string;
