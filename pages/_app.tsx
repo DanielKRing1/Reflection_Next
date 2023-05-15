@@ -7,6 +7,7 @@ import ApolloProvider from "../graphql/apollo/client/Provider";
 
 // REDUX
 import store from "../redux/store";
+import NavBar from "../components/generic/Nav/NavBar";
 
 export default function MyApp({ Component, pageProps }) {
     // Will redirect to '/login' page on logout
@@ -16,6 +17,8 @@ export default function MyApp({ Component, pageProps }) {
         <ReduxProvider store={store}>
             <ApolloProvider>
                 <MyThemeProvider>
+                    <NavBar />
+
                     <Component {...pageProps} />
                 </MyThemeProvider>
             </ApolloProvider>

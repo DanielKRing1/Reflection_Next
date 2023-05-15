@@ -42,7 +42,11 @@ export type JournalEntry = {
     reflections: Reflection[];
 };
 // All journaling sessions
-export type Journal = JournalEntry[];
+export type Journal = {
+    id: string;
+    userId: string;
+    name: string;
+};
 // Information abt the Journal
 export type JournalMetadata = {
     name: string;
