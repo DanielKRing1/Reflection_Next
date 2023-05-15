@@ -29,7 +29,7 @@ const JournalEntry = (props: JournalEntryProps) => {
 
     return (
         <FlexCol
-            style={{ width: "70%", border: "solid black" }}
+            style={{ width: "70%", border: "solid black", padding: "20px" }}
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
         >

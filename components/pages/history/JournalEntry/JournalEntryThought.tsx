@@ -12,7 +12,7 @@ import { formatTime } from "../../../../utils/time";
 // TYPES
 import { ReflectionDecision, Thought } from "../../../../db/api/types";
 import FlexRow from "../../../generic/Flex/FlexRow";
-import DMYCard from "../../../generic/Date/DMYCard";
+import DMYLine from "../../../generic/Date/DMYLine";
 
 type JournalEntryThoughtProps = {
     isHovered: boolean;
@@ -30,7 +30,7 @@ const JournalEntryThought = (props: JournalEntryThoughtProps) => {
         <ThoughtContainer reflectionDecision={reflectionDecision}>
             <FlexRow>
                 {thought.timeId ? (
-                    <DMYCard date={new Date(thought.timeId)} />
+                    <DMYLine date={new Date(thought.timeId)} />
                 ) : (
                     <StyledText>Loading...</StyledText>
                 )}
@@ -53,6 +53,9 @@ type ThoughtContainerProps = {
     reflectionDecision: ReflectionDecision;
 };
 const ThoughtContainer = styled(MyButtonNoMargin)<ThoughtContainerProps>`
+    width: 90%;
+    padding: 10px;
+
     &,
     & > * {
         background: ${({ reflectionDecision }) =>
