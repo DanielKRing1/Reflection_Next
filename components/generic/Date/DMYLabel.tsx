@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import MyText from "../Text/MyText";
+import { MyTextNoMargin } from "../Text/MyText";
 import { getDate, getMonth, getYear } from "../../../utils/date";
 import { padStart } from "../../../utils/string";
 
@@ -22,8 +22,10 @@ export default (props: Props) => {
     );
 };
 
-const MyStyledText = styled(MyText)`
+const MyStyledText = styled(MyTextNoMargin)`
+    font-size: ${({ theme }) => theme.fonts.sm};
     font-style: italic;
     text-align: right;
     padding: 10px;
+    margin-right: 20px;
 `;
