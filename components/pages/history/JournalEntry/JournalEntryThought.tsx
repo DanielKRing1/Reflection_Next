@@ -30,7 +30,10 @@ const JournalEntryThought = (props: JournalEntryThoughtProps) => {
         <ThoughtContainer reflectionDecision={reflectionDecision}>
             <FlexRow>
                 {thought.timeId ? (
-                    <DMYLabel date={new Date(thought.timeId)} />
+                    <DMYLabel
+                        date={new Date(thought.timeId)}
+                        pretext={"Written"}
+                    />
                 ) : (
                     <StyledText>Loading...</StyledText>
                 )}
