@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 import FlexRow from "../../Flex/FlexRow";
 import History from "./History";
-import ActiveJournal from "./ActiveJournal";
+import ActiveJournal from "./SelectJournal";
 import Logout from "./Logout";
 
 type Props = {};

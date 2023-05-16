@@ -2,8 +2,9 @@
 import { Provider as ReduxProvider } from "react-redux";
 
 // MY PROVIDERS
-import MyThemeProvider from "../theme/ThemeProvider";
 import ApolloProvider from "../graphql/apollo/client/Provider";
+import MyThemeProvider from "../theme/ThemeProvider";
+import IconProvider from "../icon/Provider";
 
 // REDUX
 import store from "../redux/store";
@@ -17,9 +18,11 @@ export default function MyApp({ Component, pageProps }) {
         <ReduxProvider store={store}>
             <ApolloProvider>
                 <MyThemeProvider>
-                    <NavBar />
+                    <IconProvider>
+                        <NavBar />
 
-                    <Component {...pageProps} />
+                        <Component {...pageProps} />
+                    </IconProvider>
                 </MyThemeProvider>
             </ApolloProvider>
         </ReduxProvider>
