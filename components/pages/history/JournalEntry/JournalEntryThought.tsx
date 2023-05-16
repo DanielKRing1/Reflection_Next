@@ -15,13 +15,11 @@ import FlexRow from "../../../generic/Flex/FlexRow";
 import DMYLabel from "../../../generic/Date/DMYLabel";
 
 type JournalEntryThoughtProps = {
-    isHovered: boolean;
     thought: Thought;
     reflectionDecision: ReflectionDecision;
 };
 const JournalEntryThought = (props: JournalEntryThoughtProps) => {
     const {
-        isHovered,
         thought = { text: undefined, timeId: undefined },
         reflectionDecision,
     } = props;
@@ -40,7 +38,6 @@ const JournalEntryThought = (props: JournalEntryThoughtProps) => {
 
                 <StyledText>{thought.text || "Loading..."}</StyledText>
             </FlexRow>
-            {isHovered && <StyledText>{formatTime(thought.timeId)}</StyledText>}
         </ThoughtContainer>
     );
 };

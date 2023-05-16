@@ -39,7 +39,6 @@ const JournalEntry = (props: JournalEntryProps) => {
             {journalEntry.reflections.map(({ thoughtId, decision }) => (
                 <JournalEntryThought
                     key={thoughtId}
-                    isHovered={isHovered}
                     thought={thoughtDict[thoughtId]}
                     reflectionDecision={decision}
                 />
