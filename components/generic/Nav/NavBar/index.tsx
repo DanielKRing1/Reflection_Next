@@ -37,6 +37,7 @@ export default (props: Props) => {
 const StyledContainer = styled(FlexRow)`
     justify-content: space-between;
 
-    width: 100%;
+    width: auto;
     background-color: ${({ theme }) => theme.colors.accent};
+    padding: 10px 20px;
 `;

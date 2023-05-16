@@ -72,7 +72,7 @@ export default () => {
     return (
         <StyledDiv>
             <Virtuoso
-                style={{ height: "100%" }}
+                style={{ height: "100%", width: "60%" }}
                 data={journalEntries}
                 endReached={loadMore}
                 // overscan={500}
@@ -90,6 +90,9 @@ export default () => {
 };
 
 const StyledDiv = styled.div`
+    display: flex;
+    justify-content: center;
+
     * {
         -webkit-transition: none !important;
         -moz-transition: none !important;
