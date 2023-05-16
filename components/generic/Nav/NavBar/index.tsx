@@ -1,8 +1,8 @@
 import React from "react";
-import { useRouter } from "next/router";
 import styled from "styled-components";
 
 import FlexRow from "../../Flex/FlexRow";
+
 import History from "./History";
 import ActiveJournal from "./SelectJournal";
 import Logout from "./Logout";
@@ -10,31 +10,33 @@ import Logout from "./Logout";
 type Props = {};
 
 export default (props: Props) => {
-    // ROUTER
-    const router = useRouter();
-
-    // HANDLERS
-    const handleRouteToHistory = () => {
-        router.push("/history");
-    };
-
-    const handleLogout = () => {};
-
     return (
-        <StyledContainer>
-            <FlexRow>
-                <History />
-                <ActiveJournal />
-            </FlexRow>
+        <StyledParentPadding>
+            <StyledFixedContainer>
+                <StyledContent>
+                    <FlexRow>
+                        <History />
+                        <ActiveJournal />
+                    </FlexRow>
 
-            <FlexRow>
-                <Logout />
-            </FlexRow>
-        </StyledContainer>
+                    <FlexRow>
+                        <Logout />
+                    </FlexRow>
+                </StyledContent>
+            </StyledFixedContainer>
+        </StyledParentPadding>
     );
 };
 
-const StyledContainer = styled(FlexRow)`
+const StyledParentPadding = styled.div`
+    padding-bottom: 50px;
+`;
+const StyledFixedContainer = styled.div`
+    position: fixed;
+    width: 100%;
+    z-index: 99;
+`;
+const StyledContent = styled(FlexRow)`
     justify-content: space-between;
 
     width: auto;
