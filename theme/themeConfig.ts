@@ -64,6 +64,10 @@ export const GlobalStyles = createGlobalStyle`
     margin: 2.5vh 2.5vw;
   }
 
+  body {
+    margin: 0;
+  }
+
   * {
     -webkit-transition: all 350ms ease-out;
     -moz-transition: all 350ms ease-out;
