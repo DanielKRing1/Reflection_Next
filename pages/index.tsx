@@ -11,6 +11,7 @@ import styles from "../styles/Home.module.css";
 import { JournalPhase } from "../utils_ui/journalPhase";
 import CreateJournal from "../components/pages/home/CreateJournal";
 import { journalPhaseVar } from "../graphql/apollo/local/state/journalPhase";
+import BoxShadow from "../components/generic/BoxShadow";
 
 export default function Home() {
     const journalPhase = useReactiveVar(journalPhaseVar);
@@ -26,28 +27,25 @@ export default function Home() {
                 <Link href="./history">Go to History</Link>
 
                 <FlexCol>
-                    <FlexCol
-                        style={{
-                            width: "70vw",
-                            borderWidth: "5rem",
-                            border: "solid black",
-                            borderRadius: "0.4rem",
-                            boxShadow:
-                                "inset 0 -3em 3em rgb(0 0 0 / 10%), 0.5em 0.5em 2em rgb(0 0 0 / 30%)",
-                        }}
-                    >
-                        {journalPhase === JournalPhase.Unknown ? (
-                            <MyText>Loading</MyText>
-                        ) : journalPhase === JournalPhase.CreateJournal ? (
-                            <CreateJournal />
-                        ) : journalPhase === JournalPhase.Inklings ? (
-                            <Inkling />
-                        ) : journalPhase === JournalPhase.Reflection ? (
-                            <Reflecting />
-                        ) : (
-                            <MyText>Idk</MyText>
-                        )}
-                    </FlexCol>
+                    <BoxShadow>
+                        <FlexCol
+                            style={{
+                                width: "70vw",
+                            }}
+                        >
+                            {journalPhase === JournalPhase.Unknown ? (
+                                <MyText>Loading</MyText>
+                            ) : journalPhase === JournalPhase.CreateJournal ? (
+                                <CreateJournal />
+                            ) : journalPhase === JournalPhase.Inklings ? (
+                                <Inkling />
+                            ) : journalPhase === JournalPhase.Reflection ? (
+                                <Reflecting />
+                            ) : (
+                                <MyText>Idk</MyText>
+                            )}
+                        </FlexCol>
+                    </BoxShadow>
                 </FlexCol>
             </main>
 

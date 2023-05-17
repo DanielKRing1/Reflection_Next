@@ -23,3 +23,19 @@ export const CREATE_JOURNAL = gql`
         }
     }
 `;
+
+export const EDIT_JOURNAL = gql`
+    mutation EditJournal($journalId: BigInt!, $journalEdits: JournalEdits) {
+        editJournal(journalName: $journalName) {
+            id
+            userId
+            name
+        }
+    }
+`;
+
+export const RM_JOURNAL = gql`
+    mutation RmJournal($journalId: BigInt!) {
+        rmJournal(journalName: $journalName)
+    }
+`;
