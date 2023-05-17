@@ -51,9 +51,6 @@ export default (props: Props) => {
         setSelecting(false);
     };
 
-    // THEME
-    const theme = useTheme();
-
     return (
         // Clicking outside of this 'SelectionContainer'
         // will toggle off the selection process
@@ -73,10 +70,15 @@ export default (props: Props) => {
                     {/* Dropdown */}
                     <FlexCol>
                         {/* Move active journal to front of list */}
-                        {[
-                            journalMap[activeJournal],
-                            ...journals.filter((j) => j.id !== activeJournal),
-                        ].map((journal) => (
+                        {(journalMap[activeJournal] !== undefined
+                            ? [
+                                  journalMap[activeJournal],
+                                  ...journals.filter(
+                                      (j) => j.id !== activeJournal
+                                  ),
+                              ]
+                            : journals
+                        ).map((journal) => (
                             <JournalRow
                                 key={journal.id}
                                 journal={journal}
