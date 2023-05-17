@@ -5,6 +5,7 @@ import { FaHome } from "react-icons/fa";
 import ClickContainer from "../../Button/Base/ClickContainer";
 import styled from "styled-components";
 import { MyTextNoMargin } from "../../Text/MyText";
+import { HOME_PATH } from "../../../../routing/paths";
 
 type Props = {};
 
@@ -14,7 +15,7 @@ export default (props: Props) => {
 
     // HANDLERS
     const handleRouteHome = () => {
-        router.push("/");
+        router.push(HOME_PATH);
     };
 
     return (

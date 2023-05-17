@@ -4,6 +4,7 @@ import Link from "next/link";
 import styles from "../styles/Home.module.css";
 
 import HistoryList from "../components/pages/history";
+import { HOME_PATH } from "../routing/paths";
 
 export default function History() {
     return (
@@ -17,7 +18,7 @@ export default function History() {
 
                 <HistoryList />
 
-                <Link href="/">Go Back</Link>
+                <Link href={HOME_PATH}>Go Back</Link>
             </main>
         </div>
     );
