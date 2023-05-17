@@ -6,19 +6,19 @@ import styles from "../styles/Home.module.css";
 import HistoryList from "../components/pages/history";
 
 export default function History() {
-  return (
-    <div className={styles.container}>
-      <Head>
-        <title>First Post</title>
-      </Head>
+    return (
+        <div className={styles.container}>
+            <Head>
+                <title>Journal History</title>
+            </Head>
 
-      <main>
-        <h1>History View</h1>
+            <main>
+                <h1>History View</h1>
 
-        <HistoryList />
+                <HistoryList />
 
-        <Link href="/">Go Back</Link>
-      </main>
-    </div>
-  );
+                <Link href="/">Go Back</Link>
+            </main>
+        </div>
+    );
 }
