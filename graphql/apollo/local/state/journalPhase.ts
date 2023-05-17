@@ -47,7 +47,9 @@ export const determineJournalPhase = (): JournalPhase => {
                 },
             }) || {};
 
-        return user === null || journals === null
+        return user === null ||
+            journals === null ||
+            (journals.length > 0 && activeJournalId === null)
             ? setJournalPhaseUnknown()
             : activeJournalId === null
             ? setJournalPhaseCreateJournal()

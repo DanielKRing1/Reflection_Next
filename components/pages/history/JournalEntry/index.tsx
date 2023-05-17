@@ -14,9 +14,7 @@ import {
 import useOnHover from "../../../../hooks/useOnHover";
 import FlexCol from "../../../generic/Flex/FlexCol";
 import { Dict } from "../../../../types/data";
-import { formatTime } from "../../../../utils/time";
 import DMYTitle from "../../../generic/Date/DMYTitle";
-import { MyTextNoMargin } from "../../../generic/Text/MyText";
 import BoxShadow from "../../../generic/BoxShadow";
 import styled from "styled-components";
 
