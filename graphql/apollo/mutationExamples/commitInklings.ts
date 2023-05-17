@@ -18,7 +18,7 @@ export default (): MutationTuple<any, any, any, any> => {
     const [commitInklings, handle] = useMutation(COMMIT_INKLINGS, {
         variables: {
             commitInklingsJournalId: getActiveJournal(),
-            inklingTexts: getPendingInklings().map((i: Inkling) => i.data),
+            inklingTexts: getPendingInklings().map((i: Inkling) => i.text),
         },
         update(cache, { data: { commitInklings } }) {
             // 1. Clear local pending Inklings

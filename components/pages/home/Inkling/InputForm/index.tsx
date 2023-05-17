@@ -13,12 +13,12 @@ import { InputList } from "./InputList";
 
 // TYPES
 import { INKLING_ERROR_TIMEOUT_MS } from "../../../../../constants/error";
-import { GET_PENDING_INKLINGS } from "../../../../../graphql/apollo/local/gql/pendingInklings";
-import { useQuery } from "@apollo/client";
-import { Inklings } from "../../../../../db/api/types";
+import { useReactiveVar } from "@apollo/client";
+import { Inkling, Inklings } from "../../../../../db/api/types";
 import {
     addPendingInkling,
     editPendingInkling,
+    pendingInklingsVar,
     rmPendingInkling,
 } from "../../../../../graphql/apollo/local/state/pendingInklings";
 import commitInklings from "../../../../../graphql/apollo/mutationExamples/commitInklings";
@@ -28,27 +28,25 @@ const InputForm = () => {
     const [focusedIndex, setFocusedIndex] = useState(-1);
     const rmFocusedIndex = () => setFocusedIndex(-1);
 
-    const [errorIds, setErrorIds] = useState<Set<string>>(new Set());
+    const [errorIds, setErrorIds] = useState<Set<number>>(new Set());
     const [timeoutHandle, setTimeoutHandle] = useState<
         NodeJS.Timeout | undefined
     >();
 
     // APOLLO CLIENT
-    const {
-        data: { pendingInklings },
-    } = useQuery(GET_PENDING_INKLINGS);
+    const pendingInklings: Inkling[] = useReactiveVar(pendingInklingsVar);
 
     const [commit, { data, loading, error }] = commitInklings();
 
     // HANDLERS
     const handleAddInkling = () => {
         // Cannot add entry if empty entries exist
-        if ((pendingInklings as Inklings).some(({ data }) => data === ""))
+        if ((pendingInklings as Inklings).some(({ text }) => text === ""))
             return;
 
         // Focus last index
         setFocusedIndex(pendingInklings.length);
-        addPendingInkling({ id: genId(), data: "" });
+        addPendingInkling({ timeId: Date.now(), journalId: -1, text: "" });
     };
 
     const handleRmInkling = (index: number) => {
@@ -63,17 +61,17 @@ const InputForm = () => {
         // Remove last Inkling if empty
         if (
             pendingInklings.length > 0 &&
-            pendingInklings[pendingInklings.length - 1].data === ""
+            pendingInklings[pendingInklings.length - 1].text === ""
         )
             rmPendingInkling(pendingInklings.length - 1);
 
         // Do not commit without > 0 Inklings
         if (pendingInklings.length === 0) return;
 
-        const emptyInklings: Set<string> = new Set(
+        const emptyInklings: Set<number> = new Set(
             pendingInklings
-                .filter(({ data }) => data === "")
-                .map(({ id }) => id)
+                .filter(({ text }) => text === "")
+                .map(({ timeId }) => timeId)
         );
 
         if (emptyInklings.size === 0)

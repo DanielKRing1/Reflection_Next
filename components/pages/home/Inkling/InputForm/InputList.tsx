@@ -1,11 +1,12 @@
-import { useEffect, useState } from "react";
-import { useQuery } from "@apollo/client";
+import { useEffect } from "react";
+import { useReactiveVar } from "@apollo/client";
 
 import FlexCol from "../../../../generic/Flex/FlexCol";
 import InputRow from "./InputRow";
 
-import { GET_PENDING_INKLINGS } from "../../../../../graphql/apollo/local/gql/pendingInklings";
 import { Inkling } from "../../../../../db/api/types";
+import { nothingFocused } from "../../../../../utils/focus";
+import { pendingInklingsVar } from "../../../../../graphql/apollo/local/state/pendingInklings";
 
 type InputListProps = {
     focusedIndex: number;
@@ -14,7 +15,7 @@ type InputListProps = {
     onAddInkling: () => void;
     onRmInkling: (index: number) => void;
     onEditInkling: (index: number, newText: string) => void;
-    errorIds: Set<string>;
+    errorIds: Set<number>;
 };
 export const InputList = (props: InputListProps) => {
     const {
@@ -28,9 +29,7 @@ export const InputList = (props: InputListProps) => {
     } = props;
 
     // APOLLO CLIENT
-    const {
-        data: { pendingInklings },
-    } = useQuery(GET_PENDING_INKLINGS);
+    const pendingInklings: Inkling[] = useReactiveVar(pendingInklingsVar);
 
     // 'Enter' handler
     useEffect(() => {
@@ -42,7 +41,7 @@ export const InputList = (props: InputListProps) => {
             // 1. If focused
             if (focusedIndex > -1) {
                 // 1.1. Empty, rm Inkling and rm focus
-                if (pendingInklings[focusedIndex].data === "") {
+                if (pendingInklings[focusedIndex].text === "") {
                     onRmInkling(focusedIndex);
                     rmFocusedIndex();
                 }
@@ -55,7 +54,7 @@ export const InputList = (props: InputListProps) => {
                         i++
                     ) {
                         const index = i % pendingInklings.length;
-                        if (pendingInklings[index].data === "") {
+                        if (pendingInklings[index].text === "") {
                             nextEmpty = index;
                             break;
                         }
@@ -69,11 +68,14 @@ export const InputList = (props: InputListProps) => {
             }
             // 2. Not focused
             else {
+                // Only handle 'Enter' if not focused on another page element
+                if (!nothingFocused()) return;
+
                 // 2.1. Focus first empty
                 let nextEmpty;
                 for (let i = 0; i < pendingInklings.length; i++) {
                     const index = i % pendingInklings.length;
-                    if (pendingInklings[index].data === "") {
+                    if (pendingInklings[index].text === "") {
                         nextEmpty = index;
                         break;
                     }
@@ -96,19 +98,23 @@ export const InputList = (props: InputListProps) => {
 
     return (
         <FlexCol alignItems="stretch">
-            {pendingInklings.map(({ id, data }: Inkling, i: number) => (
-                <InputRow
-                    key={id}
-                    borderColor={errorIds.has(id) ? "white" : ""}
-                    value={data}
-                    onChange={(newEntry: string) => onEditInkling(i, newEntry)}
-                    isFocused={i === focusedIndex}
-                    onFocus={() => setFocusedIndex(i)}
-                    onBlur={() => {
-                        if (i === focusedIndex) rmFocusedIndex();
-                    }}
-                />
-            ))}
+            {pendingInklings.map(
+                ({ timeId, journalId, text }: Inkling, i: number) => (
+                    <InputRow
+                        key={timeId}
+                        borderColor={errorIds.has(timeId) ? "white" : ""}
+                        value={text}
+                        onChange={(newEntry: string) =>
+                            onEditInkling(i, newEntry)
+                        }
+                        isFocused={i === focusedIndex}
+                        onFocus={() => setFocusedIndex(i)}
+                        onBlur={() => {
+                            if (i === focusedIndex) rmFocusedIndex();
+                        }}
+                    />
+                )
+            )}
         </FlexCol>
     );
 };
