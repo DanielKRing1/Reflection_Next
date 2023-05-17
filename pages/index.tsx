@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Link from "next/link";
-import { useQuery } from "@apollo/client";
+import { useReactiveVar } from "@apollo/client";
 
 import FlexCol from "../components/generic/Flex/FlexCol";
 import MyText from "../components/generic/Text/MyText";
@@ -8,15 +8,12 @@ import Inkling from "../components/pages/home/Inkling";
 import Reflecting from "../components/pages/home/Reflecting";
 
 import styles from "../styles/Home.module.css";
-import { GET_JOURNAL_PHASE } from "../graphql/apollo/local/gql/journalPhase";
 import { JournalPhase } from "../utils_ui/journalPhase";
 import CreateJournal from "../components/pages/home/CreateJournal";
-import JournalList from "../components/generic/JournalList";
+import { journalPhaseVar } from "../graphql/apollo/local/state/journalPhase";
 
 export default function Home() {
-    const {
-        data: { journalPhase },
-    } = useQuery(GET_JOURNAL_PHASE);
+    const journalPhase = useReactiveVar(journalPhaseVar);
 
     return (
         <div className={styles.container}>
@@ -39,8 +36,6 @@ export default function Home() {
                                 "inset 0 -3em 3em rgb(0 0 0 / 10%), 0.5em 0.5em 2em rgb(0 0 0 / 30%)",
                         }}
                     >
-                        <JournalList />
-
                         {journalPhase === JournalPhase.Unknown ? (
                             <MyText>Loading</MyText>
                         ) : journalPhase === JournalPhase.CreateJournal ? (
