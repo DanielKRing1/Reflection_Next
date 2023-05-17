@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { GET_IS_LOGGED_IN } from "../graphql/apollo/local/gql/isLoggedIn";
 import { keepSessionFresh } from "../graphql/apollo/local/state/isLoggedIn";
+import { goBackOrHome } from "../utils/routing";
 
 export default () => {
     // Local state query
@@ -23,6 +24,6 @@ export default () => {
     // Redirect pages when isLoggedIn changes
     useEffect(() => {
         if (!data.isLoggedIn) router.push("/login");
-        else if (router.pathname === "/login") router.push("/");
+        else if (router.pathname === "/login") goBackOrHome(router);
     }, [data.isLoggedIn]);
 };
