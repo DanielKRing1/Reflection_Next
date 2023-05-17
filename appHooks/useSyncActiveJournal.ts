@@ -70,7 +70,11 @@ export default () => {
     }, [user, journals]);
 
     useEffect(() => {
-        if (activeJournal === null) return;
+        // TODO:
+        // If user loading for first time, this will execute, but
+        // This should not triggerserver mutation
+
+        // lastUsedJId should update, even if activeJournal becomes null
         updateLastUsedJId({ variables: { journalId: activeJournal } });
     }, [activeJournal]);
 };
