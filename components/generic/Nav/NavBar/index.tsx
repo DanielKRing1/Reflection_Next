@@ -6,40 +6,50 @@ import FlexRow from "../../Flex/FlexRow";
 import History from "./History";
 import ActiveJournal from "./SelectJournal";
 import Logout from "./Logout";
+import Home from "./Home";
 
 type Props = {};
 
 export default (props: Props) => {
     return (
-        <StyledParentPadding>
-            <StyledFixedContainer>
-                <StyledContent>
-                    <FlexRow>
+        <PaddingDiv>
+            <FixedDiv>
+                <SpacingDiv>
+                    <OneThirdDiv>
                         <History />
                         <ActiveJournal />
-                    </FlexRow>
+                    </OneThirdDiv>
 
-                    <FlexRow>
+                    <OneThirdDiv>
+                        <Home />
+                    </OneThirdDiv>
+
+                    <OneThirdDiv>
                         <Logout />
-                    </FlexRow>
-                </StyledContent>
-            </StyledFixedContainer>
-        </StyledParentPadding>
+                    </OneThirdDiv>
+                </SpacingDiv>
+            </FixedDiv>
+        </PaddingDiv>
     );
 };
 
-const StyledParentPadding = styled.div`
+const PaddingDiv = styled.div`
     padding-bottom: 50px;
 `;
-const StyledFixedContainer = styled.div`
+const FixedDiv = styled.div`
     position: fixed;
     width: 100%;
     z-index: 99;
 `;
-const StyledContent = styled(FlexRow)`
+const SpacingDiv = styled(FlexRow)`
     justify-content: space-between;
 
     width: auto;
     background-color: ${({ theme }) => theme.colors.accent};
     padding: 10px 20px;
+`;
+
+const OneThirdDiv = styled(FlexRow)`
+    display: flex;
+    flex: 33%;
 `;

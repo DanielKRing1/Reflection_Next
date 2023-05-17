@@ -14,8 +14,16 @@ export default (props: Props) => {
     };
 
     return (
-        <ClickContainer onClick={handleLogout}>
-            <MyTextNoMargin>Logout</MyTextNoMargin>
-        </ClickContainer>
+        <PositioningContainer>
+            <ClickContainer onClick={handleLogout}>
+                <MyTextNoMargin>Logout</MyTextNoMargin>
+            </ClickContainer>
+        </PositioningContainer>
     );
 };
+
+const PositioningContainer = styled.div`
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+`;
