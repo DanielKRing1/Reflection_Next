@@ -26,7 +26,7 @@ export const CREATE_JOURNAL = gql`
 
 export const EDIT_JOURNAL = gql`
     mutation EditJournal($journalId: BigInt!, $journalEdits: JournalEdits) {
-        editJournal(journalName: $journalName) {
+        editJournal(journalId: $journalId, journalEdits: $journalEdits) {
             id
             userId
             name
@@ -36,6 +36,6 @@ export const EDIT_JOURNAL = gql`
 
 export const RM_JOURNAL = gql`
     mutation RmJournal($journalId: BigInt!) {
-        rmJournal(journalName: $journalName)
+        rmJournal(journalId: $journalId)
     }
 `;

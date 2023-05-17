@@ -9,6 +9,17 @@ import { Journal } from "../../../../../db/api/types";
 import ConfirmationButton from "../../../Button/ConfirmationButton";
 import MyTextInput from "../../../Input/MyTextInput";
 import Spacer from "../../../Spacing/Spacer";
+import { gql, useMutation, useReactiveVar } from "@apollo/client";
+import {
+    EDIT_JOURNAL,
+    GET_JOURNALS,
+    RM_JOURNAL,
+} from "../../../../../graphql/gql/journal";
+import { JOURNAL_TYPENAME } from "../../../../../graphql/apollo/server/typenames";
+import {
+    activeJournalVar,
+    clearActiveJournal,
+} from "../../../../../graphql/apollo/local/state/activeJournal";
 
 type Props = {
     journal: Journal;
@@ -48,12 +59,52 @@ const InitialRow = (props: InitialRowProps) => {
     // PROPS
     const { journal, onSelect, startEditing } = props;
 
+    // LOCAL STATE
+    const activeJournal = useReactiveVar(activeJournalVar);
+
+    // GQL
+    const [rmJournal, { loading: loading_rm, error: error_rm, data: data_rm }] =
+        useMutation(RM_JOURNAL, {
+            variables: {
+                journalId: journal.id,
+            },
+            update(cache, { data: { rmJournal } }) {
+                // 1. Did not rm from server
+                if (!rmJournal) return;
+
+                // 2. If deleted active journal, set active journal = null
+                if (activeJournal === journal.id) clearActiveJournal();
+
+                // 3. Get existing Journals
+                const {
+                    journals: existingJournals = [],
+                }: { journals: Journal[] } = cache.readQuery({
+                    query: GET_JOURNALS,
+                });
+
+                console.log(existingJournals);
+
+                // 4. Overwrite local query cache (rm journal locally)
+                cache.writeQuery({
+                    query: GET_JOURNALS,
+                    data: {
+                        journals: existingJournals.filter(
+                            ({ id }: Journal) => id !== journal.id
+                        ),
+                    },
+                });
+                // Remove deleted Journal from normalized cache
+                cache.gc();
+            },
+        });
+
     // HANDLERS
     const handleEdit = () => {
         startEditing();
     };
     const handleDelete = () => {
         // Call delete mutation on server
+        rmJournal();
     };
 
     // THEME
@@ -95,13 +146,44 @@ const EditingRow = (props: EditingRowProps) => {
     // LOCAL STATE
     const [journalNameEdit, setJournalNameEdit] = useState(journal.name);
 
+    // GQL
+    const [
+        editJournal,
+        { loading: loading_rm, error: error_rm, data: data_rm },
+    ] = useMutation(EDIT_JOURNAL, {
+        variables: {
+            journalId: journal.id,
+            journalEdits: {
+                name: journalNameEdit,
+            },
+        },
+        update(cache, { data: { editJournal } }) {
+            // 1. Overwrite local query cache (edit journal name locally)
+            cache.writeFragment({
+                id: cache.identify({
+                    __typename: JOURNAL_TYPENAME,
+                    id: journal.id,
+                }),
+                fragment: gql`
+                    fragment NewJournal on Journal {
+                        id
+                        userId
+                        name
+                    }
+                `,
+                data: { ...journal, name: journalNameEdit },
+            });
+        },
+    });
+
     // HANDLERS
     const handleCancelEdit = () => {
         endEditing();
     };
 
     const handleSubmitEdit = () => {
-        // Call delete mutation on server
+        // Call edit mutation on server
+        editJournal();
 
         endEditing();
     };
