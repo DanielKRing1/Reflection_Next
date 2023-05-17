@@ -61,8 +61,6 @@ export default () => {
 
     // After Inklings are cached, determine journal phases
     useEffect(() => {
-        if (user === null || journals === null || inklings === null) return;
-
         determineJournalPhase();
     }, [user, journals, inklings]);
 
