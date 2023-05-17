@@ -1,6 +1,7 @@
 import { ApolloClient, HttpLink, InMemoryCache, from } from "@apollo/client";
 
 import authLink from "../links/auth";
+import errorLink from "../links/onError";
 import localState from "../local/schemas";
 
 import jeCacheFieldPolicy from "./fieldPolicy/journalEntryRead";
@@ -57,7 +58,7 @@ const client = new ApolloClient({
         // @ts-ignore
         typePolicies,
     }),
-    link: from([authLink, httpLink]),
+    link: from([errorLink, authLink, httpLink]),
 
     // Local schema types
     typeDefs: localState.typeDefs,
