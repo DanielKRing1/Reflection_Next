@@ -12,6 +12,7 @@ import {
 } from "../graphql/apollo/local/state/activeJournal";
 import { UPDATE_LAST_USEDJID } from "../graphql/gql/updateUser";
 import { GET_JOURNALS } from "../graphql/gql/journal";
+import { getIsLoggedIn } from "../graphql/apollo/local/state/isLoggedIn";
 
 export default () => {
     // LOCAL STATE
@@ -70,6 +71,8 @@ export default () => {
     }, [user, journals]);
 
     useEffect(() => {
+        if (!getIsLoggedIn()) return;
+
         // TODO:
         // If user loading for first time, this will execute, but
         // This should not triggerserver mutation
