@@ -1,6 +1,5 @@
 import React, { useMemo, useRef, useState } from "react";
 import styled, { useTheme } from "styled-components";
-import { FaCheck, FaTrash } from "react-icons/fa";
 
 import { MyTextNoMargin } from "../../../Text/MyText";
 import ClickContainer from "../../../Button/Base/ClickContainer";
@@ -14,8 +13,6 @@ import { GET_JOURNALS } from "../../../../../graphql/gql/journal";
 import { Journal } from "../../../../../db/api/types";
 import FlexCol from "../../../Flex/FlexCol";
 import useOutsideClick from "../../../../../hooks/useOutsideClick";
-import MyButton from "../../../Button/Base/MyButton";
-import FlexRow from "../../../Flex/FlexRow";
 import JournalRow from "./JournalRow";
 import DropdownContainer from "./DropdownContainer";
 
@@ -33,11 +30,12 @@ export default (props: Props) => {
     } = useQuery(GET_JOURNALS, {
         fetchPolicy: "cache-only",
     });
-    const activeJournal = useReactiveVar(activeJournalVar);
+    // Local memo
     const journalMap = useMemo(
         () => arrayToObj(journals, (journal: Journal) => journal.id),
         [journals]
     );
+    const activeJournal = useReactiveVar(activeJournalVar);
 
     // HANDLERS
     const selectionRef = useRef();
@@ -70,7 +68,7 @@ export default (props: Props) => {
             </ClickContainer>
 
             {/* Dropdown Absolute Container */}
-            {selecting && (
+            {activeJournal && selecting && (
                 <DropdownContainer>
                     {/* Dropdown */}
                     <FlexCol>
