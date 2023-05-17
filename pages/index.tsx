@@ -1,3 +1,4 @@
+import styled from "styled-components";
 import Head from "next/head";
 import Link from "next/link";
 import { useReactiveVar } from "@apollo/client";
@@ -26,27 +27,26 @@ export default function Home() {
             <main>
                 <Link href="./history">Go to History</Link>
 
-                <FlexCol>
-                    <BoxShadow>
-                        <FlexCol
-                            style={{
-                                width: "70vw",
-                            }}
-                        >
-                            {journalPhase === JournalPhase.Unknown ? (
-                                <MyText>Loading</MyText>
-                            ) : journalPhase === JournalPhase.CreateJournal ? (
-                                <CreateJournal />
-                            ) : journalPhase === JournalPhase.Inklings ? (
-                                <Inkling />
-                            ) : journalPhase === JournalPhase.Reflection ? (
-                                <Reflecting />
-                            ) : (
-                                <MyText>Idk</MyText>
-                            )}
-                        </FlexCol>
-                    </BoxShadow>
-                </FlexCol>
+                <FramingDiv>
+                    <CenteredDiv>
+                        <BoxShadow>
+                            <FlexCol width="100%">
+                                {journalPhase === JournalPhase.Unknown ? (
+                                    <MyText>Loading</MyText>
+                                ) : journalPhase ===
+                                  JournalPhase.CreateJournal ? (
+                                    <CreateJournal />
+                                ) : journalPhase === JournalPhase.Inklings ? (
+                                    <Inkling />
+                                ) : journalPhase === JournalPhase.Reflection ? (
+                                    <Reflecting />
+                                ) : (
+                                    <MyText>Idk</MyText>
+                                )}
+                            </FlexCol>
+                        </BoxShadow>
+                    </CenteredDiv>
+                </FramingDiv>
             </main>
 
             <footer>
@@ -66,3 +66,17 @@ export default function Home() {
         </div>
     );
 }
+
+const FramingDiv = styled.div`
+    display: flex;
+    width: 100%;
+    justify-content: center;
+`;
+
+const CenteredDiv = styled(FlexCol)`
+    width: 70%;
+
+    border-width: 5rem;
+    border: solid black;
+    border-radius: 0.4rem;
+`;

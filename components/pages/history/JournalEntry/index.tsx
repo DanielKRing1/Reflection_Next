@@ -17,6 +17,8 @@ import { Dict } from "../../../../types/data";
 import { formatTime } from "../../../../utils/time";
 import DMYTitle from "../../../generic/Date/DMYTitle";
 import { MyTextNoMargin } from "../../../generic/Text/MyText";
+import BoxShadow from "../../../generic/BoxShadow";
+import styled from "styled-components";
 
 type JournalEntryProps = {
     journalEntry: JournalEntryType;
@@ -29,22 +31,40 @@ const JournalEntry = (props: JournalEntryProps) => {
     const { isHovered, onMouseEnter, onMouseLeave } = useOnHover();
 
     return (
-        <FlexCol
-            style={{ border: "solid black", padding: "20px" }}
-            onMouseEnter={onMouseEnter}
-            onMouseLeave={onMouseLeave}
-        >
-            <DMYTitle date={new Date(journalEntry.timeId)} pretext={"Entry"} />
+        <FramingDiv>
+            <BoxShadow>
+                <ContentDiv
+                    width="100%"
+                    onMouseEnter={onMouseEnter}
+                    onMouseLeave={onMouseLeave}
+                >
+                    <DMYTitle
+                        date={new Date(journalEntry.timeId)}
+                        pretext={"Entry"}
+                    />
 
-            {journalEntry.reflections.map(({ thoughtId, decision }) => (
-                <JournalEntryThought
-                    key={thoughtId}
-                    thought={thoughtDict[thoughtId]}
-                    reflectionDecision={decision}
-                />
-            ))}
-        </FlexCol>
+                    {journalEntry.reflections.map(({ thoughtId, decision }) => (
+                        <JournalEntryThought
+                            key={thoughtId}
+                            thought={thoughtDict[thoughtId]}
+                            reflectionDecision={decision}
+                        />
+                    ))}
+                </ContentDiv>
+            </BoxShadow>
+        </FramingDiv>
     );
 };
 
 export default JournalEntry;
+
+const FramingDiv = styled.div`
+    padding: 20px 0;
+    background: transparent;
+`;
+
+const ContentDiv = styled(FlexCol)`
+    border: solid black;
+    border-radius: 0.4rem;
+    padding: 20px;
+`;

@@ -70,28 +70,34 @@ export default () => {
     console.log(thoughtDict);
 
     return (
-        <StyledDiv>
-            <Virtuoso
-                style={{ height: "100%", width: "60%" }}
-                data={journalEntries}
-                endReached={loadMore}
-                // overscan={500}
-                useWindowScroll={true}
-                itemContent={(index, journalEntry) => (
-                    <JournalEntry
-                        journalEntry={journalEntry}
-                        thoughtDict={thoughtDict}
-                    />
-                )}
-                components={{ Footer }}
-            />
-        </StyledDiv>
+        <FramingDiv>
+            <CenteredDiv>
+                <Virtuoso
+                    style={{
+                        height: "100%",
+                        width: "100%",
+                    }}
+                    data={journalEntries}
+                    endReached={loadMore}
+                    // overscan={500}
+                    useWindowScroll={true}
+                    itemContent={(index, journalEntry) => (
+                        <JournalEntry
+                            journalEntry={journalEntry}
+                            thoughtDict={thoughtDict}
+                        />
+                    )}
+                    components={{ Footer }}
+                />
+            </CenteredDiv>
+        </FramingDiv>
     );
 };
 
-const StyledDiv = styled.div`
+const FramingDiv = styled.div`
     display: flex;
     justify-content: center;
+    width: 100%;
 
     * {
         -webkit-transition: none !important;
@@ -99,6 +105,11 @@ const StyledDiv = styled.div`
         -o-transition: none !important;
         transition: none !important;
     }
+`;
+
+const CenteredDiv = styled.div`
+    display: flex;
+    width: 60%;
 `;
 
 const Footer = () => {
