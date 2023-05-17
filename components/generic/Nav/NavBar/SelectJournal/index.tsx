@@ -51,26 +51,30 @@ export default (props: Props) => {
         setSelecting(false);
     };
 
+    const journalName = useMemo(() => {
+        if (journalMap[activeJournal] === undefined) return undefined;
+
+        return journalMap[activeJournal].name.length > 8
+            ? `${journalMap[activeJournal].name.slice(0, 12)}...`
+            : journalMap[activeJournal].name;
+    }, [activeJournal, journalMap]);
+
     return (
         // Clicking outside of this 'SelectionContainer'
         // will toggle off the selection process
         <SelectionContainer ref={selectionRef}>
             {/* Toggle Button */}
             <ClickContainer onClick={handleToggleSelect}>
-                <MyTextNoMargin>
-                    {journalMap[activeJournal]
-                        ? journalMap[activeJournal].name
-                        : "----"}
-                </MyTextNoMargin>
+                <MyTextNoMargin>{journalName || "----"}</MyTextNoMargin>
             </ClickContainer>
 
             {/* Dropdown Absolute Container */}
-            {activeJournal && selecting && (
+            {selecting && (
                 <DropdownContainer>
                     {/* Dropdown */}
                     <FlexCol>
                         {/* Move active journal to front of list */}
-                        {(journalMap[activeJournal] !== undefined
+                        {(journalName !== undefined
                             ? [
                                   journalMap[activeJournal],
                                   ...journals.filter(

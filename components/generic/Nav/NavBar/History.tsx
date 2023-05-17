@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 import ClickContainer from "../../Button/Base/ClickContainer";
 import { MyTextNoMargin } from "../../Text/MyText";
+import { HISTORY_PATH } from "../../../../routing/paths";
 
 type Props = {};
 
@@ -13,7 +14,7 @@ export default (props: Props) => {
 
     // HANDLERS
     const handleRouteToHistory = () => {
-        router.push("/history");
+        router.push(HISTORY_PATH);
     };
 
     return (

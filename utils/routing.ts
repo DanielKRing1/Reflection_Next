@@ -1,4 +1,5 @@
 import { NextRouter } from "next/router";
+import { HOME_PATH } from "../routing/paths";
 
 export const goBackOrHome = (router: NextRouter) => {
     if (
@@ -7,6 +8,6 @@ export const goBackOrHome = (router: NextRouter) => {
     ) {
         router.back();
     } else {
-        router.replace("/");
+        router.replace(HOME_PATH);
     }
 };
