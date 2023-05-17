@@ -13,9 +13,22 @@ import { JournalPhase } from "../utils_ui/journalPhase";
 import CreateJournal from "../components/pages/home/CreateJournal";
 import { journalPhaseVar } from "../graphql/apollo/local/state/journalPhase";
 import BoxShadow from "../components/generic/BoxShadow";
+import CenteredColumn from "../components/generic/Container/CenteredColumn";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
+import { CREATE_JOURNAL_PATH, HISTORY_PATH } from "../routing/paths";
 
 export default function Home() {
+    // ROUTER
+    const router = useRouter();
+
+    // LOCAL GQL
     const journalPhase = useReactiveVar(journalPhaseVar);
+
+    useEffect(() => {
+        if (journalPhase === JournalPhase.CreateJournal)
+            router.push(CREATE_JOURNAL_PATH);
+    }, [journalPhase]);
 
     return (
         <div className={styles.container}>
@@ -25,28 +38,19 @@ export default function Home() {
             </Head>
 
             <main>
-                <Link href="./history">Go to History</Link>
+                <Link href={HISTORY_PATH}>Go to History</Link>
 
-                <FramingDiv>
-                    <CenteredDiv>
-                        <BoxShadow>
-                            <FlexCol width="100%">
-                                {journalPhase === JournalPhase.Unknown ? (
-                                    <MyText>Loading</MyText>
-                                ) : journalPhase ===
-                                  JournalPhase.CreateJournal ? (
-                                    <CreateJournal />
-                                ) : journalPhase === JournalPhase.Inklings ? (
-                                    <Inkling />
-                                ) : journalPhase === JournalPhase.Reflection ? (
-                                    <Reflecting />
-                                ) : (
-                                    <MyText>Idk</MyText>
-                                )}
-                            </FlexCol>
-                        </BoxShadow>
-                    </CenteredDiv>
-                </FramingDiv>
+                <CenteredColumn>
+                    {journalPhase === JournalPhase.Unknown ? (
+                        <MyText>Loading</MyText>
+                    ) : journalPhase === JournalPhase.Inklings ? (
+                        <Inkling />
+                    ) : journalPhase === JournalPhase.Reflection ? (
+                        <Reflecting />
+                    ) : (
+                        <MyText>Idk</MyText>
+                    )}
+                </CenteredColumn>
             </main>
 
             <footer>
@@ -66,17 +70,3 @@ export default function Home() {
         </div>
     );
 }
-
-const FramingDiv = styled.div`
-    display: flex;
-    width: 100%;
-    justify-content: center;
-`;
-
-const CenteredDiv = styled(FlexCol)`
-    width: 70%;
-
-    border-width: 5rem;
-    border: solid black;
-    border-radius: 0.4rem;
-`;
