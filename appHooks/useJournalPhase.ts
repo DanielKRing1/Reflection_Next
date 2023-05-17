@@ -15,6 +15,7 @@ import { GET_INKLINGS } from "../graphql/gql/inklings";
 import { activeJournalVar } from "../graphql/apollo/local/state/activeJournal";
 import { GET_JOURNALS } from "../graphql/gql/journal";
 import { GET_USER } from "../graphql/gql/user";
+import { CREATE_JOURNAL_PATH } from "../routing/paths";
 
 export default () => {
     // LOCAL STATE
@@ -66,23 +67,28 @@ export default () => {
 
     // HANDLE JOURNAL PHASE CHANGES
 
-    // useEffect(() => {
-    //     switch (journalPhase) {
-    //         case JournalPhase.Inklings: {
-    //             router.push("/");
-    //             break;
-    //         }
+    useEffect(() => {
+        switch (journalPhase) {
+            case JournalPhase.CreateJournal: {
+                router.push(CREATE_JOURNAL_PATH);
+                break;
+            }
 
-    //         case JournalPhase.Reflection: {
-    //             router.push("/");
-    //             break;
-    //         }
+            // case JournalPhase.Inklings: {
+            //     router.push(HOME_PATH);
+            //     break;
+            // }
 
-    //         default:
-    //         case JournalPhase.Unknown: {
-    //             // Do nothing
-    //             break;
-    //         }
-    //     }
-    // }, [journalPhase]);
+            // case JournalPhase.Reflection: {
+            //     router.push(HOME_PATH);
+            //     break;
+            // }
+
+            // default:
+            // case JournalPhase.Unknown: {
+            //     // Do nothing
+            //     break;
+            // }
+        }
+    }, [journalPhase]);
 };
