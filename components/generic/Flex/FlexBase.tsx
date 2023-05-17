@@ -3,24 +3,26 @@ import styled from "styled-components";
 
 export type FlexContainerProps = Omit<FlexBaseProps, "flexDirection">;
 type FlexBaseProps = {
-  flexDirection: "row" | "column" | "column-reverse" | "row-reverse";
-  justifyContent?:
-    | "flex-start"
-    | "flex-end"
-    | "center"
-    | "space-between"
-    | "space-around"
-    | "space-evenly";
-  alignItems?: "stretch" | "flex-start" | "flex-end" | "center" | "baseline";
+    flexDirection: "row" | "column" | "column-reverse" | "row-reverse";
+    justifyContent?:
+        | "flex-start"
+        | "flex-end"
+        | "center"
+        | "space-between"
+        | "space-around"
+        | "space-evenly";
+    alignItems?: "stretch" | "flex-start" | "flex-end" | "center" | "baseline";
+    width?: string;
 } & React.HTMLAttributes<HTMLDivElement>;
 
 const FlexBase = styled.div<FlexBaseProps>`
-  display: flex;
+    display: flex;
 
-  justify-content: ${({ justifyContent = "flex-start" }: FlexBaseProps) =>
-    justifyContent};
-  flex-direction: ${({ flexDirection }: FlexBaseProps) => flexDirection};
-  align-items: ${({ alignItems = "center" }: FlexBaseProps) => alignItems};
+    justify-content: ${({ justifyContent = "flex-start" }: FlexBaseProps) =>
+        justifyContent};
+    flex-direction: ${({ flexDirection }: FlexBaseProps) => flexDirection};
+    align-items: ${({ alignItems = "center" }: FlexBaseProps) => alignItems};
+    width: ${({ width = "auto" }) => width};
 `;
 
 export default FlexBase;
