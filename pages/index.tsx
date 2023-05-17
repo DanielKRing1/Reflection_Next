@@ -1,26 +1,23 @@
-import styled from "styled-components";
 import Head from "next/head";
 import Link from "next/link";
 import { useReactiveVar } from "@apollo/client";
 
-import FlexCol from "../components/generic/Flex/FlexCol";
 import MyText from "../components/generic/Text/MyText";
 import Inkling from "../components/pages/home/Inkling";
 import Reflecting from "../components/pages/home/Reflecting";
 
 import styles from "../styles/Home.module.css";
 import { JournalPhase } from "../utils_ui/journalPhase";
-import CreateJournal from "../components/pages/home/CreateJournal";
 import { journalPhaseVar } from "../graphql/apollo/local/state/journalPhase";
-import BoxShadow from "../components/generic/BoxShadow";
 import CenteredColumn from "../components/generic/Container/CenteredColumn";
 import { useEffect } from "react";
-import { useRouter } from "next/router";
+
+import useProtectedRouter from "../hooks/useProtectedRouter";
 import { CREATE_JOURNAL_PATH, HISTORY_PATH } from "../routing/paths";
 
 export default function Home() {
     // ROUTER
-    const router = useRouter();
+    const router = useProtectedRouter();
 
     // LOCAL GQL
     const journalPhase = useReactiveVar(journalPhaseVar);

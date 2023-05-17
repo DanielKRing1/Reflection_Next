@@ -3,18 +3,21 @@
  */
 
 import { useQuery } from "@apollo/client";
-import { useRouter } from "next/router";
 import { useEffect } from "react";
+
+import useProtectedRouter from "../hooks/useProtectedRouter";
+import { LOGIN_PATH } from "../routing/paths";
+import { goBackOrHome } from "../utils/routing";
+
 import { GET_IS_LOGGED_IN } from "../graphql/apollo/local/gql/isLoggedIn";
 import { keepSessionFresh } from "../graphql/apollo/local/state/isLoggedIn";
-import { goBackOrHome } from "../utils/routing";
 
 export default () => {
     // Local state query
     const { data } = useQuery(GET_IS_LOGGED_IN);
 
     // Routing
-    const router = useRouter();
+    const router = useProtectedRouter();
 
     // Try to login the first time the app loads
     useEffect(() => {
@@ -23,7 +26,7 @@ export default () => {
 
     // Redirect pages when isLoggedIn changes
     useEffect(() => {
-        if (!data.isLoggedIn) router.push("/login");
-        else if (router.pathname === "/login") goBackOrHome(router);
+        if (!data.isLoggedIn) router.push(LOGIN_PATH);
+        else if (router.pathname === LOGIN_PATH) goBackOrHome(router);
     }, [data.isLoggedIn]);
 };

@@ -1,17 +1,18 @@
 import React from "react";
-import { useRouter } from "next/router";
+import styled from "styled-components";
 import { FaHome } from "react-icons/fa";
 
-import ClickContainer from "../../Button/Base/ClickContainer";
-import styled from "styled-components";
-import { MyTextNoMargin } from "../../Text/MyText";
+import useProtectedRouter from "../../../../hooks/useProtectedRouter";
 import { HOME_PATH } from "../../../../routing/paths";
+
+import ClickContainer from "../../Button/Base/ClickContainer";
+import { MyTextNoMargin } from "../../Text/MyText";
 
 type Props = {};
 
 export default (props: Props) => {
     // ROUTER
-    const router = useRouter();
+    const router = useProtectedRouter();
 
     // HANDLERS
     const handleRouteHome = () => {

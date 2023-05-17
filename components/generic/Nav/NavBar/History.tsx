@@ -1,16 +1,16 @@
 import React from "react";
-import { useRouter } from "next/router";
-import styled from "styled-components";
+
+import useProtectedRouter from "../../../../hooks/useProtectedRouter";
+import { HISTORY_PATH } from "../../../../routing/paths";
 
 import ClickContainer from "../../Button/Base/ClickContainer";
 import { MyTextNoMargin } from "../../Text/MyText";
-import { HISTORY_PATH } from "../../../../routing/paths";
 
 type Props = {};
 
 export default (props: Props) => {
     // ROUTER
-    const router = useRouter();
+    const router = useProtectedRouter();
 
     // HANDLERS
     const handleRouteToHistory = () => {

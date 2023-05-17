@@ -3,10 +3,10 @@
  */
 
 import { useQuery, useReactiveVar } from "@apollo/client";
-import { useRouter } from "next/router";
 import { useEffect } from "react";
 
 import { JournalPhase } from "../utils_ui/journalPhase";
+import useProtectedRouter from "../hooks/useProtectedRouter";
 import {
     determineJournalPhase,
     journalPhaseVar,
@@ -25,7 +25,7 @@ export default () => {
 
     // ROUTING
 
-    const router = useRouter();
+    const router = useProtectedRouter();
 
     // SERVER/LOCAL STATE
 
