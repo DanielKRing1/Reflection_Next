@@ -14,6 +14,7 @@ import useProtectedRouter from "../../../../../hooks/useProtectedRouter";
 import { goBackOrHome } from "../../../../../utils/routing";
 import { setActiveJournal } from "../../../../../graphql/apollo/local/state/activeJournal";
 import { GET_JOURNALS } from "../../../../../graphql/gql/journal";
+import styled from "styled-components";
 
 const InputForm = () => {
     // ROUTER
@@ -54,15 +55,19 @@ const InputForm = () => {
     };
 
     return (
-        <FlexCol>
+        <StyledFlexCol>
             <Input
                 value={newJournalName}
                 onChange={setNewJournalName}
                 onEnter={handleCreateJournal}
             />
             <CreateJournalButton onCreateJournal={handleCreateJournal} />
-        </FlexCol>
+        </StyledFlexCol>
     );
 };
 
 export default InputForm;
+
+const StyledFlexCol = styled(FlexCol)`
+    max-width: 100%;
+`;

@@ -6,6 +6,9 @@ type MyButtonProps = {
     cursor?: "pointer" | "text";
 };
 const MyButton = styled.button<MyButtonProps>`
+    box-sizing: border-box;
+    max-width: 100%;
+
     background-color: ${({ theme, color }) => color || theme.colors.main};
     color: ${({ theme }) => theme.colors.text};
     border-color: ${({ borderColor }) => borderColor};
