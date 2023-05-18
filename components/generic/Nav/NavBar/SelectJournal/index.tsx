@@ -55,7 +55,7 @@ export default (props: Props) => {
     const journalName = useMemo(() => {
         if (journalMap[activeJournal] === undefined) return undefined;
 
-        return journalMap[activeJournal].name.length > 8
+        return journalMap[activeJournal].name.length > 12
             ? `${journalMap[activeJournal].name.slice(0, 12)}...`
             : journalMap[activeJournal].name;
     }, [activeJournal, journalMap]);
