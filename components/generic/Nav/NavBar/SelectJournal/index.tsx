@@ -15,6 +15,7 @@ import FlexCol from "../../../Flex/FlexCol";
 import useOutsideClick from "../../../../../hooks/useOutsideClick";
 import JournalRow from "./JournalRow";
 import DropdownContainer from "./DropdownContainer";
+import CreateJournalButton from "./CreateJournalButton";
 
 type Props = {};
 
@@ -65,7 +66,7 @@ export default (props: Props) => {
         <SelectionContainer ref={selectionRef}>
             {/* Toggle Button */}
             <ClickContainer onClick={handleToggleSelect}>
-                <MyTextNoMargin>{journalName || "----"}</MyTextNoMargin>
+                <MyTextNoMargin>{journalName || "____"}</MyTextNoMargin>
             </ClickContainer>
 
             {/* Dropdown Absolute Container */}
@@ -90,6 +91,8 @@ export default (props: Props) => {
                             />
                         ))}
                     </FlexCol>
+
+                    <CreateJournalButton />
                 </DropdownContainer>
             )}
         </SelectionContainer>
