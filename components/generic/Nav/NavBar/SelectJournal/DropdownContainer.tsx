@@ -2,6 +2,9 @@ import styled from "styled-components";
 
 export default styled.div`
     position: absolute;
+    left: 0;
+    right: 0;
+
     border: 1px solid;
     border-top: none;
     border-radius: 5px;

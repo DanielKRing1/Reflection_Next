@@ -97,6 +97,6 @@ export default (props: Props) => {
 };
 
 const SelectionContainer = styled.div`
-    position: "relative",
-    width: "100%",
+    position: relative;
+    width: 100%;
 `;
