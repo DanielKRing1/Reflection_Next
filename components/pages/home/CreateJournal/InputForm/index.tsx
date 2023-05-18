@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 
 // GENERIC COMPONENTS
-import FlexRow from "../../../../generic/Flex/FlexRow";
+import FlexCol from "../../../../generic/Flex/FlexCol";
 
 // PAGE-SPECIFIC COMPONENTS
 import Input from "./Input";
@@ -54,14 +54,14 @@ const InputForm = () => {
     };
 
     return (
-        <FlexRow>
+        <FlexCol>
             <Input
                 value={newJournalName}
                 onChange={setNewJournalName}
                 onEnter={handleCreateJournal}
             />
             <CreateJournalButton onCreateJournal={handleCreateJournal} />
-        </FlexRow>
+        </FlexCol>
     );
 };
 
