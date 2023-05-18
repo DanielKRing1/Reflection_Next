@@ -4,6 +4,8 @@ type MyTextProps = {
     color?: string;
 };
 const MyText = styled.div<MyTextProps>`
+    white-space: nowrap;
+
     box-sizing: border-box;
     max-width: 100%;
 
