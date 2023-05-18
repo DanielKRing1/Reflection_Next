@@ -33,7 +33,7 @@ export default (props: Props) => {
     const [isEditing, setIsEditing] = useState(false);
 
     return (
-        <div>
+        <>
             {!isEditing ? (
                 <InitialRow
                     {...props}
@@ -45,7 +45,7 @@ export default (props: Props) => {
                     endEditing={() => setIsEditing(false)}
                 />
             )}
-        </div>
+        </>
     );
 };
 
@@ -111,25 +111,29 @@ const InitialRow = (props: InitialRowProps) => {
     const theme = useTheme();
 
     return (
-        <FlexRow justifyContent="space-between">
-            <ClickContainer onClick={onSelect}>
-                <MyTextNoMargin>{journal.name}</MyTextNoMargin>
-            </ClickContainer>
+        <FlexRow width="100%" justifyContent="space-between">
+            <FlexRow>
+                <ClickContainer onClick={onSelect}>
+                    <MyTextNoMargin>{journal.name}</MyTextNoMargin>
+                </ClickContainer>
 
-            <Spacer x={10} />
+                <Spacer x={10} />
+            </FlexRow>
 
-            <ClickContainer onClick={handleEdit}>
-                <FaEdit size={"25"} />
-            </ClickContainer>
+            <FlexRow>
+                <ClickContainer onClick={handleEdit}>
+                    <FaEdit size={"25"} />
+                </ClickContainer>
 
-            <Spacer x={10} />
+                <Spacer x={10} />
 
-            <ConfirmationButton
-                onConfirmed={handleDelete}
-                InitialComponent={<FaTrash />}
-            />
+                <ConfirmationButton
+                    onConfirmed={handleDelete}
+                    InitialComponent={<FaTrash />}
+                />
 
-            <Spacer x={10} />
+                <Spacer x={10} />
+            </FlexRow>
         </FlexRow>
     );
 };

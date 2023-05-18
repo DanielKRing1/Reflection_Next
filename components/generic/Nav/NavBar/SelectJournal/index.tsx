@@ -72,7 +72,7 @@ export default (props: Props) => {
             {selecting && (
                 <DropdownContainer>
                     {/* Dropdown */}
-                    <FlexCol>
+                    <FlexCol alignItems="flex-start">
                         {/* Move active journal to front of list */}
                         {(journalName !== undefined
                             ? [
