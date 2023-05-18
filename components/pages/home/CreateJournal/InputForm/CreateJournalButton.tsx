@@ -1,6 +1,6 @@
 // THIRD PARTY
 import React from "react";
-import { useDispatch } from "react-redux";
+import { FaArrowRight } from "react-icons/fa";
 
 // MY COMPONENTS
 import MyButton from "../../../../generic/Button/Base/MyButton";
@@ -14,7 +14,9 @@ const CreateJournalButton = (props: CreateJournalButtonProps) => {
 
     return (
         <>
-            <MyButton onClick={onCreateJournal}>Create New Journal</MyButton>
+            <MyButton onClick={onCreateJournal}>
+                <FaArrowRight />
+            </MyButton>
         </>
     );
 };
