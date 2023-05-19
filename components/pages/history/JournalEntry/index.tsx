@@ -1,5 +1,5 @@
 // THIRD PARTY
-import React from "react";
+import React, { useMemo } from "react";
 
 // PAGE-SPECIFIC COMPONENTS
 import JournalEntryThought from "./JournalEntryThought";
@@ -7,6 +7,7 @@ import JournalEntryThought from "./JournalEntryThought";
 // TYPES
 import {
     JournalEntry as JournalEntryType,
+    Reflection,
     Thought,
 } from "../../../../db/api/types";
 
@@ -17,6 +18,7 @@ import { Dict } from "../../../../types/data";
 import DMYTitle from "../../../generic/Date/DMYTitle";
 import BoxShadow from "../../../generic/BoxShadow";
 import styled from "styled-components";
+import Spacer from "../../../generic/Spacing/Spacer";
 
 type JournalEntryProps = {
     journalEntry: JournalEntryType;
@@ -24,6 +26,27 @@ type JournalEntryProps = {
 };
 const JournalEntry = (props: JournalEntryProps) => {
     const { journalEntry, thoughtDict } = props;
+
+    console.log(journalEntry.reflections);
+
+    // LOCAL STATE
+    const [thoughtReflections, inklingReflections] = useMemo(() => {
+        const [thoughtReflections, inklingReflections] =
+            journalEntry.reflections.reduce<Reflection[][]>(
+                (acc, cur) => {
+                    if (cur.decision < 2) acc[0].push(cur);
+                    else acc[1].push(cur);
+
+                    return acc;
+                },
+                [[], []]
+            );
+
+        return [
+            thoughtReflections.sort((a, b) => a.decision - b.decision),
+            inklingReflections.sort((a, b) => a.decision - b.decision),
+        ];
+    }, [journalEntry]);
 
     // HOOKS
     const { isHovered, onMouseEnter, onMouseLeave } = useOnHover();
@@ -41,7 +64,19 @@ const JournalEntry = (props: JournalEntryProps) => {
                         pretext={"Entry"}
                     />
 
-                    {journalEntry.reflections.map(({ thoughtId, decision }) => (
+                    <Spacer y={10} />
+
+                    {thoughtReflections.map(({ thoughtId, decision }) => (
+                        <JournalEntryThought
+                            key={thoughtId}
+                            thought={thoughtDict[thoughtId]}
+                            reflectionDecision={decision}
+                        />
+                    ))}
+
+                    <Spacer y={40} />
+
+                    {inklingReflections.map(({ thoughtId, decision }) => (
                         <JournalEntryThought
                             key={thoughtId}
                             thought={thoughtDict[thoughtId]}
