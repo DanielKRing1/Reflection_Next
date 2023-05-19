@@ -13,7 +13,7 @@ import ThoughtsList from "./Selection/ThoughtsList";
 const Reflecting = () => {
     return (
         <FlexCol>
-            <MyText>Reflecting</MyText>
+            <MyText>What's still Relevant?</MyText>
 
             <InklingsList />
             <ThoughtsList />

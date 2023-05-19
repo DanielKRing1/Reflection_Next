@@ -8,13 +8,13 @@ import MyText from "../../../generic/Text/MyText";
 import InputForm from "./InputForm";
 
 const Inkling = () => {
-  return (
-    <>
-      <MyText>Inkling</MyText>
+    return (
+        <>
+            <MyText>What's been on your Mind?</MyText>
 
-      <InputForm />
-    </>
-  );
+            <InputForm />
+        </>
+    );
 };
 
 export default Inkling;
