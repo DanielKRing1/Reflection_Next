@@ -73,7 +73,7 @@ export default (props: Props) => {
             {selecting && (
                 <DropdownContainer>
                     {/* Dropdown */}
-                    <FlexCol alignItems="flex-start">
+                    <FlexCol width="100%" alignItems="flex-start">
                         {/* Move active journal to front of list */}
                         {(journalName !== undefined
                             ? [
@@ -90,9 +90,9 @@ export default (props: Props) => {
                                 onSelect={() => handleSelectJournal(journal.id)}
                             />
                         ))}
-                    </FlexCol>
 
-                    <CreateJournalButton />
+                        <CreateJournalButton />
+                    </FlexCol>
                 </DropdownContainer>
             )}
         </SelectionContainer>
