@@ -35,8 +35,6 @@ export default function Home() {
             </Head>
 
             <main>
-                <Link href={HISTORY_PATH}>Go to History</Link>
-
                 <CenteredColumn>
                     {journalPhase === JournalPhase.Unknown ? (
                         <MyText>Loading</MyText>
