@@ -16,6 +16,9 @@ ENV NEXT_TELEMETRY_DISABLED 1
 # Example:
 # ARG NEXT_PUBLIC_EXAMPLE="value here"
 
+ARG NEXT_PUBLIC_SESSION_BASE_URL
+ARG NEXT_PUBLIC_GQL_URL
+
 RUN yarn build
 
 # If using npm comment out above and use below instead

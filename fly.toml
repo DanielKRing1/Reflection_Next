@@ -8,8 +8,8 @@ processes = []
 
 [build]
   [build.args]
-    NEXT_PUBLIC_EXAMPLE = "Value goes here"
-
+    NEXT_PUBLIC_SESSION_BASE_URL="http://localhost:4000"
+    NEXT_PUBLIC_GQL_URL="http://localhost:4000/graphql"
 [env]
   PORT = "8080"
 
