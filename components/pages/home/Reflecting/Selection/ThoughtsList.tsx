@@ -10,7 +10,7 @@ import ReflectionRow from "./ReflectionRow";
 import { GET_JOURNAL_ENTRIES } from "../../../../../graphql/gql/journalEntry";
 import { activeJournalVar } from "../../../../../graphql/apollo/local/state/activeJournal";
 import { GET_THOUGHTS } from "../../../../../graphql/gql/thoughts";
-import { Thought } from "../../../../../db/api/types";
+import { Thought } from "../../../../../types/db";
 import { arrayToObj } from "../../../../../utils/obj";
 
 type ThoughtsListProps = {};

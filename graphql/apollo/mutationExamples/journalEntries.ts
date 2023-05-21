@@ -2,7 +2,7 @@ import { gql, useMutation } from "@apollo/client";
 
 import { CREATE_JOURNAL_ENTRY } from "../../gql/journalEntry";
 import { getActiveJournal } from "../local/state/activeJournal";
-import { JournalEntry, Reflection } from "../../../db/api/types";
+import { JournalEntry, Reflection } from "../../../types/db";
 import {
     getInklingReflections,
     getThoughtReflections,

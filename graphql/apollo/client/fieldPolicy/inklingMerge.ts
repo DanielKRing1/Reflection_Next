@@ -1,4 +1,4 @@
-import { Inkling } from "../../../../db/api/types";
+import { Inkling } from "../../../../types/db";
 
 export default {
     inklings: {

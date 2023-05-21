@@ -6,7 +6,7 @@ import { getActiveJournal } from "../../../../graphql/apollo/local/state/activeJ
 import JournalEntry from "../JournalEntry";
 import { GET_THOUGHTS } from "../../../../graphql/gql/thoughts";
 import { useCallback, useMemo } from "react";
-import { Thought } from "../../../../db/api/types";
+import { Thought } from "../../../../types/db";
 import { arrayToObj } from "../../../../utils/obj";
 import { hasMoreJEVar } from "../../../../graphql/apollo/local/state/hasMoreJE";
 import styled from "styled-components";

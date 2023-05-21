@@ -19,7 +19,7 @@ import {
 } from "../../../../../graphql/apollo/local/state/pendingReflections";
 import client from "../../../../../graphql/apollo/client/client";
 import { GET_INKLINGS } from "../../../../../graphql/gql/inklings";
-import { JournalEntry } from "../../../../../db/api/types";
+import { JournalEntry } from "../../../../../types/db";
 import { setJournalPhaseInklings } from "../../../../../graphql/apollo/local/state/journalPhase";
 import {
     REFLECTION_TYPENAME,

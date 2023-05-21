@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 import client from "../client";
-import { JournalEntry } from "../../../../db/api/types";
+import { JournalEntry } from "../../../../types/db";
 import { THOUGHT_TYPENAME } from "../../server/typenames";
 import { GET_THOUGHTS } from "../../../gql/thoughts";
 import { getActiveJournal } from "../../local/state/activeJournal";

@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import dbDriver from "../../../db/api";
 
 // TYPES
-import { ThoughtsDict } from "../../../db/api/types";
+import { ThoughtsDict } from "../../../types/db";
 import { ThunkConfig } from "../../types";
 
 // INITIAL STATE

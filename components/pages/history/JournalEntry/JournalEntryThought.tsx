@@ -10,7 +10,7 @@ import { MyTextNoMargin } from "../../../generic/Text/MyText";
 import { formatTime } from "../../../../utils/time";
 
 // TYPES
-import { ReflectionDecision, Thought } from "../../../../db/api/types";
+import { ReflectionDecision, Thought } from "../../../../types/db";
 import FlexRow from "../../../generic/Flex/FlexRow";
 import DMYLabel from "../../../generic/Date/DMYLabel";
 

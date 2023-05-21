@@ -2,7 +2,7 @@ import { MutationTuple, useMutation } from "@apollo/client";
 
 import { GET_JOURNAL_ENTRIES } from "../../gql/journalEntry";
 import { getActiveJournal } from "../local/state/activeJournal";
-import { Inkling } from "../../../db/api/types";
+import { Inkling } from "../../../types/db";
 import client from "../client/client";
 import { COMMIT_INKLINGS, GET_INKLINGS } from "../../gql/inklings";
 import {

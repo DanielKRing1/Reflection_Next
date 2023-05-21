@@ -5,7 +5,7 @@ import { FaEdit, FaTrash, FaTimes } from "react-icons/fa";
 import ClickContainer from "../../../Button/Base/ClickContainer";
 import FlexRow from "../../../Flex/FlexRow";
 import { MyTextNoMargin } from "../../../Text/MyText";
-import { Journal } from "../../../../../db/api/types";
+import { Journal } from "../../../../../types/db";
 import ConfirmationButton from "../../../Button/ConfirmationButton";
 import MyTextInput from "../../../Input/MyTextInput";
 import Spacer from "../../../Spacing/Spacer";

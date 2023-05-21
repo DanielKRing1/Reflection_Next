@@ -10,7 +10,7 @@ import {
 } from "../../../../../graphql/apollo/local/state/activeJournal";
 import { arrayToObj } from "../../../../../utils/obj";
 import { GET_JOURNALS } from "../../../../../graphql/gql/journal";
-import { Journal } from "../../../../../db/api/types";
+import { Journal } from "../../../../../types/db";
 import FlexCol from "../../../Flex/FlexCol";
 import useOutsideClick from "../../../../../hooks/useOutsideClick";
 import JournalRow from "./JournalRow";

@@ -3,7 +3,7 @@ import { FieldFunctionOptions, gql } from "@apollo/client";
 import { genCacheId } from "../../local/utils/id";
 import { THOUGHT_TYPENAME } from "../../server/typenames";
 
-import { Thought } from "../../../../db/api/types";
+import { Thought } from "../../../../types/db";
 
 export default {
     reflections: {

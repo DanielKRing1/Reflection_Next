@@ -1,5 +1,5 @@
 import { gql } from "@apollo/client";
-import { Thought } from "../../../../db/api/types";
+import { Thought } from "../../../../types/db";
 import { Dict } from "../../../../types/data";
 import { THOUGHT_TYPENAME } from "../../server/typenames";
 

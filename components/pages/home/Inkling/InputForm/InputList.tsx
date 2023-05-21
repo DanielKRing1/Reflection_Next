@@ -4,7 +4,7 @@ import { useReactiveVar } from "@apollo/client";
 import FlexCol from "../../../../generic/Flex/FlexCol";
 import InputRow from "./InputRow";
 
-import { Inkling } from "../../../../../db/api/types";
+import { Inkling } from "../../../../../types/db";
 import { nothingFocused } from "../../../../../utils/focus";
 import { pendingInklingsVar } from "../../../../../graphql/apollo/local/state/pendingInklings";
 

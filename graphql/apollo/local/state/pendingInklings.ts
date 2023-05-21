@@ -1,6 +1,6 @@
 import { makeVar } from "@apollo/client";
 
-import { Inkling, Inklings } from "../../../../db/api/types";
+import { Inkling, Inklings } from "../../../../types/db";
 import { addToList, editListIndex, rmFromList } from "./utils";
 
 // Initializes to empty array

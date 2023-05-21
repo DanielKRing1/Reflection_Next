@@ -14,7 +14,7 @@ import { InputList } from "./InputList";
 // TYPES
 import { INKLING_ERROR_TIMEOUT_MS } from "../../../../../constants/error";
 import { useReactiveVar } from "@apollo/client";
-import { Inkling, Inklings } from "../../../../../db/api/types";
+import { Inkling, Inklings } from "../../../../../types/db";
 import {
     addPendingInkling,
     editPendingInkling,

@@ -9,7 +9,7 @@ import {
     JournalEntry as JournalEntryType,
     Reflection,
     Thought,
-} from "../../../../db/api/types";
+} from "../../../../types/db";
 
 // UTILS
 import useOnHover from "../../../../hooks/useOnHover";

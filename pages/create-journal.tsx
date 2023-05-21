@@ -1,8 +1,7 @@
 import Head from "next/head";
-import Link from "next/link";
 
 import styles from "../styles/Home.module.css";
-import CreateJournal from "../components/pages/home/CreateJournal";
+import CreateJournal from "../components/pages/create-journal/CreateJournal";
 
 export default function History() {
     return (

@@ -6,7 +6,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 // TYPES
 import { ThunkConfig } from "../../types";
 import { Dict } from "../../../types/data";
-import { Inkling, Inklings } from "../../../db/api/types";
+import { Inkling, Inklings } from "../../../types/db";
 import dbDriver from "../../../db/api";
 import { setJournalingPhase } from "../../journalingPhaseSlice";
 import { JournalingPhase } from "../../journalingPhaseSlice/types";

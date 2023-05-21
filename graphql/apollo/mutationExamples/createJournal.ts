@@ -6,7 +6,7 @@ import {
 } from "../local/state/activeJournal";
 import { setJournalPhaseInklings } from "../local/state/journalPhase";
 import { CREATE_JOURNAL, GET_JOURNALS } from "../../gql/journal";
-import { Journal } from "../../../db/api/types";
+import { Journal } from "../../../types/db";
 
 export default (): MutationTuple<any, any, any, any> => {
     /**
