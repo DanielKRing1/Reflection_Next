@@ -1,6 +1,8 @@
-const BASE_URL = "http://localhost:4000";
+const BASE_URL = process.env.NEXT_PUBLIC_SESSION_BASE_URL;
 
 // ACCESS SESSION
+
+console.log(BASE_URL);
 
 export const CREATE_USER_URL = `${BASE_URL}/login/create-user`;
 export const LOGIN_URL = `${BASE_URL}/login`;
