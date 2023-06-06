@@ -9,8 +9,9 @@ Reflection is a bare-bones, very minimal Journal for reflecting on priorities.
 
 ## Too many options?
 I feel spread thin when I have too many thoughts on a topic:
-- Which thoughts should be priorities...?
-- Have my priorities changed...?
+>Which thoughts should be priorities...?
+
+>Have my priorities changed...?
 
 ## Reflect on priorities.
 Create a Journal and iterate over what Thoughts are still valuable to you:
