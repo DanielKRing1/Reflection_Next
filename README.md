@@ -1,6 +1,8 @@
 
 # Reflection Web App
 
+Reflection is a bare-bones, very minimal Journal for reflecting on priorities.
+
 ### Check it out at -> https://rfltn.asianpersonn.top/
 
 <hr/>
@@ -11,9 +13,7 @@ I feel spread thin when I have too many thoughts on a topic:
 - Have my priorities changed...?
 
 ## Reflect on priorities.
-Reflection is a bare-bones, very minimal Journal for reflecting on priorities.
-<br/>
-Create a Journal and, over time, iterate over what Thoughts are still valuable to you:
+Create a Journal and iterate over what Thoughts are still valuable to you:
 
 
 >
@@ -31,10 +31,10 @@ Create a Journal and, over time, iterate over what Thoughts are still valuable t
 
 
 ## Simple Journaling
->Create a "Journal" for any set of Thoughts in your life.
->List the important Thoughts.
->Go outside.
->Come back and decide which ones still matter to you.
+1. Create a "Journal" for any set of Thoughts in your life.
+2. List the important Thoughts.
+3. Go outside.
+4. Decide which Thoughts still matter to you.
 
 ### Check it out at -> https://rfltn.asianpersonn.top/
 
