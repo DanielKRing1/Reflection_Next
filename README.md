@@ -1,12 +1,14 @@
 
 # Reflection Web App
 
-Reflection is a bare-bones, very minimal Journal for reflecting on priorities.
-
 #### Front End: NextJs + React + Apollo Client
 #### Back End: NodeJs + Express + Apollo Server + Prisma
 #### Database: Postgres + Redis session store
 #### Deploy: Fly.io + Docker
+
+<br/>
+
+Reflection is a bare-bones, very minimal Journal for reflecting on priorities.
 
 ### Check it out at -> https://rfltn.asianpersonn.top/
 
