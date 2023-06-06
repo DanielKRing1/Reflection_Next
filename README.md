@@ -1,3 +1,4 @@
+# Reflection Web App
 
 ## Too many options?
 I feel spread thin when I have too many thoughts on a topic:
@@ -11,19 +12,21 @@ Reflection is a bare-bones, very minimal Journal for reflecting on priorities.
 <br/>
 Create a Journal and, over time, iterate over what Thoughts are still valuable to you:
 
+
+> **
 Create a "Healthy Diet Journal"
 &nbsp;&nbsp;&nbsp;&nbsp;Day 1-> Apples, Oranges, Kale, Walnuts
 &nbsp;&nbsp;&nbsp;&nbsp;Day ? -> ~~Apples,~~ Oranges, ~~Kale,~~ Walnuts, Multi-Vitamin, Salmon -> ...
 <br/>
-
 Create a "Healthy Body Journal"
 &nbsp;&nbsp;&nbsp;&nbsp;Day 1-> 12am bedtime, Gym, Walk, Stretch
 &nbsp;&nbsp;&nbsp;&nbsp;Day ? -> ~~12am bedtime,~~ Gym, ~~Walk,~~ ~~Stretch~~ 11pm bedtime, Jog, Yoga -> ...
 <br/>
-
 Create a "Todo Journal"
 &nbsp;&nbsp;&nbsp;&nbsp;Day 1-> Finish Reflection App, Produce Music
 &nbsp;&nbsp;&nbsp;&nbsp;Day ? -> ~~Finish Reflection App,~~ Produce Music, Hike Pantera Park, Cook Taiwanese Beef Noodle Soup -> ...
+<br/>
+
 
 ## Simple Journaling
 Create a "Journal" for any set of Thoughts in your life.
