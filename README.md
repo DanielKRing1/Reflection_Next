@@ -1,8 +1,6 @@
 
 # Reflection Web App
 
-Reflection is a bare-bones, very minimal Journal for reflecting on priorities.
-
 ### Check it out at -> https://rfltn.asianpersonn.top/
 
 <br/>
@@ -13,6 +11,10 @@ Reflection is a bare-bones, very minimal Journal for reflecting on priorities.
 #### Deploy: Fly.io + Docker
 
 <hr/>
+
+# What is it?
+
+Reflection is a bare-bones, very minimal Journal for reflecting on priorities.
 
 ## Too many options?
 I feel spread thin when I have too many thoughts on a topic:
