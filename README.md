@@ -7,9 +7,7 @@
 
 ## Too many options?
 I feel spread thin when I have too many thoughts on a topic:
-<br/>
 - Which thoughts should be priorities...?
-<br/>
 - Have my priorities changed...?
 
 ## Reflect on priorities.
