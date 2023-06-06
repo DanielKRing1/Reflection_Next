@@ -3,6 +3,11 @@
 
 Reflection is a bare-bones, very minimal Journal for reflecting on priorities.
 
+#### Front End: NextJs + React + Apollo Client
+#### Back End: NodeJs + Express + Apollo Server + Prisma
+#### Database: Postgres + Redis session store
+#### Deploy: Fly.io + Docker
+
 ### Check it out at -> https://rfltn.asianpersonn.top/
 
 <hr/>
