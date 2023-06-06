@@ -2,7 +2,7 @@ import React from "react";
 import { ApolloProvider } from "@apollo/client";
 
 import client from "./client";
-import AppPhaseManager from "./AppPhaseManager";
+import AppStateManager from "./AppStateManager";
 
 // APOLLO PROVIDER
 
@@ -12,7 +12,7 @@ export default (props: ApolloProviderProps) => {
 
     return (
         <ApolloProvider client={client}>
-            <AppPhaseManager>{children}</AppPhaseManager>
+            <AppStateManager>{children}</AppStateManager>
         </ApolloProvider>
     );
 };

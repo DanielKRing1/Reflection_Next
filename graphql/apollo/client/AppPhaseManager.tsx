@@ -16,8 +16,8 @@ import useJournalPhase from "../../../appHooks/useJournalPhase";
 import useLoginChange from "../../../appHooks/useLoginChange";
 import useSyncActiveJournal from "../../../appHooks/useSyncActiveJournal";
 
-type AppPhaseManagerProps = { children: React.ReactNode };
-export default ({ children }: AppPhaseManagerProps) => {
+type AppStateManagerProps = { children: React.ReactNode };
+export default ({ children }: AppStateManagerProps) => {
     useLoginChange();
     useHydrateApp();
     useHydrateJournal();
