@@ -27,8 +27,8 @@ Create a Journal and iterate over what Thoughts are still valuable to you:
 >&nbsp;&nbsp;&nbsp;&nbsp;Day ? -> ~~12am bedtime,~~ Gym, ~~Walk,~~ ~~Stretch~~ 11pm bedtime, Jog, Yoga -> ...
 
 >Create a "Todo Journal"\
->&nbsp;&nbsp;&nbsp;&nbsp;Day 1-> Finish Reflection App, Produce Music\
->&nbsp;&nbsp;&nbsp;&nbsp;Day ? -> ~~Finish Reflection App,~~ Produce Music, Hike >Pantera Park, Cook Taiwanese Beef Noodle Soup -> ...
+>&nbsp;&nbsp;&nbsp;&nbsp;Day 1-> Finish Reflection App\
+>&nbsp;&nbsp;&nbsp;&nbsp;Day ? -> ~~Finish Reflection App,~~ Produce Music, Hike Pantera Park, Cook Taiwanese Beef Noodle Soup -> ...
 
 
 ## Simple Journaling
