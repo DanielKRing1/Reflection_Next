@@ -1,44 +1,36 @@
-<h2>Too many options?</h2>
-I feel spread thin when I have too many thoughts on a topic:
-<\br>
-<space><space><space><space>Which thoughts should be priorities...
-<\br>
-<space><space><space><space>Have my priorities changed...?
 
-<h2>Reflection is a bare-bones, very minimal Journal for reflecting on priorities.</h2>
+##Too many options?
+I feel spread thin when I have too many thoughts on a topic:
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Which thoughts should be priorities...
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Have my priorities changed...?
+
+##Reflect on priorities.
+Reflection is a bare-bones, very minimal Journal for reflecting on priorities.
+<br/>
 Create a Journal and, over time, iterate over what Thoughts are still valuable to you:
 
 Create a "Healthy Diet Journal"
-<\br>
-<space><space><space><space>Day 1-> Apples, Oranges, Kale, Walnuts
-<\br>
-<space><space><space><space>Day ?-> ~~Apples,~~ Oranges, ~~Kale,~~ Walnuts, Multi-Vitamin, Salmon -> ...
-<\br>
-<\br>
+&nbsp;&nbsp;&nbsp;&nbsp;Day 1-> Apples, Oranges, Kale, Walnuts
+&nbsp;&nbsp;&nbsp;&nbsp;Day ? -> ~~Apples,~~ Oranges, ~~Kale,~~ Walnuts, Multi-Vitamin, Salmon -> ...
+<br/>
 
 Create a "Healthy Body Journal"
-<\br>
-<space><space><space><space>Day 1-> 12am bedtime, Gym, Walk, Stretch
-<\br>
-<space><space><space><space>Day ?-> ~~12am bedtime,~~ Gym, ~~Walk,~~ ~~Stretch~~ 11pm bedtime, Jog, Yoga -> ...
-<\br>
-<\br>
+&nbsp;&nbsp;&nbsp;&nbsp;Day 1-> 12am bedtime, Gym, Walk, Stretch
+&nbsp;&nbsp;&nbsp;&nbsp;Day ? -> ~~12am bedtime,~~ Gym, ~~Walk,~~ ~~Stretch~~ 11pm bedtime, Jog, Yoga -> ...
+<br/>
 
 Create a "Todo Journal"
-<\br>
-<space><space><space><space>Day 1-> Finish Reflection App, Produce Music
-<\br>
-<space><space><space><space>Day ?-> ~~Finish Reflection App,~~ Produce Music, Hike Pantera Park, Cook Taiwanese Beef Noodle Soup -> ...
-<\br>
-<\br>
+&nbsp;&nbsp;&nbsp;&nbsp;Day 1-> Finish Reflection App, Produce Music
+&nbsp;&nbsp;&nbsp;&nbsp;Day ? -> ~~Finish Reflection App,~~ Produce Music, Hike Pantera Park, Cook Taiwanese Beef Noodle Soup -> ...
 
-<h2>Create a "Journal" for any set of Thoughts in your life.</h2>
+##Simple Journaling
+Create a "Journal" for any set of Thoughts in your life.
 List the important Thoughts.
-<\br>
 Go outside.
-<\br>
 Come back and decide which ones still matter to you.
 
-<h2>Check it out at -> https://rfltn.asianpersonn.top/</h2>
+##Check it out at -> https://rfltn.asianpersonn.top/
 
-<h2>Also check out the Express/Apollo GraphQL repo -> https://github.com/DanielKRing1/Reflection_Express</h2>
+##Also check out the Express/Apollo GraphQL repo -> https://github.com/DanielKRing1/Reflection_Express
