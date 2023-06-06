@@ -1,11 +1,11 @@
-import { DataWId, Dict } from "../../types/data";
-
 // 1. User adds inklings to UI
 // 2. User submits inklings to Temp table
 // 3. User Reflects on Inklings and last JournalEntry (selects some)
 // 4. User submits selection
 // 4.1. All Inklings are coverted into Thoughts (add timestamp) and added to the ThoughtDict
 // 4.2. The selected and discarded Thoughts and Inklings are recorded in a new JournalEntry
+
+import { Dict } from "./data";
 
 // THE BEGINNING OF A THOUGHT - AN IDEA NOT YET COMMITTED TO THE JOURNAL
 
