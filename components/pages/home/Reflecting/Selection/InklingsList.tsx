@@ -23,7 +23,7 @@ export default (props: InklingsListProps) => {
 
     return (
         <>
-            <p>Inklings</p>
+            <p>New Thoughts</p>
             {inklings.map(({ timeId, text }, i: number) => {
                 const keep =
                     inklingReflections[timeId] !== undefined

@@ -51,7 +51,7 @@ export default (props: ThoughtsListProps) => {
 
     return (
         <>
-            <p>Thoughts</p>
+            <p>Past Thoughts</p>
 
             {journalEntries.length > 0 &&
                 journalEntries[0].reflections
