@@ -13,7 +13,4 @@ export const REFRESH_URL = `${BASE_URL}/refresh`;
 
 // LOGOUT
 
-export const LOGOUT_URLS = [
-    `${BASE_URL}/login/logout`,
-    `${BASE_URL}/refresh/logout`,
-];
+export const LOGOUT_URL = `${BASE_URL}/login/logout`;
