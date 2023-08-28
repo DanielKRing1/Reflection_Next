@@ -16,7 +16,7 @@ export const getJournalPhase = () => journalPhaseVar();
 const setJournalPhase = (phase: JournalPhase) => journalPhaseVar(phase);
 export const setJournalPhaseUnknown = () =>
     journalPhaseVar(JournalPhase.Unknown);
-export const setJournalPhaseCreateJournal = () =>
+export const setJournalPhaseMustCreateJournal = () =>
     journalPhaseVar(JournalPhase.MustCreateJournal);
 export const setJournalPhaseInklings = () =>
     journalPhaseVar(JournalPhase.Inklings);
@@ -52,7 +52,7 @@ export const determineJournalPhase = (): JournalPhase => {
             (journals.length > 0 && activeJournalId === null)
             ? setJournalPhaseUnknown()
             : activeJournalId === null
-            ? setJournalPhaseCreateJournal()
+            ? setJournalPhaseMustCreateJournal()
             : inklings.length === 0
             ? setJournalPhaseInklings()
             : setJournalPhaseReflection();
