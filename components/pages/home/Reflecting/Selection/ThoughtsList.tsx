@@ -49,6 +49,12 @@ export default (props: ThoughtsListProps) => {
 
     const thoughtReflections = useReactiveVar(thoughtReflectionsVar);
 
+    useEffect(() => {
+        console.log("journalEntries CHANGED");
+        console.log(journalEntries);
+        console.log(activeJournal);
+    }, [journalEntries]);
+
     return (
         <>
             <p>Past Thoughts</p>

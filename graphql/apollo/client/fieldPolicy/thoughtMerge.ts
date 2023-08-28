@@ -10,7 +10,7 @@ export default {
         // IMPORTANT: THIS FLAG WILL MAKE ALL QUERY/VARIABLE COMBOS OF THIS TYPE
         //              EXECUTE AGAIN WHEN ANY OF THEM EXECUTE
         //              EVERY QUERY WILL NEED TO BE 'MERGED'
-        keyArgs: false,
+        keyArgs: ["journalId"],
 
         // Concatenate the incoming list items with
         // the existing list items.

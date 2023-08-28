@@ -140,7 +140,7 @@ const CreateJournalEntryButton = () => {
                                 inklings: [],
                             },
                         });
-                        cache.gc();
+                        // cache.gc();
 
                         // 4. CREATE NEW CACHED JOURNAL ENTRY FROM REFLECTIONS AND SERVER RESPONSE
                         // Only write new JE, merge policy will handle concatenating new with existing

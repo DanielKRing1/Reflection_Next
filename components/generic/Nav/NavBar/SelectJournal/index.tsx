@@ -63,7 +63,7 @@ export default (props: Props) => {
     return (
         // Clicking outside of this 'SelectionContainer'
         // will toggle off the selection process
-        <SelectionContainer ref={selectionRef}>
+        <SelectionContainer ref={selectionRef} selecting={selecting}>
             {/* Toggle Button */}
             <ClickContainer onClick={handleToggleSelect}>
                 <MyTextNoMargin>{journalName || "____"}</MyTextNoMargin>
@@ -99,6 +99,10 @@ export default (props: Props) => {
     );
 };
 
-const SelectionContainer = styled.div`
+type SelectionContainerProps = {
+    selecting: boolean;
+};
+const SelectionContainer = styled.div<SelectionContainerProps>`
     position: relative;
+    width: ${({ selecting }) => (selecting ? "100%" : "")};
 `;
