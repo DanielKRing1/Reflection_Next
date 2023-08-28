@@ -10,7 +10,7 @@ import { refresh } from "../../../../session/refresh";
 import { activeJournalVar } from "./activeJournal";
 
 // Initializes to true if has fresh access and refresh cookies
-const isLoggedInVar = makeVar<boolean>(
+export const isLoggedInVar = makeVar<boolean>(
     getNeededSessionAction() === NeededSessionAction.None
 );
 

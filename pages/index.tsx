@@ -23,7 +23,7 @@ export default function Home() {
     const journalPhase = useReactiveVar(journalPhaseVar);
 
     useEffect(() => {
-        if (journalPhase === JournalPhase.CreateJournal)
+        if (journalPhase === JournalPhase.MustCreateJournal)
             router.push(CREATE_JOURNAL_PATH);
     }, [journalPhase]);
 

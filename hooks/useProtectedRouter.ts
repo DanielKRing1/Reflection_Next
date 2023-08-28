@@ -5,6 +5,7 @@ import { Url } from "next/dist/shared/lib/router/router";
 import { journalPhaseVar } from "../graphql/apollo/local/state/journalPhase";
 import { JournalPhase } from "../utils_ui/journalPhase";
 import { CREATE_JOURNAL_PATH } from "../routing/paths";
+import { isLoggedInVar } from "../graphql/apollo/local/state/isLoggedIn";
 
 interface TransitionOptions {
     shallow?: boolean; // 浅いルーティングにするか (デフォは false)
@@ -17,6 +18,7 @@ export default () => {
     const router = useRouter();
 
     // LOCAL GQL
+    const isLoggedIn = useReactiveVar(isLoggedInVar);
     const journalPhase = useReactiveVar(journalPhaseVar);
 
     // PROTECTED ROUTER METHODS
@@ -26,7 +28,8 @@ export default () => {
         options?: TransitionOptions
     ): Promise<boolean> => {
         if (
-            journalPhase === JournalPhase.CreateJournal &&
+            isLoggedIn &&
+            journalPhase === JournalPhase.MustCreateJournal &&
             router.pathname === CREATE_JOURNAL_PATH
         )
             return;

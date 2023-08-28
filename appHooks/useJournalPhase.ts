@@ -69,7 +69,7 @@ export default () => {
 
     useEffect(() => {
         switch (journalPhase) {
-            case JournalPhase.CreateJournal: {
+            case JournalPhase.MustCreateJournal: {
                 router.push(CREATE_JOURNAL_PATH);
                 break;
             }

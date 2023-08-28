@@ -4,7 +4,7 @@ import { hasInklings } from "./hydrateStore";
 
 export enum JournalPhase {
     Unknown,
-    CreateJournal,
+    MustCreateJournal,
     Inklings,
     Reflection,
 }
