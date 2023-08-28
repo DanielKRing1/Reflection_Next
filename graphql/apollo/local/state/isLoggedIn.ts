@@ -7,7 +7,8 @@ import {
 } from "../../../../utils_ui/session";
 import { getNeededSessionAction } from "../../../../utils_ui/session";
 import { refresh } from "../../../../session/refresh";
-import { activeJournalVar } from "./activeJournal";
+import { clearActiveJournal } from "./activeJournal";
+import client from "../../client/client";
 
 // Initializes to true if has fresh access and refresh cookies
 export const isLoggedInVar = makeVar<boolean>(
@@ -18,7 +19,9 @@ export const getIsLoggedIn = () => isLoggedInVar();
 export const loginLocal = () => isLoggedInVar(true);
 export const logoutLocal = () => {
     isLoggedInVar(false);
-    activeJournalVar(null);
+    clearActiveJournal();
+    // Clear journal
+    client.clearStore();
 };
 
 export const keepSessionFresh = async () => {
